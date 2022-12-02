@@ -1,0 +1,26 @@
+server: #SpringBoot가 시작할때 제일 처음 읽혀지는 환경설정 파일 (application.properties | application.yml)
+  port: 8080
+
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+#    enabled: true
+#    path: /h2-console
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show_sql: true
+    properties:
+      hibernate:
+        format_sql=true
+
+

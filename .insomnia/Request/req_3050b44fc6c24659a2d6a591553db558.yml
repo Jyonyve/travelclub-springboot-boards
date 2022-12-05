@@ -1,0 +1,21 @@
+_id: req_3050b44fc6c24659a2d6a591553db558
+type: Request
+parentId: fld_0b88a1723bd9432f9fdefa8492379b1e
+modified: 1670203512553
+created: 1669969446834
+url: http://localhost:8080/member/?memberEmail=mymy1@nextree.co.kr
+name: find by Email
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1669969446834
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

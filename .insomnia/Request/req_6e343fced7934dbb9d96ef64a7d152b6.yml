@@ -1,0 +1,21 @@
+_id: req_6e343fced7934dbb9d96ef64a7d152b6
+type: Request
+parentId: fld_bd36492e314243a3899417aae7db3fc9
+modified: 1670214161036
+created: 1670205596638
+url: http://localhost:8080/membership/fe74a2ba-2046-4771-a785-8ac8a72b135d/?memberEmail=mymy2@nextree.co.kr
+name: find clubId MemberEmail
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1670205209756
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,41 @@
+_id: req_63577bf11612418a854ee7e672abf2b0
+type: Request
+parentId: fld_0b88a1723bd9432f9fdefa8492379b1e
+modified: 1670222403101
+created: 1669966306469
+url: http://localhost:8080/member
+name: register member
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"email": "mymy2@nextree.co.kr",
+    	"name": "Minsoo Lee",
+    	"phoneNumber": "010-3321-1001",
+    	"birthDay": "2001.09.23",
+    	"addresses": [
+    		{
+    			"zipCode": "134-321",
+    			"zipAddress": "Seoul, Geumcheon-gu, Gasan-dong",
+    			"streetAddress": "231",
+    			"country": "South Korea",
+    			"addressType": "Home"
+    		}
+    	],
+    	"id": "dfc87e1e-d89b-44e7-a21e-79abcee11285"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1669966306469
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,27 @@
+_id: req_878c3acef80e4588b9efe395c9d33ea5
+type: Request
+parentId: fld_30eb261f48a1463bb70a6e4fb5868324
+modified: 1670218382028
+created: 1669773549965
+url: http://localhost:8080/club/73568fef-238c-4764-b60c-bf1cb4808158
+name: Modify
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: '{"nameValues" : [{"name":"name",
+    "value":"JavaTravelClub3..."},{"name":"intro", "value":"Travel club to the
+    Java island...3."}]}'
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1669966254757
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

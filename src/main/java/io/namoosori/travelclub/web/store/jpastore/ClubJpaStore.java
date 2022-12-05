@@ -4,7 +4,6 @@ import io.namoosori.travelclub.web.aggregate.club.TravelClub;
 import io.namoosori.travelclub.web.store.ClubStore;
 import io.namoosori.travelclub.web.store.jpastore.jpo.TravelClubJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.ClubRepository;
-import io.namoosori.travelclub.web.util.exception.NoSuchClubException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,11 +30,7 @@ public class ClubJpaStore implements ClubStore {
     public TravelClub retrieve(String clubId) {
         Optional<TravelClubJpo> clubJpo = clubRepository.findById(clubId); //return 타입이 Optional이다. (nullable)
 
-        if(!clubJpo.isPresent()){
-            throw new NoSuchClubException("no club is found." + clubId);
-        }
-
-        return clubJpo.get().toDomain();
+        return clubJpo.map(TravelClubJpo::toDomain).orElseThrow();
     }
 
     @Override

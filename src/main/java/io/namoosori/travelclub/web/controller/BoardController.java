@@ -20,7 +20,7 @@ public class BoardController {
 
 
     @PostMapping
-    public String registerBoard(@RequestBody SocialBoardCdo boardCdo){
+    public String register(@RequestBody SocialBoardCdo boardCdo){
         return boardService.registerBoard(boardCdo);
     }
 

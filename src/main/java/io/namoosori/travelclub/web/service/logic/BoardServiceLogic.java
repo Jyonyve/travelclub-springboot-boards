@@ -7,11 +7,12 @@ import io.namoosori.travelclub.web.service.sdo.SocialBoardCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.BoardStore;
 import io.namoosori.travelclub.web.store.ClubStore;
-import io.namoosori.travelclub.web.util.exception.BoardDuplicationException;
 import io.namoosori.travelclub.web.util.exception.NoSuchBoardException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,19 +21,18 @@ public class BoardServiceLogic implements BoardService {
     private BoardStore boardStore;
     private ClubStore clubStore;
 
-    @Override
-    public String registerBoard(SocialBoardCdo boardCdo) {
-        String boardId = boardCdo.getClubId();
-        if(boardStore.exists(boardId)){
-            throw new BoardDuplicationException("board already exists!");
-        }
+    public BoardServiceLogic(BoardStore boardStore, ClubStore clubStore){
+        this.clubStore = clubStore;
+        this.boardStore = boardStore;
+    }
 
-        SocialBoard board = new SocialBoard(
-                boardCdo.getClubId(),
-                boardCdo.getName(),
-                boardCdo.getAdminEmail()
-        );
+
+    @Override
+    public String registerBoard(@NotNull SocialBoardCdo boardCdo) {
+
+        SocialBoard board = new SocialBoard(boardCdo.getClubId(),boardCdo.getName(),boardCdo.getAdminEmail());
         return boardStore.create(board);
+
     }
 
     @Override
@@ -74,6 +74,17 @@ public class BoardServiceLogic implements BoardService {
 
 
         return boards;
+    }
+
+    @Override
+    public Optional<SocialBoard> findByClubId(String clubId) {
+
+        Optional<SocialBoard> board =boardStore.retrieveByClubId(clubId);
+
+        if(!board.isPresent()){
+            throw new NoSuchBoardException("No board in storage");
+        }
+        return board;
     }
 
     @Override

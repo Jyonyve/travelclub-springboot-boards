@@ -10,6 +10,7 @@ public interface MemberStore {
 	CommunityMember retrieve(String memberId);
 	CommunityMember retrieveByEmail(String email);
 	List<CommunityMember> retrieveByName(String name);
+	List<CommunityMember> retrieveAll();
 	void update(CommunityMember member);
 	void delete(String email);
 	

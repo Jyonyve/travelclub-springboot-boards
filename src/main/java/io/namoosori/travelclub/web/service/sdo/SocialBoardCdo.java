@@ -1,9 +1,11 @@
 package io.namoosori.travelclub.web.service.sdo;
 
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class SocialBoardCdo implements Serializable {
     private String clubId;
     private String name;

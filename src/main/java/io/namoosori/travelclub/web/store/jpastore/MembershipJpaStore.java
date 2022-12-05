@@ -30,17 +30,14 @@ public class MembershipJpaStore implements MembershipStore {
     @Override
     public Membership retrieve(String membershipId) {
         Optional<MembershipJpo> membershipJpo = membershipRepository.findById(membershipId);
-        if(membershipJpo == null){
-            throw new NoSuchMembershipException("No such membership: "+membershipId);
-        }
         return membershipJpo.get().toDomain();
     }
 
     @Override
     public Membership retrieveByClubIdAndMemberId(String clubId, String memberId) {
-        MembershipJpo membershipJpo = membershipRepository.findByClubIdAndMemberId(clubId, memberId);
+        Optional<MembershipJpo> membershipJpo = Optional.ofNullable(membershipRepository.findByClubIdAndMemberId(clubId, memberId));
 
-        return membershipJpo.toDomain();
+        return membershipJpo.map(MembershipJpo::toDomain).orElse(null);
     }
 
     @Override
@@ -53,6 +50,12 @@ public class MembershipJpaStore implements MembershipStore {
     public List<Membership> retrieveByMemberId(String memberId) {
         List<MembershipJpo> membershipJpos = membershipRepository.findByMemberId(memberId);
         return membershipJpos.stream().map(MembershipJpo::toDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Membership> retrieveByEmail(String email) {
+        Optional<MembershipJpo> membershipJpo = membershipRepository.findByEmail(email);
+        return membershipJpo.map(MembershipJpo::toDomain);
     }
 
     @Override

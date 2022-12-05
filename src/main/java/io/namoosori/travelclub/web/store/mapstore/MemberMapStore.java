@@ -56,6 +56,11 @@ public class MemberMapStore implements MemberStore {
 	}
 
 	@Override
+	public List<CommunityMember> retrieveAll() {
+		return null;
+	}
+
+	@Override
 	public void update(CommunityMember member) {
 		//
 		memberMap.put(member.getId(), member);

@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Data
 @Entity
@@ -45,11 +47,17 @@ public class MemberJpo {
     }
 
     public List<Address> splitAddress(String addresses) {
-        String[] add = addresses.split("^(:*/)$", 5);
-        Address address1 = new Address(add[0],add[1], add[2], add[3], AddressType.valueOf(add[4]));
+        Pattern pattern = Pattern.compile("[:](.*?)[/]");
+        Matcher matcher = pattern.matcher(addresses);
+        List<String> list = new ArrayList<>();
+        while (matcher.find()){
+            String add = matcher.group(1);
+            list.add(add);
+        }
+        Address address = new Address(list.get(0), list.get(1), list.get(2), list.get(3), AddressType.valueOf(list.get(4)));
+        List<Address> addressList = new ArrayList<>();
+        addressList.add(address);
 
-        List<Address> list = new ArrayList<>();
-        list.add(address1);
-        return list;
+        return addressList;
     }
 }

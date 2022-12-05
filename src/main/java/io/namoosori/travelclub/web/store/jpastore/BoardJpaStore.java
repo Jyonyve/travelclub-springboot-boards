@@ -41,6 +41,11 @@ public class BoardJpaStore implements BoardStore {
         return socialBoardJpos.stream().map(SocialBoardJpo::toDomain).collect(Collectors.toList());
     }
 
+    public Optional<SocialBoard> retrieveByClubId(String clubId){
+        Optional<SocialBoardJpo> socialBoardJpo = boardRepository.findByClubId(clubId);
+        return socialBoardJpo.map(SocialBoardJpo::toDomain);
+    }
+
     @Override
     public List<SocialBoard> retrieveAll() {
         List<SocialBoardJpo> socialBoardJpos = boardRepository.findAll();
@@ -65,4 +70,5 @@ public class BoardJpaStore implements BoardStore {
     public boolean exists(String boardId) {
         return boardRepository.existsById(boardId);
     }
+
 }

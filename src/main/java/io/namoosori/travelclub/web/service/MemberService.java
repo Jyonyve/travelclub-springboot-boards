@@ -12,6 +12,7 @@ public interface MemberService {
     CommunityMember findMemberById(String memberId);
 	CommunityMember findMemberByEmail(String memberEmail);
 	List<CommunityMember> findMembersByName(String name);
+	List<CommunityMember> findAll();
 	void modifyMember(String memberId, NameValueList member);
 	void removeMember(String memberId);
 }

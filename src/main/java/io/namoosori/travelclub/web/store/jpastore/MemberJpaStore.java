@@ -4,7 +4,6 @@ import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.store.MemberStore;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
-import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,20 +28,20 @@ public class MemberJpaStore implements MemberStore {
     @Override
     public CommunityMember retrieve(String memberId) {
         Optional<MemberJpo> memberJpo = memberRepository.findById(memberId);
-        if(memberJpo == null){
-            throw new NoSuchMemberException("No Member is found : " + memberId);
-        }
 
         return memberJpo.get().toDomain();
     }
 
+    public List<CommunityMember> retrieveAll(){
+        List<MemberJpo> memberJpos = memberRepository.findAll();
+        return memberJpos.stream().map(MemberJpo::toDomain).collect(Collectors.toList());
+    }
+
+
     @Override
     public CommunityMember retrieveByEmail(String email) {
         Optional<MemberJpo> memberJpo = Optional.ofNullable(memberRepository.findByEmail(email));
-        if(!memberJpo.isPresent()){
-            return null;
-        }
-        return memberJpo.get().toDomain();
+        return memberJpo.map(MemberJpo::toDomain).orElse(null);
     }
 
     @Override

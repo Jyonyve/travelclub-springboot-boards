@@ -21,12 +21,18 @@ public class PostingServiceLogic implements PostingService {
     private BoardStore boardStore;
     private MembershipStore membershipStore;
 
+    public PostingServiceLogic(PostingStore postingStore, BoardStore boardStore, MembershipStore membershipStore) {
+        this.postingStore = postingStore;
+        this.boardStore = boardStore;
+        this.membershipStore = membershipStore;
+    }
+
     @Override
     public String register(String boardId, PostingCdo postingCdo) {
         if(boardStore.retrieve(boardId) == null){
             throw new NoSuchBoardException("there are no board with id: "+boardId);
         }
-        if(!membershipStore.exists(postingCdo.getWriterEmail())){
+        if(membershipStore.retrieveByEmail(postingCdo.getWriterEmail()).isEmpty()){
             throw new NoSuchMembershipException("no such member in this club");
         }
 

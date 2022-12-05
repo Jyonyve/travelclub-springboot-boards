@@ -1,9 +1,11 @@
 package io.namoosori.travelclub.web.aggregate.board;
 
+import com.google.gson.Gson;
 import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.util.helper.DateUtil;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class SocialBoard extends Entity {
 
     private String clubId;
@@ -41,6 +44,19 @@ public class SocialBoard extends Entity {
                     break;
             }
         }
+    }
+
+    public static SocialBoard sample() {
+        //
+        String clubId="";
+        String adminEmail ="mymy2@nextree.co.kr";
+        String name = "Social Board Name!";
+        return new SocialBoard(clubId, name, adminEmail);
+    }
+
+    public static void main(String[] args) {
+        //
+        System.out.println(new Gson().toJson(sample()));
     }
 
 

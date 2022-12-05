@@ -23,6 +23,11 @@ public class MemberController {
         return memberService.register(memberCdo);
     }
 
+    @GetMapping("/all")
+    public List<CommunityMember> findAll(){
+        return memberService.findAll();
+    }
+
     @GetMapping("/{memberId}")
     public CommunityMember findMemberById(@PathVariable String memberId){
         return memberService.findMemberById(memberId);

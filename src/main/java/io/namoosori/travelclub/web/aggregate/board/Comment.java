@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.aggregate.board;
 
 
+import com.google.gson.Gson;
 import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -38,5 +39,18 @@ public class Comment extends Entity {
                     break;
             }
         }
+    }
+
+    public static Comment sample() {
+        //
+        String writer="mymy2@nextree.co.kr";
+        String contents = "comment contents!";
+        String postingId = "";
+        return new Comment(writer, contents, postingId);
+    }
+
+    public static void main(String[] args) {
+        //
+        System.out.println(new Gson().toJson(sample()));
     }
 }

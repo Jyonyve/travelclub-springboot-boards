@@ -40,6 +40,7 @@ public class MembershipServiceLogic implements MembershipService {
         String clubId = membershipCdo.getClubId();
         String memberId = membershipCdo.getMemberId();
         String name = membershipCdo.getName();
+        String email = membershipCdo.getEmail();
         RoleInClub role = membershipCdo.getRole();
 
         TravelClub club = clubStore.retrieve(clubId);
@@ -60,7 +61,7 @@ public class MembershipServiceLogic implements MembershipService {
             throw new MembershipDuplicationException("Member already exists in the club");
         }
 
-        membership = new Membership(clubId, memberId, name);
+        membership = new Membership(clubId, memberId, name, email);
         membership.setRole(role);
 
         String membershipId = membershipStore.create(membership);
@@ -89,8 +90,8 @@ public class MembershipServiceLogic implements MembershipService {
             throw new NoSuchMemberException("No such member with email " + memberEmail);
         }
 
-        Membership membership = findMembershipByClubIdAndMemberId(clubId, member.getId());
-        return membership;
+        return membershipStore.retrieveByClubIdAndMemberId(clubId, member.getId());
+
     }
 
     @Override

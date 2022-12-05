@@ -20,6 +20,7 @@ public class Membership extends Entity {
 	private RoleInClub role;
 	private String joinDate;
 	private String name;
+	private String email;
 
 
 	public Membership(String id) {
@@ -27,10 +28,11 @@ public class Membership extends Entity {
 		super(id);
 	}
 
-	public Membership(String clubId, String memberId, String name) {
+	public Membership(String clubId, String memberId, String name, String email) {
 		//
 		this.clubId = clubId; 
 		this.memberId = memberId;
+		this.email = email;
 		this.name = name;
 		this.role = RoleInClub.Member;
 		this.joinDate = DateUtil.today();
@@ -67,7 +69,8 @@ public class Membership extends Entity {
 		return new Membership(
 				TravelClub.sample().getId(),
 				CommunityMember.sample().getId(),
-				CommunityMember.sample().getName()
+				CommunityMember.sample().getName(),
+				CommunityMember.sample().getEmail()
 		);
 	}
 

@@ -18,6 +18,11 @@ public class CommentServiceLogic implements CommentService {
     private CommentStore commentStore;
     private PostingStore postingStore;
 
+    public CommentServiceLogic(CommentStore commentStore, PostingStore postingStore) {
+        this.commentStore = commentStore;
+        this.postingStore = postingStore;
+    }
+
     @Override
     public String register(String postingId, CommentCdo commentCdo) {
         if(postingStore.retrieve(postingId)==null){

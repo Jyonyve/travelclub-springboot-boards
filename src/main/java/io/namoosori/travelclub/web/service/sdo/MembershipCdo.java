@@ -18,4 +18,5 @@ public class MembershipCdo implements Serializable {
     private String memberId;
     private RoleInClub role;
     private String name;
+    private String email;
 }

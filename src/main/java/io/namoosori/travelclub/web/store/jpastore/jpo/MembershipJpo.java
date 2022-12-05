@@ -22,13 +22,14 @@ public class MembershipJpo {
     private RoleInClub role;
     private String joinDate;
     private String name;
+    private String email;
 
     public MembershipJpo(Membership membership) {
         BeanUtils.copyProperties(membership, this);
     }
 
     public Membership toDomain(){
-        Membership membership = new Membership(clubId, memberId, name);
+        Membership membership = new Membership(clubId, memberId, name, email);
         membership.setId(id);
         membership.setRole(role);
         membership.setJoinDate(joinDate);

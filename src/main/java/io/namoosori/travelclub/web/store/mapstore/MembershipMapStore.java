@@ -64,6 +64,11 @@ public class MembershipMapStore implements MembershipStore {
 	}
 
 	@Override
+	public Optional<Membership> retrieveByEmail(String email) {
+		return Optional.empty();
+	}
+
+	@Override
 	public void update(Membership membership) {
 		//
 		membershipMap.put(membership.getId(), membership);

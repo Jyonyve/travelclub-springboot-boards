@@ -43,11 +43,11 @@ public class MembershipController {
 
     //전체 조회
     @GetMapping("/all/{clubId}")
-    public List<Membership> findAllMembershipsOfClub(@RequestParam String clubId){
+    public List<Membership> findAllMembershipsOfClub(@PathVariable String clubId){
         return membershipService.findAllMembershipsOfClub(clubId);
     }
 
-    @GetMapping("/all/{memberId}")
+    @GetMapping("/all/")
     public List<Membership> findAllMembershipsOfMember(@RequestParam String memberId){
         return membershipService.findAllMembershipsOfMember(memberId);
     }

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -28,12 +29,13 @@ public class MemberJpo {
     private String nickname;
     private String phoneNumber;
     private String birthday;
-
-    private String addresses;
+    @ElementCollection
+    //private String addresses;
+    private List<Address> addresses;
 
     public MemberJpo(CommunityMember member) {
         BeanUtils.copyProperties(member, this, "addresses");
-        member.getAddresses().stream().map(Address::toString).forEach(address -> this.addresses = address);
+        //member.getAddresses().stream().map(Address::toString).forEach(address -> this.addresses = address);
     }
 
     public CommunityMember toDomain(){
@@ -41,11 +43,12 @@ public class MemberJpo {
         member.setId(id);
         member.setBirthDay(this.birthday);
         member.setNickName(nickname);
-        member.setAddresses(splitAddress(addresses));
+        //member.setAddresses(splitAddress(addresses));
 
         return member;
     }
 
+    //@ElementCollection 과 @Embeddable 어노테이션을 사용하면 스트링 변환을 거치지 않고 주소를 종속 테이블로 만들 수 있음...
     public List<Address> splitAddress(String addresses) {
         Pattern pattern = Pattern.compile("[:](.*?)[/]");
         Matcher matcher = pattern.matcher(addresses);

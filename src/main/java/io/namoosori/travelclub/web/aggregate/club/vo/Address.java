@@ -4,15 +4,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 @Getter
 @Setter
 @NoArgsConstructor
+@Embeddable
 public class Address {
 	//
 	private String zipCode;
 	private String zipAddress;
 	private String streetAddress;
 	private String country;
+	@Enumerated(EnumType.STRING)
 	private AddressType addressType;
 
 	public Address(String zipCode, String zipAddress, String streetAddress) {

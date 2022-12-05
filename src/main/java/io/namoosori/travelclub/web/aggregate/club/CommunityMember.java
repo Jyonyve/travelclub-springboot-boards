@@ -21,7 +21,6 @@ public class CommunityMember extends Entity {
 	private String phoneNumber;
 	private String nickName;
 	private String birthDay;
-
 	private List<Address> addresses;
 
 	public CommunityMember() {

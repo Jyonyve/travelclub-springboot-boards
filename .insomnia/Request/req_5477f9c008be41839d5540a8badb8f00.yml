@@ -1,0 +1,21 @@
+_id: req_5477f9c008be41839d5540a8badb8f00
+type: Request
+parentId: fld_bd36492e314243a3899417aae7db3fc9
+modified: 1670205438767
+created: 1670204975349
+url: http://localhost:8080/membership/all/?memberId=b99345d6-faa6-42ae-aad8-e103335738e3
+name: member all club
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1670204975349
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

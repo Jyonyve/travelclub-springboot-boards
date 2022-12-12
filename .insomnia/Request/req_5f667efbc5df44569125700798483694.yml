@@ -1,0 +1,27 @@
+_id: req_5f667efbc5df44569125700798483694
+type: Request
+parentId: fld_30eb261f48a1463bb70a6e4fb5868324
+modified: 1670221250908
+created: 1669686402397
+url: http://localhost:8080/club/
+name: Register
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |+
+    {"name":"JavaTravelClub","intro":"Travel club to the Java island."}
+
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1669966254632
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

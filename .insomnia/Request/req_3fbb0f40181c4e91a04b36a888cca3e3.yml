@@ -1,0 +1,26 @@
+_id: req_3fbb0f40181c4e91a04b36a888cca3e3
+type: Request
+parentId: fld_bd36492e314243a3899417aae7db3fc9
+modified: 1670205746128
+created: 1670205662384
+url: http://localhost:8080/membership/b080ad74-b976-406c-9b21-b9a848e0612d
+name: modify membership
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: '{"nameValues" : [{"name":"name", "value":"Eunjin KIM"},{"name":"email",
+    "value":"zrrgssb@naver.com"}]}'
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1670205662384
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

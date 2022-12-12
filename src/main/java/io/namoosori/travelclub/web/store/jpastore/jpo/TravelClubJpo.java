@@ -20,6 +20,7 @@ public class TravelClubJpo {
     private String name;
     private String intro;
     private long foundationTime;
+    private String reactId;
 
     public TravelClubJpo(TravelClub travelClub){
 //        this.id = travelClub.getId();
@@ -32,7 +33,7 @@ public class TravelClubJpo {
     }
 
     public TravelClub toDomain(){
-        TravelClub travelClub = new TravelClub(this.name, this.intro);
+        TravelClub travelClub = new TravelClub(this.name, this.intro, this.reactId);
         travelClub.setId(this.id);
         travelClub.setFoundationTime(this.foundationTime);
         return travelClub;

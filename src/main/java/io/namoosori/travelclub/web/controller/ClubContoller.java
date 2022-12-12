@@ -4,10 +4,12 @@ import io.namoosori.travelclub.web.aggregate.club.TravelClub;
 import io.namoosori.travelclub.web.service.ClubService;
 import io.namoosori.travelclub.web.service.sdo.TravelClubCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
+import io.namoosori.travelclub.web.store.jpastore.jpo.TravelClubJpo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController //spring ioc에 이 클래스를 컨트롤러 빈으로 등록할게. +@ResponseBody 어노테이션을 포함
                 // (@Controller는 JSP view 페이지가 있어야 쓸수있음)
 @RequestMapping("/club") //이 클래스가 호출하는 모든 메소드의 url 앞에 /club이 들어간다는 뜻.
@@ -49,9 +51,19 @@ public class ClubContoller {
         return clubService.findClubsByName(name);
     }
 
+    @GetMapping("/react/{reactId}")
+    public String findByReactId(@PathVariable String reactId){
+        return clubService.findClubIdByReactId(reactId);
+    }
+
     @PutMapping("/{clubId}")
     public void modify(@PathVariable String clubId, @RequestBody NameValueList nameValueList){
         clubService.modify(clubId, nameValueList);
+    }
+
+    @PutMapping("/react/{clubId}")
+    public void modifyReact(@PathVariable String clubId, @RequestBody TravelClubJpo travelClubJpo){
+        clubService.modifyReact(clubId, travelClubJpo);
     }
 
     @DeleteMapping("/{clubId}")

@@ -5,6 +5,7 @@ import io.namoosori.travelclub.web.service.ClubService;
 import io.namoosori.travelclub.web.service.sdo.TravelClubCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.ClubStore;
+import io.namoosori.travelclub.web.store.jpastore.jpo.TravelClubJpo;
 import io.namoosori.travelclub.web.util.exception.NoSuchClubException;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class ClubServiceLogic implements ClubService {
 	@Override
 	public String registerClub(TravelClubCdo clubCdo) {
 		//
-		TravelClub club = new TravelClub(clubCdo.getName(), clubCdo.getIntro());
+		TravelClub club = new TravelClub(clubCdo.getName(), clubCdo.getIntro(), clubCdo.getReactId());
 		club.checkValidation();
 		String clubId = clubStore.create(club);
 		return clubId;
@@ -35,6 +36,11 @@ public class ClubServiceLogic implements ClubService {
 	}
 
 	@Override
+	public String findClubIdByReactId(String reactId) {
+		return clubStore.retrieveByReactId(reactId);
+	}
+
+	@Override
 	public List<TravelClub> findClubsByName(String name) {
 		return clubStore.retrieveByName(name);
 	}
@@ -43,6 +49,7 @@ public class ClubServiceLogic implements ClubService {
 	public List<TravelClub> findAll(){
 		return clubStore.retrieveAll();
 	}
+
 	@Override
 	public void modify(String clubId, NameValueList nameValueList) {
 		TravelClub travelClub = clubStore.retrieve(clubId);
@@ -51,6 +58,12 @@ public class ClubServiceLogic implements ClubService {
 		}
 		travelClub.modifyValues(nameValueList);
 		clubStore.update(travelClub);
+	}
+
+	@Override
+	public void modifyReact(String reactId, TravelClubJpo travelClubJpo) {
+		TravelClub travelclub = travelClubJpo.toDomain();
+		clubStore.update(travelclub);
 	}
 
 	@Override

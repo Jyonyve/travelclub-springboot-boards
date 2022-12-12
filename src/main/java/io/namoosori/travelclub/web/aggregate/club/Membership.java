@@ -1,6 +1,5 @@
 package io.namoosori.travelclub.web.aggregate.club;
 
-import com.google.gson.Gson;
 import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.shared.NameValue;
@@ -64,18 +63,18 @@ public class Membership extends Entity {
 		}
 	}
 
-	public static Membership sample() {
-		//
-		return new Membership(
-				TravelClub.sample().getId(),
-				CommunityMember.sample().getId(),
-				CommunityMember.sample().getName(),
-				CommunityMember.sample().getEmail()
-		);
-	}
-
-	public static void main(String[] args) {
-		// 
-		System.out.println(new Gson().toJson(sample()));
-	}
+//	public static Membership sample() {
+//		//
+//		return new Membership(
+//				TravelClub.sample().getId(),
+//				CommunityMember.sample().getId(),
+//				CommunityMember.sample().getName(),
+//				CommunityMember.sample().getEmail()
+//		);
+//	}
+//
+//	public static void main(String[] args) {
+//		//
+//		System.out.println(new Gson().toJson(sample()));
+//	}
 }

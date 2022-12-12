@@ -15,4 +15,5 @@ public class TravelClubCdo implements Serializable {
     //
     private String name;
     private String intro;
+    private String reactId;
 }

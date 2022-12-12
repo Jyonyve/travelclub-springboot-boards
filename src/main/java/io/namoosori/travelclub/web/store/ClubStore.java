@@ -8,6 +8,7 @@ public interface ClubStore {
 	//
 	String create(TravelClub club);
 	TravelClub retrieve(String clubId);
+	String retrieveByReactId(String reactId);
 	List<TravelClub> retrieveByName(String name);
 	List<TravelClub> retrieveAll();
 	void update(TravelClub club);

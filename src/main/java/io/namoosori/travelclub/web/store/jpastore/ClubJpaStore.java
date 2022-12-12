@@ -34,6 +34,12 @@ public class ClubJpaStore implements ClubStore {
     }
 
     @Override
+    public String retrieveByReactId(String reactId) {
+        Optional<TravelClubJpo> clubJpo = Optional.ofNullable(clubRepository.findByReactId(reactId));
+        return clubJpo.map(TravelClubJpo::toDomain).orElseThrow().getReactId();
+    }
+
+    @Override
     public List<TravelClub> retrieveByName(String name) {
         List<TravelClubJpo> clubJpos = clubRepository.findAllByName(name);
         return clubJpos.stream().map(TravelClubJpo::toDomain).collect(Collectors.toList());

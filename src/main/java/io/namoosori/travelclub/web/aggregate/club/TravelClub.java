@@ -1,6 +1,5 @@
 package io.namoosori.travelclub.web.aggregate.club;
 
-import com.google.gson.Gson;
 import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -18,6 +17,7 @@ public class TravelClub extends Entity {
 
 	private String name;
 	private String intro;
+	private String reactId;
 	private long foundationTime;
 
 	public TravelClub(String id) {
@@ -25,11 +25,12 @@ public class TravelClub extends Entity {
 		super(id);
 	}
 
-	public TravelClub(String name, String intro) {
+	public TravelClub(String name, String intro, String reactId) {
 		//
 		super();
 		this.name = name;
 		this.intro = intro;
+		this.reactId = reactId;
 		this.foundationTime = System.currentTimeMillis();
 	}
 
@@ -83,16 +84,16 @@ public class TravelClub extends Entity {
 		}
 	}
 
-	public static TravelClub sample() {
-		//
-		String name = "JavaTravelClub";
-		String intro = "Travel club to the Java island.";
+//	public static TravelClub sample() {
+//		//
+//		String name = "JavaTravelClub";
+//		String intro = "Travel club to the Java island.";
+//
+//		return new TravelClub(name, intro, );
+//	}
 
-		return new TravelClub(name, intro);
-	}
-
-	public static void main(String[] args) {
-		//
-		System.out.println(new Gson().toJson(sample()));
-	}
+//	public static void main(String[] args) {
+//		//
+//		System.out.println(new Gson().toJson(sample()));
+//	}
 }

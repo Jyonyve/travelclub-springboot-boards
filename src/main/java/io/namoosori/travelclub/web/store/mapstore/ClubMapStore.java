@@ -29,6 +29,12 @@ public class ClubMapStore implements ClubStore {
 		//
 		return clubMap.get(clubId);
 	}
+
+	@Override
+	public String retrieveByReactId(String reactId) {
+		return clubMap.get(reactId).getReactId();
+	}
+
 	@Override
 	public List<TravelClub> retrieveByName(String name) {
 		//

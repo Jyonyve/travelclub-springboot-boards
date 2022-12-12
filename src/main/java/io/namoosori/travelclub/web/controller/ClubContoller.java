@@ -52,8 +52,8 @@ public class ClubContoller {
     }
 
     @GetMapping("/react/{reactId}")
-    public String findByReactId(@PathVariable String reactId){
-        return clubService.findClubIdByReactId(reactId);
+    public String findIdByReactId(@PathVariable String reactId){
+        return clubService.findIdByReactId(reactId);
     }
 
     @PutMapping("/{clubId}")
@@ -61,9 +61,15 @@ public class ClubContoller {
         clubService.modify(clubId, nameValueList);
     }
 
-    @PutMapping("/react/{clubId}")
-    public void modifyReact(@PathVariable String clubId, @RequestBody TravelClubJpo travelClubJpo){
-        clubService.modifyReact(clubId, travelClubJpo);
+    @PutMapping("/react/{id}")
+    public void modifyReact(@PathVariable String id, @RequestBody TravelClubJpo travelClubJpo){
+        NameValueList nameValueList = new NameValueList();
+        nameValueList.addNameValue("name", travelClubJpo.getName());
+        nameValueList.addNameValue("intro", travelClubJpo.getIntro());
+        nameValueList.addNameValue("reactId", travelClubJpo.getReactId());
+        nameValueList.addNameValue("id", travelClubJpo.getId());
+        System.out.println(nameValueList);
+        clubService.modify(id, nameValueList);
     }
 
     @DeleteMapping("/{clubId}")

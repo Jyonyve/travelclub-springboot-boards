@@ -35,8 +35,8 @@ public class ClubJpaStore implements ClubStore {
 
     @Override
     public String retrieveByReactId(String reactId) {
-        Optional<TravelClubJpo> clubJpo = Optional.ofNullable(clubRepository.findByReactId(reactId));
-        return clubJpo.map(TravelClubJpo::toDomain).orElseThrow().getReactId();
+        TravelClubJpo travelClubJpo = clubRepository.findIdByReactId(reactId);
+        return travelClubJpo.getId();
     }
 
     @Override

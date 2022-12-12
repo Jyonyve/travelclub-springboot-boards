@@ -13,6 +13,6 @@ public interface ClubRepository extends JpaRepository<TravelClubJpo, String> {
     List<TravelClubJpo> findAllByName(String name);
     //Query Method: 다양한 SELECT 옵션을 메소드 이름을 조합함으로써 정의할 수 있다.
     //개발자가 만든 Repository 인터페이스(여기)에 메소드를 정의하면 된다.
-    TravelClubJpo findByReactId(String reactId);
+    TravelClubJpo findIdByReactId(String reactId);
 
 }

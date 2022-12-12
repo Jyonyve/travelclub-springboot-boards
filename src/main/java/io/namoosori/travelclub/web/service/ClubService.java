@@ -3,7 +3,6 @@ package io.namoosori.travelclub.web.service;
 import io.namoosori.travelclub.web.aggregate.club.TravelClub;
 import io.namoosori.travelclub.web.service.sdo.TravelClubCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.jpastore.jpo.TravelClubJpo;
 
 import java.util.List;
 
@@ -11,10 +10,9 @@ public interface ClubService {
 	//
 	String registerClub(TravelClubCdo club);
 	TravelClub findClubById(String id);
-	String findClubIdByReactId(String reactId);
+	String findIdByReactId(String reactId);
 	List<TravelClub> findClubsByName(String name);
 	List<TravelClub> findAll();
 	void modify(String clubId, NameValueList nameValues);
-	void modifyReact(String reactId, TravelClubJpo travelClubJpo);
 	void remove(String clubId);
 }

@@ -51,10 +51,10 @@ public class ClubContoller {
         return clubService.findClubsByName(name);
     }
 
-    @GetMapping("/react/{reactId}")
-    public String findIdByReactId(@PathVariable String reactId){
-        return clubService.findIdByReactId(reactId);
-    }
+//    @GetMapping("/react/{reactId}")
+//    public String findIdByReactId(@PathVariable String reactId){
+//        return clubService.findIdByReactId(reactId);
+//    }
 
     @PutMapping("/{clubId}")
     public void modify(@PathVariable String clubId, @RequestBody NameValueList nameValueList){
@@ -66,9 +66,7 @@ public class ClubContoller {
         NameValueList nameValueList = new NameValueList();
         nameValueList.addNameValue("name", travelClubJpo.getName());
         nameValueList.addNameValue("intro", travelClubJpo.getIntro());
-        nameValueList.addNameValue("reactId", travelClubJpo.getReactId());
         nameValueList.addNameValue("id", travelClubJpo.getId());
-        System.out.println(nameValueList);
         clubService.modify(id, nameValueList);
     }
 

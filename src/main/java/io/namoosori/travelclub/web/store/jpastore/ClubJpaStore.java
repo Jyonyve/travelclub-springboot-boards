@@ -33,11 +33,11 @@ public class ClubJpaStore implements ClubStore {
         return clubJpo.map(TravelClubJpo::toDomain).orElseThrow();
     }
 
-    @Override
-    public String retrieveByReactId(String reactId) {
-        TravelClubJpo travelClubJpo = clubRepository.findIdByReactId(reactId);
-        return travelClubJpo.getId();
-    }
+//    @Override
+//    public String retrieveByReactId(String reactId) {
+//        TravelClubJpo travelClubJpo = clubRepository.findIdByReactId(reactId);
+//        return travelClubJpo.getId();
+//    }
 
     @Override
     public List<TravelClub> retrieveByName(String name) {

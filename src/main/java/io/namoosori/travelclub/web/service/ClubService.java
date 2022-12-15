@@ -10,7 +10,7 @@ public interface ClubService {
 	//
 	String registerClub(TravelClubCdo club);
 	TravelClub findClubById(String id);
-	String findIdByReactId(String reactId);
+	//String findIdByReactId(String reactId);
 	List<TravelClub> findClubsByName(String name);
 	List<TravelClub> findAll();
 	void modify(String clubId, NameValueList nameValues);

@@ -17,7 +17,7 @@ public class TravelClub extends Entity {
 
 	private String name;
 	private String intro;
-	private String reactId;
+	//private String reactId;
 	private long foundationTime;
 
 	public TravelClub(String id) {
@@ -25,12 +25,12 @@ public class TravelClub extends Entity {
 		super(id);
 	}
 
-	public TravelClub(String name, String intro, String reactId) {
+	public TravelClub(String name, String intro) {
 		//
 		super();
 		this.name = name;
 		this.intro = intro;
-		this.reactId = reactId;
+		//this.reactId = reactId;
 		this.foundationTime = System.currentTimeMillis();
 	}
 

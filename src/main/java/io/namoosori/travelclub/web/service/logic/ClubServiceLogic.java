@@ -23,7 +23,7 @@ public class ClubServiceLogic implements ClubService {
 	@Override
 	public String registerClub(TravelClubCdo clubCdo) {
 		//
-		TravelClub club = new TravelClub(clubCdo.getName(), clubCdo.getIntro(), clubCdo.getReactId());
+		TravelClub club = new TravelClub(clubCdo.getName(), clubCdo.getIntro());
 		club.checkValidation();
 		String clubId = clubStore.create(club);
 		return clubId;
@@ -34,10 +34,10 @@ public class ClubServiceLogic implements ClubService {
 		return clubStore.retrieve(id);
 	}
 
-	@Override
-	public String findIdByReactId(String reactId) {
-		return clubStore.retrieveByReactId(reactId);
-	}
+	//@Override
+	//public String findIdByReactId(String reactId) {
+	//	return clubStore.retrieveByReactId(reactId);
+	//}
 
 	@Override
 	public List<TravelClub> findClubsByName(String name) {

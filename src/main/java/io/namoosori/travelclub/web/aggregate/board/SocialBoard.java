@@ -34,7 +34,7 @@ public class SocialBoard extends Entity {
     public void modifyValues(NameValueList nameValueList) {
         //
         for (NameValue nameValue : nameValueList.getNameValues()) {
-            String value = nameValue.getValue();
+            String value = String.valueOf(nameValue.getValue());
             switch (nameValue.getName()) {
                 case "name":
                     this.name = value;

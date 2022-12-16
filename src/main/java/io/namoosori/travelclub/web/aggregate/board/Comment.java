@@ -32,7 +32,7 @@ public class Comment extends Entity {
     public void modifyValues(NameValueList nameValues) {
         //
         for (NameValue nameValue : nameValues.getNameValues()) {
-            String value = nameValue.getValue();
+            String value = String.valueOf(nameValue.getValue());
             switch (nameValue.getName()) {
                 case "contents":
                     this.contents = value;

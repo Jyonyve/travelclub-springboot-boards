@@ -4,6 +4,7 @@ import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
+import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,6 +48,19 @@ public class MemberController {
     public void modifyMember(@PathVariable String memberId, @RequestBody NameValueList member){
         memberService.modifyMember(memberId, member);
     }
+
+    @PutMapping("/react/{id}")
+    public void modifyReact(@PathVariable String id, @RequestBody MemberJpo memberJpo){
+        NameValueList nameValueList = new NameValueList();
+        nameValueList.addNameValue("email", memberJpo.getEmail());
+        nameValueList.addNameValue("name", memberJpo.getName());
+        nameValueList.addNameValue("nickname", memberJpo.getNickname());
+        nameValueList.addNameValue("phoneNumber", memberJpo.getPhoneNumber());
+        nameValueList.addNameValue("birthday", memberJpo.getBirthday());
+        nameValueList.addNameValue("id", memberJpo.getId());
+        nameValueList.addNameValue("address", memberJpo.getAddresses());
+    }
+
 
     @DeleteMapping("/{memberId}")
     public void removeMember(@PathVariable String memberId){

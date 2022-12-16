@@ -83,7 +83,8 @@ public class CommunityMember extends Entity {
 	public void modifyValues(NameValueList nameValues) {
 		//
 		for (NameValue nameValue : nameValues.getNameValues()) {
-			String value = nameValue.getValue();
+			String value = nameValue.getValue().toString();
+			List<Address> addresses = (List<Address>)nameValue.getValue();
 			switch (nameValue.getName()) {
 				case "name":
 					this.name = value;
@@ -96,6 +97,9 @@ public class CommunityMember extends Entity {
 					break;
 				case "birthDay":
 					this.birthDay = value;
+					break;
+				case "addresses":
+					this.addresses = addresses;
 					break;
 			}
 		}

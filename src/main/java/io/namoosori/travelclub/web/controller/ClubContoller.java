@@ -35,7 +35,7 @@ public class ClubContoller {
     }
 
 
-    @GetMapping("/all") // 조회할 때에는 Get을 쓴다.
+    @GetMapping // 조회할 때에는 Get을 쓴다.
     public List<TravelClub> findAll(){
         return clubService.findAll();
     }
@@ -46,7 +46,7 @@ public class ClubContoller {
     }
 
    // @GetMapping("/club/{clubName}") <<이렇게 설계를 해 버리면 컴퓨터는 clubName과 clubId를 포맷상으로 구분하지 못해서 어떤 메소드를 호출할지 몰라 오류를 냄.
-    @GetMapping //localhost:8090/club?name=JavaTravelClub3
+    @GetMapping("/?name=") //localhost:8090/club?name=JavaTravelClub3
     public List<TravelClub> findByName(@RequestParam String name){ //@RequestParam :  ? 이후 name을 key로, = 뒤의 value를 변수로 가지고 올게.
         return clubService.findClubsByName(name);
     }
@@ -56,12 +56,12 @@ public class ClubContoller {
 //        return clubService.findIdByReactId(reactId);
 //    }
 
-    @PutMapping("/{clubId}")
-    public void modify(@PathVariable String clubId, @RequestBody NameValueList nameValueList){
-        clubService.modify(clubId, nameValueList);
-    }
+//    @PutMapping("/{clubId}")
+//    public void modify(@PathVariable String clubId, @RequestBody NameValueList nameValueList){
+//        clubService.modify(clubId, nameValueList);
+//    }
 
-    @PutMapping("/react/{id}")
+    @PutMapping("/{id}")
     public void modifyReact(@PathVariable String id, @RequestBody TravelClubJpo travelClubJpo){
         NameValueList nameValueList = new NameValueList();
         nameValueList.addNameValue("name", travelClubJpo.getName());

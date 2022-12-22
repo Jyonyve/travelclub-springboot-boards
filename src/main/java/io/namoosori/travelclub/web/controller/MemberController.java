@@ -19,12 +19,12 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public String register(@RequestBody MemberCdo memberCdo){
         return memberService.register(memberCdo);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<CommunityMember> findAll(){
         return memberService.findAll();
     }
@@ -34,7 +34,7 @@ public class MemberController {
         return memberService.findMemberById(memberId);
     }
 
-    @GetMapping //url을 작성할 때 ?memberEmail=(email)로 넣어서 보내줘야 함.
+    @GetMapping("/name/{memberEmail}") //url을 작성할 때 ?memberEmail=(email)로 넣어서 보내줘야 함.
     public CommunityMember findMemberByEmail(@RequestParam String memberEmail){
         return memberService.findMemberByEmail(memberEmail);
     }

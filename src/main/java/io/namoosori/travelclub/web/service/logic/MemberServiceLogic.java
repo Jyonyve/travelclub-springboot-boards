@@ -39,10 +39,10 @@ public class MemberServiceLogic implements MemberService {
 		member.setNickName(memberCdo.getNickName());
 		member.setBirthDay(memberCdo.getBirthDay());
 		member.setAddresses(memberCdo.getAddresses());
-
 		member.checkValidation();
 
 		memberStore.create(member);
+
 
 		return member.getId();
 	}

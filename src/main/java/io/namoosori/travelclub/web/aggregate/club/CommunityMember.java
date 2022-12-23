@@ -2,15 +2,11 @@ package io.namoosori.travelclub.web.aggregate.club;
 
 import com.google.gson.Gson;
 import io.namoosori.travelclub.web.aggregate.Entity;
-import io.namoosori.travelclub.web.aggregate.club.vo.Address;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.util.exception.InvalidEmailException;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -21,12 +17,12 @@ public class CommunityMember extends Entity {
 	private String phoneNumber;
 	private String nickName;
 	private String birthDay;
-	private List<Address> addresses;
+	private Address addresses;
 
 	public CommunityMember() {
 		//
 		super();
-		this.addresses = new ArrayList<>();
+		this.addresses = new Address();
 	}
 
 	public CommunityMember(String id) {
@@ -52,13 +48,7 @@ public class CommunityMember extends Entity {
 		builder.append(", nickname:").append(nickName);
 		builder.append(", phone number:").append(phoneNumber);
 		builder.append(", birthDay:").append(birthDay);
-
-		if (addresses != null) {
-			int i = 1;
-			for (Address address : addresses) {
-				builder.append(", Address[").append(i).append("]").append(address.toString());
-			}
-		}
+		builder.append(", Address: ").append(Address.class.toString());
 
 		return builder.toString();
 	}
@@ -84,7 +74,7 @@ public class CommunityMember extends Entity {
 		//
 		for (NameValue nameValue : nameValues.getNameValues()) {
 			String value = nameValue.getValue().toString();
-			List<Address> addresses = (List<Address>)nameValue.getValue();
+			Address addresses = (Address)nameValue.getValue();
 			switch (nameValue.getName()) {
 				case "name":
 					this.name = value;
@@ -109,7 +99,7 @@ public class CommunityMember extends Entity {
 		//
 		CommunityMember member = new CommunityMember("mymy@nextree.co.kr", "Minsoo Lee", "010-3321-1001");
 		member.setBirthDay("2001.09.23");
-		member.getAddresses().add(Address.sampleHomeAddress());
+		member.setAddresses(null);
 		return member;
 	}
 

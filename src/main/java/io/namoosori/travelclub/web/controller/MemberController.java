@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/member")
 public class MemberController {
@@ -19,7 +20,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public String register(@RequestBody MemberCdo memberCdo){
         return memberService.register(memberCdo);
     }
@@ -34,22 +35,22 @@ public class MemberController {
         return memberService.findMemberById(memberId);
     }
 
-    @GetMapping("/name/{memberEmail}") //url을 작성할 때 ?memberEmail=(email)로 넣어서 보내줘야 함.
+    @GetMapping("/?email={memberEmail}") //url을 작성할 때 ?memberEmail=(email)로 넣어서 보내줘야 함.
     public CommunityMember findMemberByEmail(@RequestParam String memberEmail){
         return memberService.findMemberByEmail(memberEmail);
     }
 
-    @GetMapping("/memberList/{name}") //url을 작성할 때 ?name=(김은진)로 넣어서 보내줘야 함.
+    @GetMapping("/?name={name}") //url을 작성할 때 ?name=(김은진)로 넣어서 보내줘야 함.
     public List<CommunityMember> findMembersByName(@PathVariable String name){
         return memberService.findMembersByName(name);
     }
 
-    @PutMapping("/{memberId}")
-    public void modifyMember(@PathVariable String memberId, @RequestBody NameValueList member){
-        memberService.modifyMember(memberId, member);
-    }
+//    @PutMapping("/{memberId}")
+//    public void modifyMember(@PathVariable String memberId, @RequestBody NameValueList member){
+//        memberService.modifyMember(memberId, member);
+//    }
 
-    @PutMapping("/react/{id}")
+    @PutMapping("/{id}")
     public void modifyReact(@PathVariable String id, @RequestBody MemberJpo memberJpo){
         NameValueList nameValueList = new NameValueList();
         nameValueList.addNameValue("email", memberJpo.getEmail());

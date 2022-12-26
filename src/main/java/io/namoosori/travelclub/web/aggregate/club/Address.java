@@ -7,12 +7,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Entity
-public class Address {
+public class Address implements Serializable {
 	//
 	private String zipCode;
 	private String zipAddress;
@@ -20,13 +21,9 @@ public class Address {
 	private String country;
 	@Enumerated(EnumType.STRING)
 	private AddressType addressType;
-	@Id
-	@Column(name = "Gen_id")
-	private String id;
-	@MapsId("Gen_id")
-	@OneToOne(mappedBy = "addresses")
-	@JoinColumn(name="Gen_id")
-	private MemberJpo addressOwner;
+	@OneToOne @MapsId @Id
+	@JoinColumn(name="id")
+	private MemberJpo memberJpo;
 
 //	public Address(String zipCode, String zipAddress, String streetAddress) {
 //		//
@@ -44,6 +41,11 @@ public class Address {
 //		this.country = country;
 //		this.addressType = addressType;
 //	}
+
+		public Address(String id) {
+			//
+			this.memberJpo.setId(id);
+		}
 
 	@Override
 	public String toString() {

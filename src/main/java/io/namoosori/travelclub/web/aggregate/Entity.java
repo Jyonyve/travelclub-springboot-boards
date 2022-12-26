@@ -13,7 +13,9 @@ public abstract class Entity {
 
 	protected Entity() {
 		//
-		this.id = UUID.randomUUID().toString();
+		if(getId()==null) {
+			this.id = UUID.randomUUID().toString();
+		}
 	}
 
 	protected Entity(String id) {

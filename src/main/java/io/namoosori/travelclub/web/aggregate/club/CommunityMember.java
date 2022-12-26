@@ -1,7 +1,6 @@
 package io.namoosori.travelclub.web.aggregate.club;
 
 import com.google.gson.Gson;
-import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.util.exception.InvalidEmailException;
@@ -10,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommunityMember extends Entity {
+public class CommunityMember {//extends Entity {
 	//
 	private String email;		// key
 	private String name;
@@ -18,24 +17,26 @@ public class CommunityMember extends Entity {
 	private String nickName;
 	private String birthDay;
 	private Address addresses;
+	private String id;
 
 	public CommunityMember() {
 		//
-		super();
+		//super();
 		this.addresses = new Address();
 	}
 
-	public CommunityMember(String id) {
-		//
-		super(id);
-	}
+//	public CommunityMember(String id) {
+//		//
+//		super(id);
+//	}
 
-	public CommunityMember(String email, String name, String phoneNumber) {
+	public CommunityMember(String email, String name, String phoneNumber, String id) {
 		//
 		this();
 		this.email = email;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
+		this.id = id;
 	}
 
 	@Override
@@ -97,7 +98,7 @@ public class CommunityMember extends Entity {
 
 	public static CommunityMember sample() {
 		//
-		CommunityMember member = new CommunityMember("mymy@nextree.co.kr", "Minsoo Lee", "010-3321-1001");
+		CommunityMember member = new CommunityMember("mymy@nextree.co.kr", "Minsoo Lee", "010-3321-1001", "123");
 		member.setBirthDay("2001.09.23");
 		member.setAddresses(null);
 		return member;

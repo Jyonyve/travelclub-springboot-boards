@@ -22,7 +22,11 @@ public class MemberController {
 
     @PostMapping
     public String register(@RequestBody MemberCdo memberCdo){
-        return memberService.register(memberCdo);
+        MemberCdo memberCdo1 = new MemberCdo();
+        memberCdo1.setEmail(memberCdo.getEmail());
+        memberCdo1.setName(memberCdo.getName());
+        memberCdo1.setPhoneNumber(memberCdo.getPhoneNumber());
+        return memberService.register(memberCdo1);
     }
 
     @GetMapping

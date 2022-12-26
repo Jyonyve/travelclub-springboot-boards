@@ -1,9 +1,11 @@
 package io.namoosori.travelclub.web.service.logic;
 
+import io.namoosori.travelclub.web.aggregate.club.Address;
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
+import io.namoosori.travelclub.web.store.AddressStore;
 import io.namoosori.travelclub.web.store.MemberStore;
 import io.namoosori.travelclub.web.util.exception.MemberDuplicationException;
 import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
@@ -15,10 +17,12 @@ import java.util.List;
 public class MemberServiceLogic implements MemberService {
 	//
 	private MemberStore memberStore;
+	private AddressStore addressStore;
 
-	public MemberServiceLogic(MemberStore memberStore) {
+	public MemberServiceLogic(MemberStore memberStore, AddressStore addressStore) {
 		//
 		this.memberStore = memberStore;
+		this.addressStore = addressStore;
 	}
 
 	@Override
@@ -34,7 +38,8 @@ public class MemberServiceLogic implements MemberService {
 		CommunityMember member = new CommunityMember(
 				memberCdo.getEmail(),
 				memberCdo.getName(),
-				memberCdo.getPhoneNumber()
+				memberCdo.getPhoneNumber(),
+				memberCdo.getId()
 		);
 		member.setNickName(memberCdo.getNickName());
 		member.setBirthDay(memberCdo.getBirthDay());
@@ -43,7 +48,8 @@ public class MemberServiceLogic implements MemberService {
 
 		memberStore.create(member);
 
-
+		Address address = new Address(member.getId());
+		addressStore.create(address);
 		return member.getId();
 	}
 

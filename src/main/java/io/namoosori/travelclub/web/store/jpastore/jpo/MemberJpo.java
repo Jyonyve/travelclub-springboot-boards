@@ -1,7 +1,7 @@
 package io.namoosori.travelclub.web.store.jpastore.jpo;
 
-import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.Address;
+import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -15,27 +15,26 @@ import javax.persistence.*;
 public class MemberJpo {
 
     @Id
-    @JoinColumn(name="Gen_id")
     private String id;
     private String email;
     private String name;
     private String nickname;
     private String phoneNumber;
     private String birthday;
-    @OneToOne(fetch = FetchType.LAZY)
-
+    @OneToOne(mappedBy = "memberJpo" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Address addresses;
 
     public MemberJpo(CommunityMember member) {
-        BeanUtils.copyProperties(member, this, "addresses");
+        BeanUtils.copyProperties(member, this);
         //member.getAddresses().stream().map(Address::toString).forEach(address -> this.addresses = address);
     }
 
     public CommunityMember toDomain(){
-        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber);
+        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber, this.id);
         member.setId(id);
         member.setBirthDay(this.birthday);
         member.setNickName(nickname);
+        member.setId(id);
         //member.setAddresses(splitAddress(addresses));
 
         return member;

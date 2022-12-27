@@ -29,6 +29,9 @@ public class MemberJpaStore implements MemberStore {
         addressJpo.setMemberJpo(memberJpo);
         memberJpo.setAddressJpo(addressJpo);
 
+        memberJpo.setBirthday("default");
+        memberJpo.setNickname("default");
+
         memberRepository.save(memberJpo);
 
         return memberJpo.getId();

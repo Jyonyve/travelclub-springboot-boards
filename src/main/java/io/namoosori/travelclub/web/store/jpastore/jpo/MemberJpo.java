@@ -1,6 +1,5 @@
 package io.namoosori.travelclub.web.store.jpastore.jpo;
 
-import io.namoosori.travelclub.web.aggregate.club.Address;
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,14 +20,18 @@ public class MemberJpo {
     private String nickname;
     private String phoneNumber;
     private String birthday;
-    @OneToOne(mappedBy = "memberJpo" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Address addresses;
+    @OneToOne(mappedBy = "memberJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private AddressJpo addressJpo;
 
     public MemberJpo(CommunityMember member) {
         BeanUtils.copyProperties(member, this);
         //member.getAddresses().stream().map(Address::toString).forEach(address -> this.addresses = address);
     }
 
+    public void setAddressJpo(AddressJpo addressJpo){
+        this.addressJpo = addressJpo;
+        addressJpo.setMemberJpo(this);
+    }
     public CommunityMember toDomain(){
         CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber, this.id);
         member.setId(id);

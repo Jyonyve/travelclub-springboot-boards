@@ -1,51 +1,74 @@
 package io.namoosori.travelclub.web.aggregate.club;
 
+import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.aggregate.club.vo.AddressType;
-import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
+import io.namoosori.travelclub.web.shared.NameValue;
+import io.namoosori.travelclub.web.shared.NameValueList;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Entity
-public class Address implements Serializable {
+public class Address extends Entity {
 	//
+	@Id
+	private String id;
 	private String zipCode;
 	private String zipAddress;
 	private String streetAddress;
 	private String country;
 	@Enumerated(EnumType.STRING)
 	private AddressType addressType;
-	@OneToOne @MapsId @Id
-	@JoinColumn(name="id")
-	private MemberJpo memberJpo;
+	private String memberId;
 
-//	public Address(String zipCode, String zipAddress, String streetAddress) {
-//		//
-//		this.zipCode = zipCode;
-//		this.zipAddress = zipAddress;
-//		this.streetAddress = streetAddress;
-//		this.country = "South Korea";
-//		this.addressType = AddressType.Office;
-//	}
-//
-//	public Address(String zipCode, String zipAddress, String streetAddress, String country, AddressType addressType) {
-//		this.zipCode = zipCode;
-//		this.zipAddress = zipAddress;
-//		this.streetAddress = streetAddress;
-//		this.country = country;
-//		this.addressType = addressType;
-//	}
 
-		public Address(String id) {
-			//
-			this.memberJpo.setId(id);
+
+	public Address(
+			String zipCode,
+			String zipAddress,
+			String streetAddress,
+			String country,
+			AddressType addressType,
+			String memberId) {
+		this.zipCode = zipCode;
+		this.zipAddress = zipAddress;
+		this.streetAddress = streetAddress;
+		this.country = country;
+		this.addressType = addressType;
+		this.memberId = memberId;
+
+	}
+
+	public void modifyValues(NameValueList nameValues) {
+		//
+		for (NameValue nameValue : nameValues.getNameValues()) {
+			String value = String.valueOf(nameValue.getValue());
+			switch (nameValue.getName()) {
+				case "zipCode":
+					this.zipCode = value;
+					break;
+				case "zipAddress":
+					this.zipAddress = value;
+					break;
+				case "streetAddress":
+					this.streetAddress = value;
+					break;
+				case "country":
+					this.country = value;
+					break;
+				case "addressType":
+					this.addressType = AddressType.valueOf(value);
+					break;
+
+			}
 		}
+	}
 
 	@Override
 	public String toString() {
@@ -62,23 +85,4 @@ public class Address implements Serializable {
 		return builder.toString(); 
 	}
 
-//	public static Address sampleHomeAddress() {
-//		//
-//		Address address = new Address("134-321", "Seoul, Geumcheon-gu, Gasan-dong", "231");
-//		address.setAddressType(AddressType.Home);
-//
-//		return address;
-//	}
-//
-//	public static Address sampleOfficeAddress() {
-//		//
-//		Address address = new Address("131-111", "Seoul, Guro-gu, ilsan-dong", "223-201");
-//
-//		return address;
-//	}
-//
-//	public static void main(String[] args) {
-//		//
-//		System.out.println(sampleHomeAddress().toString());
-//	}
 }

@@ -22,11 +22,7 @@ public class MemberController {
 
     @PostMapping
     public String register(@RequestBody MemberCdo memberCdo){
-        MemberCdo memberCdo1 = new MemberCdo();
-        memberCdo1.setEmail(memberCdo.getEmail());
-        memberCdo1.setName(memberCdo.getName());
-        memberCdo1.setPhoneNumber(memberCdo.getPhoneNumber());
-        return memberService.register(memberCdo1);
+        return memberService.register(memberCdo);
     }
 
     @GetMapping
@@ -63,7 +59,6 @@ public class MemberController {
         nameValueList.addNameValue("phoneNumber", memberJpo.getPhoneNumber());
         nameValueList.addNameValue("birthday", memberJpo.getBirthday());
         nameValueList.addNameValue("id", memberJpo.getId());
-        nameValueList.addNameValue("address", memberJpo.getAddresses());
     }
 
 

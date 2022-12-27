@@ -1,7 +1,9 @@
 package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
+import io.namoosori.travelclub.web.service.AddressService;
 import io.namoosori.travelclub.web.store.MemberStore;
+import io.namoosori.travelclub.web.store.jpastore.jpo.AddressJpo;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
 import org.springframework.stereotype.Repository;
@@ -15,14 +17,21 @@ public class MemberJpaStore implements MemberStore {
 
     private MemberRepository memberRepository;
 
-    public MemberJpaStore(MemberRepository memberRepository) {
+    public MemberJpaStore(MemberRepository memberRepository, AddressService addressService) {
         this.memberRepository = memberRepository;
     }
 
     @Override
     public String create(CommunityMember member) {
-        memberRepository.save(new MemberJpo((member)));
-        return member.getId();
+        MemberJpo memberJpo = new MemberJpo((member));
+
+        AddressJpo addressJpo = new AddressJpo();
+        addressJpo.setMemberJpo(memberJpo);
+        memberJpo.setAddressJpo(addressJpo);
+
+        memberRepository.save(memberJpo);
+
+        return memberJpo.getId();
     }
 
     @Override

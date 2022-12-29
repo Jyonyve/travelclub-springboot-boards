@@ -41,7 +41,7 @@ public class PostingJpaStore implements PostingStore {
 
     @Override
     public List<Posting> retrieveByBoardId(String boardId) {
-        List<PostingJpo> postingJpos = postingRepository.findAllByBoardId(boardId);
+        List<PostingJpo> postingJpos = postingRepository.findAllBySocialBoardJpo_Id(boardId);
         return postingJpos.stream().map(PostingJpo::toDomain).collect(Collectors.toList());
     }
 

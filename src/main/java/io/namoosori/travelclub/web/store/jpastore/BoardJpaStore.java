@@ -42,7 +42,7 @@ public class BoardJpaStore implements BoardStore {
     }
 
     public Optional<SocialBoard> retrieveByClubId(String clubId){
-        Optional<SocialBoardJpo> socialBoardJpo = boardRepository.findByClubId(clubId);
+        Optional<SocialBoardJpo> socialBoardJpo = boardRepository.findByTravelClubJpo_Id(clubId);
         return socialBoardJpo.map(SocialBoardJpo::toDomain);
     }
 

@@ -5,9 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
@@ -19,14 +17,17 @@ public class CommentsJpo {
     private String writer;
     private String contents;
     private String writtenDate;
-    private String postingId;
+    //private String postingId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "postingId")
+    private PostingJpo postingJpo;
 
     public CommentsJpo(Comment comment){
         BeanUtils.copyProperties(comment, this);
     }
 
     public Comment toDomain(){
-        Comment comment = new Comment(writer, contents, postingId);
+        Comment comment = new Comment(writer, contents, postingJpo.getId());
         comment.setWrittenDate(writtenDate);
         comment.setId(id);
         return comment;

@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -16,20 +16,26 @@ import javax.persistence.Table;
 public class PostingJpo {
 
     @Id
+    @JoinColumn(name = "postingId")
     private String id;
     private String title;
     private String writerEmail;
     private String contents;
     private String writtenDate;
     private int readCount;
-    private String boardId;
+    //private String boardId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "boardId")
+    private SocialBoardJpo socialBoardJpo;
+    @OneToMany(mappedBy = "postingJpo")
+    private List<CommentsJpo> commentsJpos = new ArrayList<>();
 
     public PostingJpo(Posting posting) {
         BeanUtils.copyProperties(posting, this);
     }
 
     public Posting toDomain(){
-        Posting posting = new Posting(title, writerEmail, contents, boardId);
+        Posting posting = new Posting(title, writerEmail, contents, socialBoardJpo.getId());
         posting.setReadCount(readCount);
         posting.setWrittenDate(writtenDate);
         posting.setId(id);

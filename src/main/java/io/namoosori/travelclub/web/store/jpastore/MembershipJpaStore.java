@@ -35,20 +35,20 @@ public class MembershipJpaStore implements MembershipStore {
 
     @Override
     public Membership retrieveByClubIdAndMemberId(String clubId, String memberId) {
-        Optional<MembershipJpo> membershipJpo = Optional.ofNullable(membershipRepository.findByClubIdAndMemberId(clubId, memberId));
+        Optional<MembershipJpo> membershipJpo = Optional.ofNullable(membershipRepository.findByTravelClubJpo_IdAndMemberJpo_Id(clubId, memberId));
 
         return membershipJpo.map(MembershipJpo::toDomain).orElse(null);
     }
 
     @Override
     public List<Membership> retrieveByClubId(String clubId) {
-        List<MembershipJpo> membershipJpos = membershipRepository.findByClubId(clubId);
+        List<MembershipJpo> membershipJpos = membershipRepository.findByTravelClubJpo_Id(clubId);
         return membershipJpos.stream().map(MembershipJpo::toDomain).collect(Collectors.toList());
     }
 
     @Override
     public List<Membership> retrieveByMemberId(String memberId) {
-        List<MembershipJpo> membershipJpos = membershipRepository.findByMemberId(memberId);
+        List<MembershipJpo> membershipJpos = membershipRepository.findByMemberJpo_Id(memberId);
         return membershipJpos.stream().map(MembershipJpo::toDomain).collect(Collectors.toList());
     }
 

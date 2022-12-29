@@ -37,7 +37,7 @@ public class CommentJpaStore implements CommentStore {
 
     @Override
     public List<Comment> retrieveByPostingId(String postingId) {
-        List<CommentsJpo> commentsJpos = commentRepository.findAllByPostingId(postingId);
+        List<CommentsJpo> commentsJpos = commentRepository.findAllByPostingJpo_Id(postingId);
 
         return commentsJpos.stream().map(CommentsJpo::toDomain).collect(Collectors.toList());
     }

@@ -2,6 +2,7 @@ package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.club.TravelClub;
 import io.namoosori.travelclub.web.store.ClubStore;
+import io.namoosori.travelclub.web.store.jpastore.jpo.SocialBoardJpo;
 import io.namoosori.travelclub.web.store.jpastore.jpo.TravelClubJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.ClubRepository;
 import org.springframework.stereotype.Repository;
@@ -22,7 +23,14 @@ public class ClubJpaStore implements ClubStore {
 
     @Override
     public String create(TravelClub club) {
-        clubRepository.save(new TravelClubJpo(club));
+        TravelClubJpo travelClubJpo = new TravelClubJpo(club);
+
+        SocialBoardJpo socialBoardJpo = new SocialBoardJpo();
+        socialBoardJpo.setTravelClubJpo(travelClubJpo);
+
+        travelClubJpo.setSocialBoardJpo(socialBoardJpo);
+
+        clubRepository.save(travelClubJpo);
         return club.getId();
     }
 

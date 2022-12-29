@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface BoardRepository extends JpaRepository<SocialBoardJpo, String> {
     List<SocialBoardJpo> findAllByName(String name);
 
-    Optional<SocialBoardJpo> findByClubId(String clubId);
+    Optional<SocialBoardJpo> findByTravelClubJpo_Id(String clubId);
 }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -14,6 +16,7 @@ import javax.persistence.*;
 public class MemberJpo {
 
     @Id
+    @JoinColumn(name = "memberId")
     private String id;
     private String email;
     private String name;
@@ -22,6 +25,8 @@ public class MemberJpo {
     private String birthday;
     @OneToOne(mappedBy = "memberJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private AddressJpo addressJpo;
+    @OneToMany(mappedBy = "memberJpo")
+    private List<MembershipJpo> membershipJpos = new ArrayList<>();
 
     public MemberJpo(CommunityMember member) {
         BeanUtils.copyProperties(member, this);

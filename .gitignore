@@ -182,3 +182,6 @@ gradle-app.setting
 .vscode
 
 # End of https://www.gitignore.io/api/java,gradle,intellij
+
+##security
+**/application-oauth.yml

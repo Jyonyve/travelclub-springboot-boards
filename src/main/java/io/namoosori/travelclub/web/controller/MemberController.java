@@ -5,6 +5,7 @@ import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,11 +36,13 @@ public class MemberController {
         return memberService.findMemberById(memberId);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')") //관리자만 볼 수 있음.
     @GetMapping("/?email={memberEmail}") //url을 작성할 때 ?memberEmail=(email)로 넣어서 보내줘야 함.
     public CommunityMember findMemberByEmail(@RequestParam String memberEmail){
         return memberService.findMemberByEmail(memberEmail);
     }
 
+    @PreAuthorize("hasRole('ROLE_MEMBER')") //멤버만 볼 수 있음
     @GetMapping("/?name={name}") //url을 작성할 때 ?name=(김은진)로 넣어서 보내줘야 함.
     public List<CommunityMember> findMembersByName(@PathVariable String name){
         return memberService.findMembersByName(name);

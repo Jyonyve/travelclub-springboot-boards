@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.aggregate.club;
 
 import io.namoosori.travelclub.web.aggregate.Entity;
+import io.namoosori.travelclub.web.aggregate.club.vo.Role;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -9,6 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,10 +20,14 @@ public class Membership extends Entity {
 	//
 	private String clubId;
 	private String memberId;
-	private RoleInClub role;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 	private String joinDate;
 	private String name;
 	private String email;
+	@Enumerated(EnumType.STRING)
+	private RoleInClub roleInClub;
+	private String password;
 
 
 	public Membership(String id) {
@@ -27,13 +35,15 @@ public class Membership extends Entity {
 		super(id);
 	}
 
-	public Membership(String clubId, String memberId, String name, String email) {
+	public Membership(String clubId, String memberId, String name, String email, String password) {
 		//
 		this.clubId = clubId; 
 		this.memberId = memberId;
 		this.email = email;
 		this.name = name;
-		this.role = RoleInClub.Member;
+		this.password = password;
+		this.role = Role.Member;
+		this.roleInClub = RoleInClub.Guest;
 		this.joinDate = DateUtil.today();
 	}
 
@@ -57,7 +67,7 @@ public class Membership extends Entity {
 			String value = String.valueOf(nameValue.getValue());
 			switch (nameValue.getName()) {
 				case "role":
-					this.role = RoleInClub.valueOf(value);
+					this.role = Role.valueOf(value);
 					break;
 			}
 		}

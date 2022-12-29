@@ -1,7 +1,8 @@
 package io.namoosori.travelclub.web.aggregate.club.vo;
 
 public enum RoleInClub {
-	//
-	Member, 
-	President
+    Guest,
+    Member,
+    President,
+    Admin
 }

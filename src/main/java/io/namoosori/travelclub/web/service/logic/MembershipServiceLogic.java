@@ -3,7 +3,6 @@ package io.namoosori.travelclub.web.service.logic;
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.Membership;
 import io.namoosori.travelclub.web.aggregate.club.TravelClub;
-import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.service.MembershipService;
 import io.namoosori.travelclub.web.service.sdo.MembershipCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -41,7 +40,7 @@ public class MembershipServiceLogic implements MembershipService {
         String memberId = membershipCdo.getMemberId();
         String name = membershipCdo.getName();
         String email = membershipCdo.getEmail();
-        RoleInClub role = membershipCdo.getRole();
+        String password = membershipCdo.getPassword();
 
         TravelClub club = clubStore.retrieve(clubId);
 
@@ -61,8 +60,8 @@ public class MembershipServiceLogic implements MembershipService {
             throw new MembershipDuplicationException("Member already exists in the club");
         }
 
-        membership = new Membership(clubId, memberId, name, email);
-        membership.setRole(role);
+        membership = new Membership(clubId, memberId, name, email, password);
+
 
         String membershipId = membershipStore.create(membership);
 

@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.store.jpastore.jpo;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
+import io.namoosori.travelclub.web.aggregate.club.vo.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -23,6 +24,9 @@ public class MemberJpo {
     private String nickname;
     private String phoneNumber;
     private String birthday;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @OneToOne(mappedBy = "memberJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private AddressJpo addressJpo;
     @OneToMany(mappedBy = "memberJpo")
@@ -38,11 +42,12 @@ public class MemberJpo {
         addressJpo.setMemberJpo(this);
     }
     public CommunityMember toDomain(){
-        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber, this.id);
+        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber, this.id, this.password);
         member.setId(id);
         member.setBirthDay(this.birthday);
         member.setNickName(nickname);
-        member.setId(id);
+        member.setPassword(password);
+        member.setRole(Role.Member);
         //member.setAddresses(splitAddress(addresses));
 
         return member;

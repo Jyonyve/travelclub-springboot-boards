@@ -1,5 +1,6 @@
 package io.namoosori.travelclub.web.service.sdo;
 
+import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,10 @@ public class MemberCdo implements Serializable {
     private String phoneNumber;
 //    private String birthDay;
 //    private Address addresses;
+
+    public MemberCdo(CommunityMember member){
+        this.name = member.getName();
+        this.email = member.getEmail();
+        this.phoneNumber = member.getPhoneNumber();
+    }
 }

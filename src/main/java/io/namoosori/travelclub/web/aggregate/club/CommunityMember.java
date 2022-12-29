@@ -2,6 +2,7 @@ package io.namoosori.travelclub.web.aggregate.club;
 
 import com.google.gson.Gson;
 import io.namoosori.travelclub.web.aggregate.Entity;
+import io.namoosori.travelclub.web.aggregate.club.vo.Role;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.util.exception.InvalidEmailException;
@@ -9,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Getter
 @Setter
@@ -21,15 +25,20 @@ public class CommunityMember extends Entity {
 	private String phoneNumber;
 	private String nickName;
 	private String birthDay;
+	private String password;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 
 
-	public CommunityMember(String email, String name, String phoneNumber, String id) {
+	public CommunityMember(String email, String name, String phoneNumber, String id, String password) {
 		//
 		this();
 		this.email = email;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.id = id;
+		this.password = password;
+		this.role = Role.Member;
 	}
 
     public CommunityMember(String email, String name, String phoneNumber) {
@@ -95,7 +104,7 @@ public class CommunityMember extends Entity {
 
 	public static CommunityMember sample() {
 		//
-		CommunityMember member = new CommunityMember("mymy@nextree.co.kr", "Minsoo Lee", "010-3321-1001", "123");
+		CommunityMember member = new CommunityMember("mymy@nextree.co.kr", "Minsoo Lee", "010-3321-1001", "123", "asdf1234");
 		member.setBirthDay("2001.09.23");
 		return member;
 	}
@@ -104,4 +113,5 @@ public class CommunityMember extends Entity {
 		//
 		System.out.println(new Gson().toJson(sample()));
 	}
+
 }

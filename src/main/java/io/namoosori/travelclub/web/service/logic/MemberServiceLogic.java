@@ -7,9 +7,16 @@ import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.MemberStore;
 import io.namoosori.travelclub.web.util.exception.MemberDuplicationException;
 import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MemberServiceLogic implements MemberService {
@@ -87,5 +94,30 @@ public class MemberServiceLogic implements MemberService {
 		}
 
 		memberStore.delete(memberId);
+	}
+
+	@Override
+	//spring security의 UserDetailsService를 상속받아 구현하는 메소드
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		Optional<CommunityMember> rawMember = Optional.ofNullable(memberStore.retrieveByEmail(email));
+		CommunityMember member = rawMember.orElse(null);
+
+		if(email.equals("nthpopuptown@gmail.com")){
+			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		} else {
+			authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
+		}
+		return new User(member.getEmail(), member.getPassword(), authorities);
+		//loadUserByUsernae 메소드는 매개변수로 받은 정보를 이용해 회원을 조회, 회원 정보와 권한 정보가 담긴 User 클래스를 반환함.
+		//User 클래스는 UserDetails 인터페이스를 구현하고 있다.
+	//		Collection<? extends GrantedAuthority> getAuthorities();
+	//		String getPassword();
+	//		String getUsername();
+	//		boolean isAccountNonExpired();
+	//		boolean isAccountNonLocked();
+	//		boolean isCredentialsNonExpired();
+	//		boolean isEnabled();
+		//UsernameNotFoundException을 던지고 있기 때문에, 유저를 조회할 시 null값이 나오면 알아서 처리해준다.
 	}
 }

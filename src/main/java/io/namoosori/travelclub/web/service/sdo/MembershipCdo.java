@@ -1,6 +1,5 @@
 package io.namoosori.travelclub.web.service.sdo;
 
-import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ public class MembershipCdo implements Serializable {
     //
     private String clubId;
     private String memberId;
-    private RoleInClub role;
     private String name;
     private String email;
+    private String password;
 }

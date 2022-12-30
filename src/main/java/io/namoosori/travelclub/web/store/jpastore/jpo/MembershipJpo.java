@@ -27,6 +27,8 @@ public class MembershipJpo {
     @Enumerated(EnumType.STRING)
     private RoleInClub roleInClub;
 
+
+
     @ManyToOne
     @JoinColumn(name = "clubId")
     private TravelClubJpo travelClubJpo;

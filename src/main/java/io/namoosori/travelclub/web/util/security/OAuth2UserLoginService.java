@@ -1,5 +1,6 @@
 package io.namoosori.travelclub.web.util.security;
 
+import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
@@ -24,6 +25,7 @@ public class OAuth2UserLoginService implements OAuth2UserService<OAuth2UserReque
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService(); //delegate:위임하다
+
         OAuth2User oAuth2User = delegate.loadUser(oAuth2UserRequest);
 
         // OAuth2 서비스 id (구글, 카카오, 네이버)
@@ -45,8 +47,14 @@ public class OAuth2UserLoginService implements OAuth2UserService<OAuth2UserReque
 
     private MemberJpo saveOrUpdate(OAuthAttributes attributes){
         MemberJpo memberJpo = memberRepository.findByEmail(attributes.getEmail());
-        memberJpo.setName(attributes.getName());
-        memberJpo.setPhoneNumber(attributes.getPhoneNumber());
+        if(memberJpo == null){
+            CommunityMember member = new CommunityMember(attributes.getEmail(), attributes.getName(), attributes.getPhoneNumber());
+            MemberJpo memberJpo1 = new MemberJpo(member);
+            memberJpo = memberJpo1;
+        }else {
+            memberJpo.setName(attributes.getName());
+            memberJpo.setPhoneNumber(attributes.getPhoneNumber());
+        }
         return memberRepository.save(memberJpo);
     }
 }

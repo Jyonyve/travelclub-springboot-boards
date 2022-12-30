@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -27,6 +30,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //2022.11 Dep
         return (web) -> web.ignoring().antMatchers("/lib/**", "/css/**", "/js/**", "/img/**");
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+        corsConfiguration.addAllowedOriginPattern("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
+    }
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -35,10 +52,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //2022.11 Dep
                     .antMatchers("/","/css/**","/images/**","/js/**").permitAll()
                     .antMatchers("/admin/**").hasRole(String.valueOf(Role.Admin))
                 .and()
+                    .cors().configurationSource(corsConfigurationSource())
+                .and()
                     .logout()
                         .logoutSuccessUrl("/")
                 .and()
                     .oauth2Login()
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/login")
                         .userInfoEndpoint() //로그인 성공 후 가져올때의 설정들 아래로.
                             .userService(oAuth2UserLoginService);
 

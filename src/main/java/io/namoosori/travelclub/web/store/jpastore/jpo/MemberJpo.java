@@ -27,6 +27,10 @@ public class MemberJpo {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+//    private String provider;
+//    private String providerId;
+
+
     @OneToOne(mappedBy = "memberJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private AddressJpo addressJpo;
     @OneToMany(mappedBy = "memberJpo")
@@ -53,19 +57,15 @@ public class MemberJpo {
         return member;
     }
 
-    //@ElementCollection 과 @Embeddable 어노테이션을 사용하면 스트링 변환을 거치지 않고 주소를 종속 테이블로 만들 수 있음...
-//    public List<Address> splitAddress(String addresses) {
-//        Pattern pattern = Pattern.compile("[:](.*?)[/]");
-//        Matcher matcher = pattern.matcher(addresses);
-//        List<String> list = new ArrayList<>();
-//        while (matcher.find()){
-//            String add = matcher.group(1);
-//            list.add(add);
-//        }
-//        Address address = new Address(list.get(0), list.get(1), list.get(2), list.get(3), AddressType.valueOf(list.get(4)));
-//        List<Address> addressList = new ArrayList<>();
-//        addressList.add(address);
-//
-//        return addressList;
+//    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
+//    public MemberJpo(String name, String password, String email, String provider, String providerId){
+//        this.name = name;
+//        this.password = password;
+//        this.email = email;
+//        this.role = Role.Member;
+//        this.provider = provider;
+//        this.providerId = providerId;
 //    }
+
+
 }

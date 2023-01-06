@@ -2,6 +2,7 @@ package io.namoosori.travelclub.web.store.jpastore.jpo;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.vo.Role;
+import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -27,8 +28,16 @@ public class MemberJpo {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-//    private String provider;
+    private String provider;
 //    private String providerId;
+
+    public MemberJpo(CommunityMember member){
+        BeanUtils.copyProperties(member,this);
+    }
+
+    public MemberJpo(MemberCdo memberCdo){
+        BeanUtils.copyProperties(memberCdo,this);
+    }
 
 
     @OneToOne(mappedBy = "memberJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -36,36 +45,20 @@ public class MemberJpo {
     @OneToMany(mappedBy = "memberJpo")
     private List<MembershipJpo> membershipJpos = new ArrayList<>();
 
-    public MemberJpo(CommunityMember member) {
-        BeanUtils.copyProperties(member, this);
-        //member.getAddresses().stream().map(Address::toString).forEach(address -> this.addresses = address);
-    }
-
     public void setAddressJpo(AddressJpo addressJpo){
         this.addressJpo = addressJpo;
         addressJpo.setMemberJpo(this);
     }
     public CommunityMember toDomain(){
-        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber, this.id, this.password);
-        member.setId(id);
+        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber, this.password );
         member.setBirthDay(this.birthday);
         member.setNickName(nickname);
         member.setPassword(password);
-        member.setRole(Role.Member);
+        member.setRole(Role.MEMBER);
         //member.setAddresses(splitAddress(addresses));
 
         return member;
     }
-
-//    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
-//    public MemberJpo(String name, String password, String email, String provider, String providerId){
-//        this.name = name;
-//        this.password = password;
-//        this.email = email;
-//        this.role = Role.Member;
-//        this.provider = provider;
-//        this.providerId = providerId;
-//    }
 
 
 }

@@ -40,9 +40,9 @@ public class MemberServiceLogic implements MemberService {
 				memberCdo.getEmail(),
 				memberCdo.getName(),
 				memberCdo.getPhoneNumber()
+
 		);
 		member.checkValidation();
-
 		memberStore.create(member);
 
 		return member.getId();
@@ -103,12 +103,13 @@ public class MemberServiceLogic implements MemberService {
 		Optional<CommunityMember> rawMember = Optional.ofNullable(memberStore.retrieveByEmail(email));
 		CommunityMember member = rawMember.orElse(null);
 
-		if(email.equals("nthpopuptown@gmail.com")){
-			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-		} else {
-			authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
-		}
-		return new User(member.getEmail(), member.getPassword(), authorities);
+			if(email.equals("nthpopuptown@gmail.com")){
+				authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+			} else {
+				authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
+			}
+
+			return new User(member.getEmail(), member.getPassword(), authorities);
 		//loadUserByUsernae 메소드는 매개변수로 받은 정보를 이용해 회원을 조회, 회원 정보와 권한 정보가 담긴 User 클래스를 반환함.
 		//User 클래스는 UserDetails 인터페이스를 구현하고 있다.
 	//		Collection<? extends GrantedAuthority> getAuthorities();

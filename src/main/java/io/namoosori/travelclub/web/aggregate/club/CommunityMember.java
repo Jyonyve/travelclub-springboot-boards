@@ -1,15 +1,11 @@
 package io.namoosori.travelclub.web.aggregate.club;
 
-import com.google.gson.Gson;
 import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.aggregate.club.vo.Role;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.util.exception.InvalidEmailException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,16 +25,23 @@ public class CommunityMember extends Entity {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
+	private String provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
 
-	public CommunityMember(String email, String name, String phoneNumber, String id, String password) {
-		//
-		this();
-		this.email = email;
+
+	public CommunityMember(String name, String password, String email, String provider) {
 		this.name = name;
-		this.phoneNumber = phoneNumber;
-		this.id = id;
 		this.password = password;
-		this.role = Role.Member;
+		this.email = email;
+		this.role = Role.MEMBER;
+		this.provider = provider;
+	}
+
+	@Builder
+	public CommunityMember(String name, String email, String phoneNumber, Role role){
+		this.name = name;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.role = role;
 	}
 
     public CommunityMember(String email, String name, String phoneNumber) {
@@ -46,6 +49,10 @@ public class CommunityMember extends Entity {
 		this.name = name;
 		this.phoneNumber = phoneNumber;
     }
+
+	public String getRoleKey(){
+		return this.role.getKey();
+	}
 
     @Override
 	public String toString() {
@@ -102,16 +109,16 @@ public class CommunityMember extends Entity {
 		}
 	}
 
-	public static CommunityMember sample() {
-		//
-		CommunityMember member = new CommunityMember("mymy@nextree.co.kr", "Minsoo Lee", "010-3321-1001", "123", "asdf1234");
-		member.setBirthDay("2001.09.23");
-		return member;
-	}
+//	public static CommunityMember sample() {
+//		//
+//		CommunityMember member = new CommunityMember("mymy@nextree.co.kr", "Minsoo Lee", "010-3321-1001", "123", "asdf1234");
+//		member.setBirthDay("2001.09.23");
+//		return member;
+//	}
 
-	public static void main(String[] args) {
-		//
-		System.out.println(new Gson().toJson(sample()));
-	}
+//	public static void main(String[] args) {
+//		//
+//		System.out.println(new Gson().toJson(sample()));
+//	}
 
 }

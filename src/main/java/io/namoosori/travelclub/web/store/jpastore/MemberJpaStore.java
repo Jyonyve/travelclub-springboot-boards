@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
+import io.namoosori.travelclub.web.aggregate.club.vo.Role;
 import io.namoosori.travelclub.web.service.AddressService;
 import io.namoosori.travelclub.web.store.MemberStore;
 import io.namoosori.travelclub.web.store.jpastore.jpo.AddressJpo;
@@ -23,14 +24,15 @@ public class MemberJpaStore implements MemberStore {
 
     @Override
     public String create(CommunityMember member) {
-        MemberJpo memberJpo = new MemberJpo((member));
+        MemberJpo memberJpo = new MemberJpo(member);
 
         AddressJpo addressJpo = new AddressJpo();
         addressJpo.setMemberJpo(memberJpo);
         memberJpo.setAddressJpo(addressJpo);
-
-        memberJpo.setBirthday("default");
+        memberJpo.setRole(Role.MEMBER);
         memberJpo.setNickname("default");
+        memberJpo.setPassword("default");
+        memberJpo.setProvider("direct");
 
         memberRepository.save(memberJpo);
 

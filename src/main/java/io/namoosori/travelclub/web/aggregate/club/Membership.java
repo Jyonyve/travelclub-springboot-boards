@@ -42,7 +42,7 @@ public class Membership extends Entity {
 		this.email = email;
 		this.name = name;
 		this.password = password;
-		this.role = Role.Member;
+		this.role = Role.valueOf(Role.MEMBER.getKey());
 		this.roleInClub = RoleInClub.Guest;
 		this.joinDate = DateUtil.today();
 	}

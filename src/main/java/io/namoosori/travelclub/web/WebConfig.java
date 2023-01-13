@@ -8,12 +8,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @RequiredArgsConstructor
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
-            .allowedOrigins("http://localhost:3000", "http://localhost:3001")
+            .allowedOrigins("http://localhost:3000", "http://localhost:8080")
             .allowedMethods(
                 HttpMethod.GET.name(),
                 HttpMethod.HEAD.name(),
@@ -22,6 +22,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 HttpMethod.DELETE.name(),
                 HttpMethod.OPTIONS.name())
             .allowCredentials(true)
+            .exposedHeaders("Authorization", "X-AUTH-TOKEN")
             .maxAge(3000);
             }
 }

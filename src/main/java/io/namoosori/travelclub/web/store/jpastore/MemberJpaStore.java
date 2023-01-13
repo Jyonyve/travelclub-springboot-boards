@@ -7,6 +7,7 @@ import io.namoosori.travelclub.web.store.MemberStore;
 import io.namoosori.travelclub.web.store.jpastore.jpo.AddressJpo;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,7 +30,6 @@ public class MemberJpaStore implements MemberStore {
         AddressJpo addressJpo = new AddressJpo();
         addressJpo.setMemberJpo(memberJpo);
         memberJpo.setAddressJpo(addressJpo);
-        memberJpo.setRole(Role.MEMBER);
         memberJpo.setNickname("default");
         memberJpo.setPassword("default");
         memberJpo.setProvider("direct");
@@ -54,8 +54,8 @@ public class MemberJpaStore implements MemberStore {
 
     @Override
     public CommunityMember retrieveByEmail(String email) {
-        Optional<MemberJpo> memberJpo = Optional.ofNullable(memberRepository.findByEmail(email));
-        return memberJpo.map(MemberJpo::toDomain).orElse(null);
+        UserDetails memberJpo = memberRepository.findByEmail(email);
+        return ((MemberJpo)memberJpo).toDomain();
     }
 
     @Override

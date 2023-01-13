@@ -27,8 +27,8 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/travelClub?characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: admin
+    username: admin
+    password: bizadmin
 
   jpa:
     database-platform: org.hibernate.dialect.MariaDB103Dialect

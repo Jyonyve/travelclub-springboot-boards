@@ -35,27 +35,36 @@ public class MemberJpaStore implements MemberStore {
         memberJpo.setProvider("direct");
 
         memberRepository.save(memberJpo);
-
+        System.out.println("save Member ID : "+ memberJpo.getId());
         return memberJpo.getId();
     }
 
     @Override
     public CommunityMember retrieve(String memberId) {
         Optional<MemberJpo> memberJpo = memberRepository.findById(memberId);
-
-        return memberJpo.get().toDomain();
+        if(memberJpo.isPresent()){
+            return memberJpo.get().toDomain();
+        }
+        else {
+            throw new Error("no member like that!");
+        }
     }
 
     public List<CommunityMember> retrieveAll(){
         List<MemberJpo> memberJpos = memberRepository.findAll();
-        return memberJpos.stream().map(MemberJpo::toDomain).collect(Collectors.toList());
+        List<CommunityMember> communityMemberList = memberJpos.stream().map(MemberJpo::toDomain).collect(Collectors.toList());
+        System.out.println(communityMemberList);
+        return communityMemberList;
     }
 
 
     @Override
     public CommunityMember retrieveByEmail(String email) {
         UserDetails memberJpo = memberRepository.findByEmail(email);
-        return ((MemberJpo)memberJpo).toDomain();
+        if(memberJpo == null){
+            return null;
+        }
+        return ((MemberJpo)memberJpo).toDomain() ;
     }
 
     @Override

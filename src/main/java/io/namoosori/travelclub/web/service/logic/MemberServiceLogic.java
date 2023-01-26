@@ -37,7 +37,7 @@ public class MemberServiceLogic implements MemberService {
 		);
 		member.checkValidation();
 		memberStore.create(member);
-
+		System.out.println("ServiceMemberId"+ member.getId());
 		return member.getId();
 	}
 

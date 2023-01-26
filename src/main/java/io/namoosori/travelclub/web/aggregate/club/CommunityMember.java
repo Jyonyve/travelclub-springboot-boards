@@ -4,19 +4,20 @@ import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.aggregate.club.vo.Role;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
+import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import io.namoosori.travelclub.web.util.exception.InvalidEmailException;
 import lombok.*;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-public class CommunityMember extends Entity {
+public class CommunityMember extends Entity{
 	//
-	private String email;		// key
+	//private String id;
+	private String email;
 	private String name;
 	private String phoneNumber;
 	private String nickName;
@@ -28,20 +29,25 @@ public class CommunityMember extends Entity {
 	private String provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
 
 
-	public CommunityMember(String name, String password, String email, String provider) {
-		this.name = name;
-		this.password = password;
-		this.email = email;
-		this.role = Role.MEMBER;
-		this.provider = provider;
+//	public CommunityMember(String name, String password, String email, String provider) {
+//		this.name = name;
+//		this.password = password;
+//		this.email = email;
+//		this.role = Role.MEMBER;
+//		this.provider = provider;
+//	}
+
+	public CommunityMember(MemberJpo memberJpo){
+		BeanUtils.copyProperties(memberJpo, this);
 	}
 
-	@Builder
-	public CommunityMember(String name, String email, String phoneNumber, Role role){
-		this.name = name;
+	public CommunityMember (String email, String name, String phoneNumber, String password, String provider, String id){
 		this.email = email;
+		this.name = name;
 		this.phoneNumber = phoneNumber;
-		this.role = role;
+		this.password = password;
+		this.provider = provider;
+		this.id = id;
 	}
 
     public CommunityMember(String email, String name, String phoneNumber) {
@@ -54,20 +60,20 @@ public class CommunityMember extends Entity {
 		return this.role.getKey();
 	}
 
-    @Override
-	public String toString() {
-		//
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("Name:").append(name);
-		builder.append(", email:").append(email);
-		builder.append(", nickname:").append(nickName);
-		builder.append(", phone number:").append(phoneNumber);
-		builder.append(", birthDay:").append(birthDay);
-		builder.append(", Address: ").append(Address.class.toString());
-
-		return builder.toString();
-	}
+//    @Override
+//	public String toString() {
+//		//
+//		StringBuilder builder = new StringBuilder();
+//
+//		builder.append("Name:").append(name);
+//		builder.append(", email:").append(email);
+//		builder.append(", nickname:").append(nickName);
+//		builder.append(", phone number:").append(phoneNumber);
+//		builder.append(", birthDay:").append(birthDay);
+//		builder.append(", Address: ").append(Address.class.toString());
+//
+//		return builder.toString();
+//	}
 
 	public void checkValidation() {
 		//
@@ -90,7 +96,7 @@ public class CommunityMember extends Entity {
 		//
 		for (NameValue nameValue : nameValues.getNameValues()) {
 			String value = nameValue.getValue().toString();
-			Address addresses = (Address)nameValue.getValue();
+			//Address addresses = (Address)nameValue.getValue();
 			switch (nameValue.getName()) {
 				case "name":
 					this.name = value;

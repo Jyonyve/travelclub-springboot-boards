@@ -40,6 +40,9 @@ spring:
         hibernate:
         format_sql: true #To beautify or pretty print the SQL
         show_sql: true #show sql
+  mvc:
+    log-request-details: true
+
 
 logging:
   exception-conversion-word: '%wEx'

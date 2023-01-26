@@ -14,8 +14,8 @@ import java.util.Map;
 
 @CrossOrigin(
         allowCredentials = "true",
-        origins = {"http://localhost:3000/", "http://localhost:8080/"},
-        methods = {RequestMethod.HEAD, RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.PUT},
+        origins = {"http://localhost:3000", "http://localhost:8080", "https://localhost:3000", "https://localhost:8080"},
+        methods = {RequestMethod.HEAD, RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.PUT, RequestMethod.DELETE},
         allowedHeaders = {"Authorization", "origin", "X-AUTH-TOKEN"}
 )
 @RestController
@@ -23,21 +23,18 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LoginController {
 
-    //private final JWTFilter jwtFilter;
+    private final JWTFilter jwtFilter;
 
     @PostMapping("/login")
     public void authenticateUser(HttpServletRequest request, HttpServletResponse response){
-
-        String bearerToken = request.getHeader("Authorization");
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", bearerToken);
-
-        HttpEntity<String> httpEntity = new HttpEntity <> (httpHeaders);
-        List<String> credential = httpHeaders.getAccessControlExposeHeaders();
-
-        System.out.println(bearerToken);
-        credential.forEach( token -> System.out.println(token));
+        jwtFilter.doFilter(request, response, );
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.set("Authorization", Bearer);
+//
+//        HttpEntity<String> httpEntity = new HttpEntity <> (httpHeaders);
+//        List<String> credential = httpHeaders.getAccessControlExposeHeaders();
+//
+//        credential.forEach( token -> System.out.println(token));
     }
 
 

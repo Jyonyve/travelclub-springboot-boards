@@ -57,10 +57,8 @@ public class MemberController {
         NameValueList nameValueList = new NameValueList();
         nameValueList.addNameValue("email", memberJpo.getEmail());
         nameValueList.addNameValue("name", memberJpo.getName());
-        nameValueList.addNameValue("nickName", memberJpo.getNickname());
         nameValueList.addNameValue("phoneNumber", memberJpo.getPhoneNumber());
-        nameValueList.addNameValue("birthday", memberJpo.getBirthday());
-        nameValueList.addNameValue("id", memberJpo.getId());
+        memberService.modifyMember(id, nameValueList);
     }
 
 

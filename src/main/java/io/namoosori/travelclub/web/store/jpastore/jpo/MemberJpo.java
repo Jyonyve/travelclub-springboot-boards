@@ -51,7 +51,7 @@ public class MemberJpo implements UserDetails {
 
     @OneToOne(mappedBy = "memberJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private AddressJpo addressJpo;
-    @OneToMany(mappedBy = "memberJpo")
+    @OneToMany(mappedBy = "memberJpo", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<MembershipJpo> membershipJpos = new ArrayList<>();
 
     public void setAddressJpo(AddressJpo addressJpo){
@@ -59,11 +59,13 @@ public class MemberJpo implements UserDetails {
         addressJpo.setMemberJpo(this);
     }
     public CommunityMember toDomain(){
-        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber, this.password );
+        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber, this.password, this.provider, this.id);
         member.setBirthDay(this.birthday);
         member.setNickName(nickname);
         member.setPassword(password);
         member.setRole(Role.MEMBER);
+        member.setProvider(provider);
+        member.setId(id);
         //member.setAddresses(splitAddress(addresses));
 
         return member;

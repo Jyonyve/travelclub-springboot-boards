@@ -10,15 +10,24 @@ import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class MemberServiceLogic implements MemberService {
 	//
-	private MemberStore memberStore;
+	private static MemberStore memberStore;
+	public static MemberServiceLogic memberServiceLogic;
 
-	public MemberServiceLogic(MemberStore memberStore) {
+	private MemberServiceLogic(MemberStore memberStore) {
 		//
 		this.memberStore = memberStore;
+	}
+
+	public static MemberServiceLogic getMemberServiceLogic(){
+		if (memberServiceLogic == null){
+			memberServiceLogic = new MemberServiceLogic(memberStore);
+		}
+		return memberServiceLogic;
 	}
 
 	@Override

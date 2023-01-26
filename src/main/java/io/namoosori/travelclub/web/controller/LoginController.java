@@ -1,16 +1,14 @@
 package io.namoosori.travelclub.web.controller;
 
-import io.namoosori.travelclub.web.util.security.JWTFilter;
+import io.namoosori.travelclub.web.service.MemberService;
+import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.security.GeneralSecurityException;
 
 @CrossOrigin(
         allowCredentials = "true",
@@ -23,19 +21,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final JWTFilter jwtFilter;
-
     @PostMapping("/login")
-    public void authenticateUser(HttpServletRequest request, HttpServletResponse response){
-        jwtFilter.doFilter(request, response, );
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.set("Authorization", Bearer);
-//
-//        HttpEntity<String> httpEntity = new HttpEntity <> (httpHeaders);
-//        List<String> credential = httpHeaders.getAccessControlExposeHeaders();
-//
-//        credential.forEach( token -> System.out.println(token));
+    public String googleLogin(HttpServletRequest request, HttpServletResponse response) throws GeneralSecurityException, IOException {
+        GoogleAuthentification googleAuthentification = new GoogleAuthentification();
+        return googleAuthentification.authenticateUser(request, response);
     }
-
 
 }

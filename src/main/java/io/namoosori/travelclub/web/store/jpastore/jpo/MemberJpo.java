@@ -1,7 +1,9 @@
 package io.namoosori.travelclub.web.store.jpastore.jpo;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
+import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
 import io.namoosori.travelclub.web.aggregate.club.vo.Role;
+import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,23 +33,23 @@ public class MemberJpo implements UserDetails {
     private String phoneNumber;
     private String birthday;
     private String password;
-//    @Enumerated(EnumType.STRING)
-//    private Role role;
-
-    @ElementCollection(fetch = FetchType.LAZY)
-    private List<String> roles = new ArrayList<>();
-
-    private String provider;
-//    private String providerId;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Role_in_Club")
+    private RoleInClub roleInClub;
+    @Enumerated(EnumType.STRING)
+    private Role roles;
+    private Provider provider;
+    private String refreshToken;
 
     public MemberJpo(CommunityMember member){
         BeanUtils.copyProperties(member,this);
+        this.roles = Role.MEMBER;
     }
 
     public MemberJpo(MemberCdo memberCdo){
         BeanUtils.copyProperties(memberCdo,this);
+        this.roles = Role.MEMBER;
     }
-
 
     @OneToOne(mappedBy = "memberJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private AddressJpo addressJpo;
@@ -59,10 +61,9 @@ public class MemberJpo implements UserDetails {
         addressJpo.setMemberJpo(this);
     }
     public CommunityMember toDomain(){
-        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber, this.password, this.provider, this.id);
-        member.setBirthDay(this.birthday);
+        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber);
+        member.setBirthDay(birthday);
         member.setNickName(nickname);
-        member.setPassword(password);
         member.setRole(Role.MEMBER);
         member.setProvider(provider);
         member.setId(id);
@@ -74,9 +75,7 @@ public class MemberJpo implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return null;
     }
 
     @Override

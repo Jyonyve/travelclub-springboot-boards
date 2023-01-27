@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
+import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
 import io.namoosori.travelclub.web.aggregate.club.vo.Role;
 import io.namoosori.travelclub.web.service.AddressService;
 import io.namoosori.travelclub.web.store.MemberStore;
@@ -33,7 +34,6 @@ public class MemberJpaStore implements MemberStore {
         memberJpo.setAddressJpo(addressJpo);
         memberJpo.setNickname("default");
         memberJpo.setPassword("default");
-        memberJpo.setProvider("direct");
 
         memberRepository.save(memberJpo);
         System.out.println("save Member ID : "+ memberJpo.getId());

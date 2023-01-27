@@ -1,7 +1,9 @@
 package io.namoosori.travelclub.web.aggregate.club;
 
 import io.namoosori.travelclub.web.aggregate.Entity;
+import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
 import io.namoosori.travelclub.web.aggregate.club.vo.Role;
+import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
@@ -22,32 +24,22 @@ public class CommunityMember extends Entity{
 	private String phoneNumber;
 	private String nickName;
 	private String birthDay;
-	private String password;
 	@Enumerated(EnumType.STRING)
+	private RoleInClub roleInClub;
 	private Role role;
-
-	private String provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
-
-
-//	public CommunityMember(String name, String password, String email, String provider) {
-//		this.name = name;
-//		this.password = password;
-//		this.email = email;
-//		this.role = Role.MEMBER;
-//		this.provider = provider;
-//	}
+	private Provider provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
+	private String refreshToken;
 
 	public CommunityMember(MemberJpo memberJpo){
 		BeanUtils.copyProperties(memberJpo, this);
 	}
 
-	public CommunityMember (String email, String name, String phoneNumber, String password, String provider, String id){
+	public CommunityMember (String email, String name, String phoneNumber, Provider provider, String refreshToken){
 		this.email = email;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
-		this.password = password;
 		this.provider = provider;
-		this.id = id;
+		this.refreshToken = refreshToken;
 	}
 
     public CommunityMember(String email, String name, String phoneNumber) {

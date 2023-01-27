@@ -41,8 +41,9 @@ public class MemberServiceLogic implements MemberService {
 		CommunityMember member = new CommunityMember(
 				memberCdo.getEmail(),
 				memberCdo.getName(),
-				memberCdo.getPhoneNumber()
-
+				memberCdo.getPhoneNumber(),
+				memberCdo.getProvider(),
+				memberCdo.getRefreshToken()
 		);
 		member.checkValidation();
 		memberStore.create(member);

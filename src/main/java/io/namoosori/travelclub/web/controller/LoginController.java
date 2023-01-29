@@ -32,8 +32,10 @@ import java.util.Map;
 public class LoginController {
 
     @GetMapping("/code/google")
-    public HttpEntity<String> googleLogin(@RequestParam String code, @RequestParam String scope) throws IOException {
+    public void googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
 
+        System.out.println("req" + req.getHeader("Authorization"));
+        System.out.println("res" + res.getHeader("Authorization"));
         ResponseEntity<String> response = null;
 
         RestTemplate restTemplate = new RestTemplate();
@@ -50,34 +52,31 @@ public class LoginController {
         String access_token_url = "https://oauth2.googleapis.com/token";
         access_token_url += "?code=" + code;
         access_token_url += "&grant_type=authorization_code";
-        access_token_url += "&redirect_uri=http://localhost:8080/login/oauth2/code/google";
+        access_token_url += "&redirect_uri=http://localhost:3000/login/oauth2/code/google";
 
         //sending token url(post) and getting tokens
         response = restTemplate.exchange(access_token_url, HttpMethod.POST, request, String.class);
         System.out.println("response.getBody()  "+response.getBody());
 
-        // Parsing tokens from Google API server
+        // Parsing tokens from Google API server, and set info to DB
         GoogleAuthentification googleAuthentification = new GoogleAuthentification();
         Map<String, String > tokensMap = googleAuthentification.responseParser(response);
         googleAuthentification.insertUserInDB(tokensMap);
 
         // Use the access token for authentication
-        HttpHeaders accessTokenHeader = new HttpHeaders();
-        accessTokenHeader.add("Authorization", "Bearer " + tokensMap.get("access_token"));
-        HttpEntity<String> accessTokenResponse = new HttpEntity<>(accessTokenHeader);
-        System.out.println(accessTokenResponse);
-
-        return accessTokenResponse;
-
-//        ResponseEntity<String> sendAccessTokenResponse = null;
-//        String loginSuccessUrl = "http://localhost:3000/login/oauth2/success";
-//        sendAccessTokenResponse = restTemplate.exchange(loginSuccessUrl, HttpMethod.GET, accessTokenResponse , String.class);
-//        System.out.println(sendAccessTokenResponse);
-
+        res.addHeader("Authorization", "Bearer " + tokensMap.get("access_token"));
+        System.out.println(res.getHeader("Authorization"));
     }
 
-    @GetMapping("/success")
+    @PostMapping("/success")
     public void tokenHeaderToFront(RestTemplate restTemplate, HttpEntity<String> accessTokenResponse) throws IOException {
-        throw new Error("Why are you showing?!");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+//
+//        ResponseEntity<String> sendAccessTokenResponse = null;
+//        sendAccessTokenResponse.getHeaders();
+//        String loginSuccessUrl = "http://localhost:3000/login/oauth2/success";
+//        sendAccessTokenResponse = restTemplate.exchange(loginSuccessUrl, HttpMethod.GET, accessTokenResponse , String.class);
+        System.out.println(headers);
     }
 }

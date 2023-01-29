@@ -1,14 +1,11 @@
 package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
-import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
-import io.namoosori.travelclub.web.aggregate.club.vo.Role;
 import io.namoosori.travelclub.web.service.AddressService;
 import io.namoosori.travelclub.web.store.MemberStore;
 import io.namoosori.travelclub.web.store.jpastore.jpo.AddressJpo;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 

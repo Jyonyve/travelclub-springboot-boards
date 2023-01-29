@@ -2,7 +2,7 @@ package io.namoosori.travelclub.web.aggregate.club;
 
 import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
-import io.namoosori.travelclub.web.aggregate.club.vo.Role;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -26,7 +26,7 @@ public class CommunityMember extends Entity{
 	private String birthDay;
 	@Enumerated(EnumType.STRING)
 	private RoleInClub roleInClub;
-	private Role role;
+	private Roles roles;
 	private Provider provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
 	private String refreshToken;
 
@@ -34,12 +34,13 @@ public class CommunityMember extends Entity{
 		BeanUtils.copyProperties(memberJpo, this);
 	}
 
-	public CommunityMember (String email, String name, String phoneNumber, Provider provider, String refreshToken){
+	public CommunityMember (String email, String name, String phoneNumber, Provider provider, String refreshToken, Roles roles){
 		this.email = email;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.provider = provider;
 		this.refreshToken = refreshToken;
+		this.roles = roles;
 	}
 
     public CommunityMember(String email, String name, String phoneNumber) {
@@ -49,7 +50,7 @@ public class CommunityMember extends Entity{
     }
 
 	public String getRoleKey(){
-		return this.role.getKey();
+		return this.roles.getKey();
 	}
 
 //    @Override
@@ -102,7 +103,11 @@ public class CommunityMember extends Entity{
 				case "birthDay":
 					this.birthDay = value;
 					break;
-
+				case "roles":
+					this.roles = (Roles) nameValue.getValue();
+					break;
+				case "refresh_token":
+					this.refreshToken = value;
 			}
 		}
 	}

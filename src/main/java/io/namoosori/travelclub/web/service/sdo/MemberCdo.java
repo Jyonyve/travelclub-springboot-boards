@@ -2,7 +2,6 @@ package io.namoosori.travelclub.web.service.sdo;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
-import io.namoosori.travelclub.web.aggregate.club.vo.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

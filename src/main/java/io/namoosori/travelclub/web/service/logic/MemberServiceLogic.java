@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.service.logic;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -43,7 +44,8 @@ public class MemberServiceLogic implements MemberService {
 				memberCdo.getName(),
 				memberCdo.getPhoneNumber(),
 				memberCdo.getProvider(),
-				memberCdo.getRefreshToken()
+				memberCdo.getRefreshToken(),
+				memberCdo.getEmail().equals("nthpopuptown@gmail.com") ? Roles.ADMIN	: Roles.MEMBER
 		);
 		member.checkValidation();
 		memberStore.create(member);

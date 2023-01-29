@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
-public enum Role {
+public enum Roles {
 
 	MEMBER("ROLE_MEMBER", "Default Member"),
 	ADMIN("ROLE_ADMIN", "Admin");

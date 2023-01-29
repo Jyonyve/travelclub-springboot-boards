@@ -1,7 +1,7 @@
 package io.namoosori.travelclub.web.aggregate.club;
 
 import io.namoosori.travelclub.web.aggregate.Entity;
-import io.namoosori.travelclub.web.aggregate.club.vo.Role;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -21,7 +21,7 @@ public class Membership extends Entity {
 	private String clubId;
 	private String memberId;
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private Roles roles;
 	private String joinDate;
 	private String name;
 	private String email;
@@ -42,7 +42,7 @@ public class Membership extends Entity {
 		this.email = email;
 		this.name = name;
 		this.password = password;
-		this.role = Role.valueOf(Role.MEMBER.getKey());
+		this.roles = Roles.valueOf(Roles.MEMBER.getKey());
 		this.roleInClub = RoleInClub.Guest;
 		this.joinDate = DateUtil.today();
 	}
@@ -55,7 +55,7 @@ public class Membership extends Entity {
 		builder.append("club Id:").append(clubId);
 		builder.append(", member Id:").append(memberId);
 		builder.append(", member Name:").append(name);
-		builder.append(", role:").append(role.name());
+		builder.append(", role:").append(roles.name());
 		builder.append(", join date:").append(joinDate);
 
 		return builder.toString();
@@ -67,7 +67,7 @@ public class Membership extends Entity {
 			String value = String.valueOf(nameValue.getValue());
 			switch (nameValue.getName()) {
 				case "role":
-					this.role = Role.valueOf(value);
+					this.roles = Roles.valueOf(value);
 					break;
 			}
 		}

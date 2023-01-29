@@ -1,7 +1,7 @@
 package io.namoosori.travelclub.web.store.jpastore.jpo;
 
 import io.namoosori.travelclub.web.aggregate.club.Membership;
-import io.namoosori.travelclub.web.aggregate.club.vo.Role;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,7 @@ public class MembershipJpo {
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Roles roles;
     @Enumerated(EnumType.STRING)
     private RoleInClub roleInClub;
 

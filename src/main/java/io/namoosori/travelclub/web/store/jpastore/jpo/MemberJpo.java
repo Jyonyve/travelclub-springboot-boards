@@ -2,21 +2,19 @@ package io.namoosori.travelclub.web.store.jpastore.jpo;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
-import io.namoosori.travelclub.web.aggregate.club.vo.Role;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -37,18 +35,16 @@ public class MemberJpo implements UserDetails {
     @Column(name = "Role_in_Club")
     private RoleInClub roleInClub;
     @Enumerated(EnumType.STRING)
-    private Role roles;
+    private Roles roles;
     private Provider provider;
     private String refreshToken;
 
     public MemberJpo(CommunityMember member){
         BeanUtils.copyProperties(member,this);
-        this.roles = Role.MEMBER;
     }
 
     public MemberJpo(MemberCdo memberCdo){
         BeanUtils.copyProperties(memberCdo,this);
-        this.roles = Role.MEMBER;
     }
 
     @OneToOne(mappedBy = "memberJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -64,7 +60,6 @@ public class MemberJpo implements UserDetails {
         CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber);
         member.setBirthDay(birthday);
         member.setNickName(nickname);
-        member.setRole(Role.MEMBER);
         member.setProvider(provider);
         member.setId(id);
         //member.setAddresses(splitAddress(addresses));

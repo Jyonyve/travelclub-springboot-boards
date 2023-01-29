@@ -3,26 +3,21 @@ package io.namoosori.travelclub.web.util.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.jpastore.MemberJpaStore;
-import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Base64Utils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +61,12 @@ public class GoogleAuthentification {
         }else {
             NameValueList nameValueList = new NameValueList();
             nameValueList.addNameValue("name", memberCdo.getName());
+            nameValueList.addNameValue("refresh_token", memberCdo.getRefreshToken());
+            if(memberCdo.getEmail().equals("nthpopuptown@gmail.com")){
+                nameValueList.addNameValue("roles", Roles.ADMIN);
+            } else{
+                nameValueList.addNameValue("roles", Roles.MEMBER);
+            }
             memberService.modifyMember(communityMember.getId(), nameValueList);
             return communityMember.getId();
         }

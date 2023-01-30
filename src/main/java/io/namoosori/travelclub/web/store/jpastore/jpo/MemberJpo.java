@@ -4,11 +4,14 @@ import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
+import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
+import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -22,6 +25,8 @@ import java.util.List;
 @NoArgsConstructor
 public class MemberJpo implements UserDetails {
 
+    @Transient
+    private CommunityMember member;
     @Id
     @JoinColumn(name = "memberId")
     private String id;
@@ -72,7 +77,14 @@ public class MemberJpo implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        member = MemberServiceLogic.getMemberServiceLogic().findMemberById(id);
+        if(member == null){
+            throw new NoSuchMemberException("No such member with id: " + id);
+        }
+        authorities.add(new SimpleGrantedAuthority(member.getRoles().getKey()));
+
+        return authorities;
     }
 
     @Override

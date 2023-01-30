@@ -18,6 +18,7 @@ import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(
@@ -32,7 +33,7 @@ import java.util.Map;
 public class LoginController {
 
     @GetMapping("/code/google")
-    public String googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public List<String> googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
 
         ResponseEntity<String> response = null;
 
@@ -60,7 +61,7 @@ public class LoginController {
         GoogleAuthentification googleAuthentification = new GoogleAuthentification();
         Map<String, String > tokensMap = googleAuthentification.responseParser(response);
         String id = googleAuthentification.insertUserInDB(tokensMap);
-        String userRoles = googleAuthentification.getUserRoles(id);
+        List<String> userRoles = googleAuthentification.getUserRoles(id);
 
         // Use the access token for authentication
         res.addHeader("Authorization", "Bearer " + tokensMap.get("id_token"));

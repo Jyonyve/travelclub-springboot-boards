@@ -13,13 +13,16 @@ import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
+import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Base64Utils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GoogleAuthentification {
 
@@ -72,8 +75,9 @@ public class GoogleAuthentification {
         }
     }
 
-    public String getUserRoles(String id){
-        return memberService.findMemberById(id).getRoles().name();
+    public List<String> getUserRoles(String id){
+        return new MemberJpo(memberService.findMemberById(id)).getAuthorities().stream()
+                .map(role -> role.getAuthority()).collect(Collectors.toList());
     }
 
     public Map<String, String > responseParser(ResponseEntity<String> response) throws IOException {

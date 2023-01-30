@@ -72,6 +72,10 @@ public class GoogleAuthentification {
         }
     }
 
+    public String getUserRoles(String id){
+        return memberService.findMemberById(id).getRoles().name();
+    }
+
     public Map<String, String > responseParser(ResponseEntity<String> response) throws IOException {
         Map<String, String> tokensMap = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();

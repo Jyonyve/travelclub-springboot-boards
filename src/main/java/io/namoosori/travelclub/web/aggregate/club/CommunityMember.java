@@ -14,7 +14,8 @@ import org.springframework.beans.BeanUtils;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class CommunityMember extends Entity{
 	//

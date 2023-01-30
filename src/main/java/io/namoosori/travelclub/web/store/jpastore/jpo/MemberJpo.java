@@ -63,6 +63,7 @@ public class MemberJpo implements UserDetails {
         member.setNickName(nickname);
         member.setProvider(provider);
         member.setId(id);
+        member.setRoles(roles);
         //member.setAddresses(splitAddress(addresses));
 
         return member;

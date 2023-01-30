@@ -32,10 +32,8 @@ import java.util.Map;
 public class LoginController {
 
     @GetMapping("/code/google")
-    public void googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public String googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
 
-        System.out.println("req" + req.getHeader("Authorization"));
-        System.out.println("res" + res.getHeader("Authorization"));
         ResponseEntity<String> response = null;
 
         RestTemplate restTemplate = new RestTemplate();
@@ -61,22 +59,12 @@ public class LoginController {
         // Parsing tokens from Google API server, and set info to DB
         GoogleAuthentification googleAuthentification = new GoogleAuthentification();
         Map<String, String > tokensMap = googleAuthentification.responseParser(response);
-        googleAuthentification.insertUserInDB(tokensMap);
+        String id = googleAuthentification.insertUserInDB(tokensMap);
+        String userRoles = googleAuthentification.getUserRoles(id);
 
         // Use the access token for authentication
         res.addHeader("Authorization", "Bearer " + tokensMap.get("id_token"));
-        System.out.println(res.getHeader("Authorization"));
-    }
-
-    @PostMapping("/success")
-    public void tokenHeaderToFront(RestTemplate restTemplate, HttpEntity<String> accessTokenResponse) throws IOException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//
-//        ResponseEntity<String> sendAccessTokenResponse = null;
-//        sendAccessTokenResponse.getHeaders();
-//        String loginSuccessUrl = "http://localhost:3000/login/oauth2/success";
-//        sendAccessTokenResponse = restTemplate.exchange(loginSuccessUrl, HttpMethod.GET, accessTokenResponse , String.class);
-        System.out.println(headers);
+        System.out.println(userRoles + ", " + res.getHeader("Authorization"));
+        return userRoles;
     }
 }

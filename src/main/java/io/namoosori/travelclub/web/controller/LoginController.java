@@ -64,7 +64,7 @@ public class LoginController {
         googleAuthentification.insertUserInDB(tokensMap);
 
         // Use the access token for authentication
-        res.addHeader("Authorization", "Bearer " + tokensMap.get("access_token"));
+        res.addHeader("Authorization", "Bearer " + tokensMap.get("id_token"));
         System.out.println(res.getHeader("Authorization"));
     }
 

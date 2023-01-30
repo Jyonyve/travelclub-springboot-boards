@@ -28,18 +28,18 @@ public class CommunityMember extends Entity{
 	private RoleInClub roleInClub;
 	private Roles roles;
 	private Provider provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
-	private String refreshToken;
+	private String id_token;
 
 	public CommunityMember(MemberJpo memberJpo){
 		BeanUtils.copyProperties(memberJpo, this);
 	}
 
-	public CommunityMember (String email, String name, String phoneNumber, Provider provider, String refreshToken, Roles roles){
+	public CommunityMember (String email, String name, String phoneNumber, Provider provider, String id_token, Roles roles){
 		this.email = email;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.provider = provider;
-		this.refreshToken = refreshToken;
+		this.id_token = id_token;
 		this.roles = roles;
 	}
 
@@ -106,8 +106,8 @@ public class CommunityMember extends Entity{
 				case "roles":
 					this.roles = (Roles) nameValue.getValue();
 					break;
-				case "refresh_token":
-					this.refreshToken = value;
+				case "id_token":
+					this.id_token = value;
 			}
 		}
 	}

@@ -18,7 +18,7 @@ public class MemberCdo implements Serializable {
     //private String nickName;
     private String phoneNumber;
     private Provider provider;
-    private String refreshToken;
+    private String id_token;
 
     public MemberCdo(CommunityMember member) {
         BeanUtils.copyProperties(member, this);
@@ -32,11 +32,11 @@ public class MemberCdo implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public MemberCdo(String name, String email, String phoneNumber, Provider provider, String refreshToken) {
+    public MemberCdo(String name, String email, String phoneNumber, Provider provider, String id_token) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.provider = provider;
-        this.refreshToken = refreshToken;
+        this.id_token = id_token;
     }
 }

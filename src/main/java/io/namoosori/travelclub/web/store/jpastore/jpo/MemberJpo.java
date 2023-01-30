@@ -37,7 +37,8 @@ public class MemberJpo implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Roles roles;
     private Provider provider;
-    private String refreshToken;
+    @Column(columnDefinition = "TEXT")
+    private String id_token;
 
     public MemberJpo(CommunityMember member){
         BeanUtils.copyProperties(member,this);

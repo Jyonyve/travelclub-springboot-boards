@@ -41,10 +41,10 @@ public class GoogleAuthentification {
                 System.out.println(entry.getKey() + "=" + entry.getValue());
             }
 
-            String refreshToken = tokens.get("refresh_token");
-            System.out.println("refreshToken : " + refreshToken);
+            String id_token = tokens.get("id_token");
+            System.out.println("id_token : " + id_token);
             MemberCdo memberCdo = new MemberCdo(String.valueOf(map.get("name")), String.valueOf(map.get("email")),
-                    "010-0000-0000", Provider.GOOGLE, refreshToken);
+                    "010-0000-0000", Provider.GOOGLE, id_token);
             return saveOrUpdate(memberCdo);
 
         } catch (JWTDecodeException decodeEx) {
@@ -61,7 +61,7 @@ public class GoogleAuthentification {
         }else {
             NameValueList nameValueList = new NameValueList();
             nameValueList.addNameValue("name", memberCdo.getName());
-            nameValueList.addNameValue("refresh_token", memberCdo.getRefreshToken());
+            nameValueList.addNameValue("id_token", memberCdo.getId_token());
             if(memberCdo.getEmail().equals("nthpopuptown@gmail.com")){
                 nameValueList.addNameValue("roles", Roles.ADMIN);
             } else{

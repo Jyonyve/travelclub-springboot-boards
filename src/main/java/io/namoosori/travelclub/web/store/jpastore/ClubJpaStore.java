@@ -38,7 +38,7 @@ public class ClubJpaStore implements ClubStore {
     public TravelClub retrieve(String clubId) {
         Optional<TravelClubJpo> clubJpo = clubRepository.findById(clubId); //return 타입이 Optional이다. (nullable)
 
-        return clubJpo.map(TravelClubJpo::toDomain).orElseThrow();
+        return clubJpo != null ? clubJpo.map(TravelClubJpo::toDomain).get() : null;
     }
 
 //    @Override

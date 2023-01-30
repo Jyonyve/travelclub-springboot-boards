@@ -3,8 +3,6 @@ package io.namoosori.travelclub.web.store.jpastore.jpo;
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
-import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
-import io.namoosori.travelclub.web.service.logic.ClubServiceLogic;
 import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
@@ -16,7 +14,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @Entity
@@ -35,9 +35,6 @@ public class MemberJpo implements UserDetails {
     private String phoneNumber;
     private String birthday;
     private String password;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "Role_in_Club")
-    private RoleInClub roleInClub;
     @Enumerated(EnumType.STRING)
     private Roles roles;
     private Provider provider;

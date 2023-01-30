@@ -2,7 +2,6 @@ package io.namoosori.travelclub.web.aggregate.club;
 
 import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
-import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.util.helper.DateUtil;
@@ -25,8 +24,6 @@ public class Membership extends Entity {
 	private String joinDate;
 	private String name;
 	private String email;
-	@Enumerated(EnumType.STRING)
-	private RoleInClub roleInClub;
 	private String password;
 
 
@@ -43,7 +40,6 @@ public class Membership extends Entity {
 		this.name = name;
 		this.password = password;
 		this.roles = Roles.valueOf(Roles.MEMBER.getKey());
-		this.roleInClub = RoleInClub.Guest;
 		this.joinDate = DateUtil.today();
 	}
 

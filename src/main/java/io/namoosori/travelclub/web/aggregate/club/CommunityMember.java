@@ -3,16 +3,14 @@ package io.namoosori.travelclub.web.aggregate.club;
 import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
-import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import io.namoosori.travelclub.web.util.exception.InvalidEmailException;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 @Getter
 @Setter
@@ -25,8 +23,6 @@ public class CommunityMember extends Entity{
 	private String phoneNumber;
 	private String nickName;
 	private String birthDay;
-	@Enumerated(EnumType.STRING)
-	private RoleInClub roleInClub;
 	private Roles roles;
 	private Provider provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
 	private String id_token;

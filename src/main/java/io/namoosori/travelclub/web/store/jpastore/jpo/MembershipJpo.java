@@ -2,7 +2,6 @@ package io.namoosori.travelclub.web.store.jpastore.jpo;
 
 import io.namoosori.travelclub.web.aggregate.club.Membership;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
-import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -24,10 +23,6 @@ public class MembershipJpo {
     private String password;
     @Enumerated(EnumType.STRING)
     private Roles roles;
-    @Enumerated(EnumType.STRING)
-    private RoleInClub roleInClub;
-
-
 
     @ManyToOne
     @JoinColumn(name = "clubId")

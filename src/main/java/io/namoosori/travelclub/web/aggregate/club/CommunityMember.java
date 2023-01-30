@@ -105,7 +105,7 @@ public class CommunityMember extends Entity{
 					this.birthDay = value;
 					break;
 				case "roles":
-					this.roles = (Roles) nameValue.getValue();
+					this.roles = Roles.valueOf(nameValue.getValue().toString().substring(5));
 					break;
 				case "id_token":
 					this.id_token = value;

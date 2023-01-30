@@ -4,6 +4,7 @@ import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
+import io.namoosori.travelclub.web.service.logic.ClubServiceLogic;
 import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
@@ -15,9 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Entity
@@ -82,8 +81,8 @@ public class MemberJpo implements UserDetails {
         if(member == null){
             throw new NoSuchMemberException("No such member with id: " + id);
         }
+        //membershipJpo 에서 설정할 것 : String clubName = ClubServiceLogic.getClubServiceLogic().findClubsByName();
         authorities.add(new SimpleGrantedAuthority(member.getRoles().getKey()));
-
         return authorities;
     }
 

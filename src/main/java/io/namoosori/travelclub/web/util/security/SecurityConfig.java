@@ -35,8 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //antMatchers - 제공된 ant pattern과 일치할때만 호출되도록 HttpSecurity를 호출할 수 있다.
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/club").hasAnyRole("MEMBER")
-                .antMatchers("/member").hasAnyRole("ADMIN")
+//                .antMatchers("/club").hasAnyRole("ROLE_MEMBER")
+//                .antMatchers("/member").hasAnyRole("ROLE_ADMIN")
 //                .anyRequest().authenticated()
                 .and().logout().permitAll();
         http.csrf().disable();

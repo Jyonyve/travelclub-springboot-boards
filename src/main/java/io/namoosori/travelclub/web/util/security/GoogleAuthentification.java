@@ -66,9 +66,9 @@ public class GoogleAuthentification {
             nameValueList.addNameValue("name", memberCdo.getName());
             nameValueList.addNameValue("id_token", memberCdo.getId_token());
             if(memberCdo.getEmail().equals("nthpopuptown@gmail.com")){
-                nameValueList.addNameValue("roles", Roles.ADMIN);
+                nameValueList.addNameValue("roles", Roles.ADMIN.getKey());
             } else{
-                nameValueList.addNameValue("roles", Roles.MEMBER);
+                nameValueList.addNameValue("roles", Roles.MEMBER.getKey());
             }
             memberService.modifyMember(communityMember.getId(), nameValueList);
             return communityMember.getId();

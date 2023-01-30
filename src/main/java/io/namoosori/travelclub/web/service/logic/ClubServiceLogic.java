@@ -13,11 +13,20 @@ import java.util.List;
 @Service
 public class ClubServiceLogic implements ClubService {
 	//
-	private ClubStore clubStore;
+	private static ClubStore clubStore;
 
-	public ClubServiceLogic(ClubStore clubStore) {
+	public static ClubServiceLogic clubServiceLogic;
+
+	private ClubServiceLogic(ClubStore clubStore) {
 		//
 		this.clubStore = clubStore;
+	}
+
+	public static ClubServiceLogic getClubServiceLogic(){
+		if (clubServiceLogic == null){
+			clubServiceLogic = new ClubServiceLogic(clubStore);
+		}
+		return clubServiceLogic;
 	}
 
 	@Override

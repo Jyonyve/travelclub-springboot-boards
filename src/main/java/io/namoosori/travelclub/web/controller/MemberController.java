@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(
+        allowCredentials = "true",
+        origins = {"http://localhost:3000", "http://localhost:8080", "https://localhost:3000", "https://localhost:8080"},
+        methods = {RequestMethod.HEAD, RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.PUT, RequestMethod.DELETE},
+        allowedHeaders = {"Origin", "Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization", "Access-Control-Allow-Credentials", "X-AUTH-TOKEN"}
+)
 @RestController
 @RequestMapping("/member")
 public class MemberController {
@@ -41,7 +47,7 @@ public class MemberController {
         return memberService.findMemberByEmail(memberEmail);
     }
 
-    @PreAuthorize("hasRole('ROLE_MEMBER')") //멤버만 볼 수 있음
+    @PreAuthorize("hasRole('ROLE_MEMBER', 'ROLE_ADMIN')")
     @GetMapping("/?name={name}") //url을 작성할 때 ?name=(김은진)로 넣어서 보내줘야 함.
     public List<CommunityMember> findMembersByName(@PathVariable String name){
         return memberService.findMembersByName(name);

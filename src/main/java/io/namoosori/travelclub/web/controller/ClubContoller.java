@@ -12,8 +12,7 @@ import java.util.List;
         allowCredentials = "true",
         origins = {"http://localhost:3000", "http://localhost:8080", "https://localhost:3000", "https://localhost:8080"},
         methods = {RequestMethod.HEAD, RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.PUT},
-        exposedHeaders = {"Access-Control-Allow-Origin","Access-Control-Allow-Credentials"},
-        allowedHeaders = {"Origin", "Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization"}
+        allowedHeaders = {"origin", "Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization", "Access-Control-Allow-Credentials", "X-AUTH-TOKEN"}
 )
 @RestController //spring ioc에 이 클래스를 컨트롤러 빈으로 등록할게. +@ResponseBody 어노테이션을 포함
                 // (@Controller는 JSP view 페이지가 있어야 쓸수있음)

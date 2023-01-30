@@ -20,12 +20,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @CrossOrigin(
         allowCredentials = "true",
         origins = {"http://localhost:3000", "http://localhost:8080", "https://localhost:3000", "https://localhost:8080"},
         methods = {RequestMethod.HEAD, RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.PUT, RequestMethod.DELETE},
-        allowedHeaders = {"Authorization", "origin", "X-AUTH-TOKEN"}
+        allowedHeaders = {"origin", "Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization", "Access-Control-Allow-Credentials", "X-AUTH-TOKEN"}
 )
 @RestController
 @RequestMapping(value = "/login/oauth2", method =  {RequestMethod.POST, RequestMethod.GET})
@@ -61,7 +62,8 @@ public class LoginController {
         GoogleAuthentification googleAuthentification = new GoogleAuthentification();
         Map<String, String > tokensMap = googleAuthentification.responseParser(response);
         String id = googleAuthentification.insertUserInDB(tokensMap);
-        List<String> userRoles = googleAuthentification.getUserRoles(id);
+        List<String> userRoles = googleAuthentification.getUserRoles(id).stream()
+                                .map(roles -> "{ site : "+ roles + "}").collect(Collectors.toList());
 
         // Use the access token for authentication
         res.addHeader("Authorization", "Bearer " + tokensMap.get("id_token"));

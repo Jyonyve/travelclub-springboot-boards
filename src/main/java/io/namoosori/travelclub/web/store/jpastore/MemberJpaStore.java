@@ -9,9 +9,14 @@ import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.google.gson.internal.bind.util.ISO8601Utils.format;
 
 @Repository
 public class MemberJpaStore implements MemberStore {
@@ -25,12 +30,13 @@ public class MemberJpaStore implements MemberStore {
     @Override
     public String create(CommunityMember member) {
         MemberJpo memberJpo = new MemberJpo(member);
+        SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd");
 
         AddressJpo addressJpo = new AddressJpo();
         addressJpo.setMemberJpo(memberJpo);
         memberJpo.setAddressJpo(addressJpo);
-        memberJpo.setNickname("default");
-        memberJpo.setPassword("default");
+        memberJpo.setNickName(member.getName()+Math.round(Math.random()*10000));
+        memberJpo.setBirthday(format.format(Calendar.getInstance().getTime()));
 
         memberRepository.save(memberJpo);
         System.out.println("save Member ID : "+ memberJpo.getId());

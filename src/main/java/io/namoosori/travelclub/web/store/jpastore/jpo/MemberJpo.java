@@ -8,6 +8,7 @@ import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,7 +32,7 @@ public class MemberJpo implements UserDetails {
     private String id;
     private String email;
     private String name;
-    private String nickname;
+    private String nickName;
     private String phoneNumber;
     private String birthday;
     private String password;
@@ -59,13 +60,8 @@ public class MemberJpo implements UserDetails {
         addressJpo.setMemberJpo(this);
     }
     public CommunityMember toDomain(){
-        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber);
-        member.setBirthDay(birthday);
-        member.setNickName(nickname);
-        member.setProvider(provider);
-        member.setId(id);
-        member.setRoles(roles);
-        //member.setAddresses(splitAddress(addresses));
+        CommunityMember member = new CommunityMember(this);
+        member.setId_token("secret");
 
         return member;
     }

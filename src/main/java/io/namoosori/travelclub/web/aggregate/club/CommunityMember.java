@@ -7,6 +7,7 @@ import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import io.namoosori.travelclub.web.util.exception.InvalidEmailException;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class CommunityMember extends Entity{
 	//
 	//private String id;
@@ -26,18 +28,20 @@ public class CommunityMember extends Entity{
 	private Roles roles;
 	private Provider provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
 	private String id_token;
+	private String password;
 
 	public CommunityMember(MemberJpo memberJpo){
 		BeanUtils.copyProperties(memberJpo, this);
 	}
 
-	public CommunityMember (String email, String name, String phoneNumber, Provider provider, String id_token, Roles roles){
+	public CommunityMember (String email, String name, String phoneNumber, Provider provider, String id_token, Roles roles, String password){
 		this.email = email;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.provider = provider;
 		this.id_token = id_token;
 		this.roles = roles;
+		this.password = password;
 	}
 
     public CommunityMember(String email, String name, String phoneNumber) {

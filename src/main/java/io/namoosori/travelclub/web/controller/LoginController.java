@@ -56,7 +56,7 @@ public class LoginController {
         Map<String, String > tokensMap = googleAuthentification.responseParser(response);
         String id = googleAuthentification.insertUserInDB(tokensMap);
         List<String> userRoles = googleAuthentification.getUserRoles(id).stream()
-                                .map(roles -> "{ site : "+ roles + "}").collect(Collectors.toList());
+                                .map(roles -> "{\"site\" : \"" + roles + "\"}").collect(Collectors.toList());
 
         // Use the access token for authentication
         res.addHeader("Authorization", "Bearer " + tokensMap.get("id_token"));

@@ -4,6 +4,7 @@ import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class MemberCdo implements Serializable {
     //
     private String email;
@@ -19,17 +21,18 @@ public class MemberCdo implements Serializable {
     private String phoneNumber;
     private Provider provider;
     private String id_token;
+    private String password;
 
     public MemberCdo(CommunityMember member) {
         BeanUtils.copyProperties(member, this);
     }
 //    private Address addresses;
 
-    @Builder
     public MemberCdo(String name, String email, String phoneNumber) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.password = String.valueOf(Math.round(Math.random()*1000000));
     }
 
     public MemberCdo(String name, String email, String phoneNumber, Provider provider, String id_token) {
@@ -38,5 +41,6 @@ public class MemberCdo implements Serializable {
         this.phoneNumber = phoneNumber;
         this.provider = provider;
         this.id_token = id_token;
+        this.password = String.valueOf(Math.round(Math.random()*1000000));
     }
 }

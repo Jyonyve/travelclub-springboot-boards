@@ -44,7 +44,8 @@ public class MemberServiceLogic implements MemberService {
 				memberCdo.getPhoneNumber(),
 				memberCdo.getProvider(),
 				memberCdo.getId_token(),
-				memberCdo.getEmail().equals("nthpopuptown@gmail.com") ? Roles.ADMIN	: Roles.MEMBER
+				memberCdo.getEmail().equals("nthpopuptown@gmail.com") ? Roles.ADMIN	: Roles.MEMBER,
+				memberCdo.getPassword()
 		);
 		member.checkValidation();
 		memberStore.create(member);

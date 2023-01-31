@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.controller;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -8,7 +9,10 @@ import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpHeaders;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(
         allowCredentials = "true",
@@ -17,7 +21,7 @@ import java.util.List;
         allowedHeaders = {"Origin", "Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization", "Access-Control-Allow-Credentials", "X-AUTH-TOKEN"}
 )
 @RestController
-@RequestMapping("/member")
+@RequestMapping(value = "/member")
 public class MemberController {
 
     private MemberService memberService;
@@ -25,33 +29,40 @@ public class MemberController {
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
-
     @PostMapping
     public String register(@RequestBody MemberCdo memberCdo){
         return memberService.register(memberCdo);
     }
 
     @GetMapping
-    public List<CommunityMember> findAll(){
-        return memberService.findAll();
+    public List<CommunityMember> findAll(@RequestHeader("Authorization") String bearerIdToken){
+        String idTokenFront = bearerIdToken.substring(7);
+        System.out.println("idTokenFront: "+idTokenFront);
+        List<CommunityMember> admins = memberService.findAllByRoles(Roles.ADMIN);
+        admins.forEach(admin -> System.out.println(admin.getIdToken()));
+
+        if(admins.stream().anyMatch(admin -> admin.getIdToken().equals(idTokenFront))){
+            System.out.println("Admin Signed in. Request Member List.");
+            return memberService.findAll();
+        }
+        return null;
     }
 
-    @GetMapping("/{memberId}")
-    public CommunityMember findMemberById(@PathVariable String memberId){
-        return memberService.findMemberById(memberId);
-    }
+//    @GetMapping("/{memberId}")
+//    public CommunityMember findMemberById(@PathVariable String memberId){
+//        return memberService.findMemberById(memberId);
+//    }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')") //관리자만 볼 수 있음.
-    @GetMapping("/?email={memberEmail}") //url을 작성할 때 ?memberEmail=(email)로 넣어서 보내줘야 함.
-    public CommunityMember findMemberByEmail(@RequestParam String memberEmail){
-        return memberService.findMemberByEmail(memberEmail);
-    }
+//    @GetMapping("/?email={memberEmail}") //url을 작성할 때 ?memberEmail=(email)로 넣어서 보내줘야 함.
+//    public CommunityMember findMemberByEmail(@RequestParam String memberEmail){
+//        return memberService.findMemberByEmail(memberEmail);
+//    }
 
-    @PreAuthorize("hasRole('ROLE_MEMBER', 'ROLE_ADMIN')")
-    @GetMapping("/?name={name}") //url을 작성할 때 ?name=(김은진)로 넣어서 보내줘야 함.
-    public List<CommunityMember> findMembersByName(@PathVariable String name){
-        return memberService.findMembersByName(name);
-    }
+//    @PreAuthorize("hasRole('ROLE_MEMBER', 'ROLE_ADMIN')")
+//    @GetMapping("/?name={name}") //url을 작성할 때 ?name=(김은진)로 넣어서 보내줘야 함.
+//    public List<CommunityMember> findMembersByName(@PathVariable String name){
+//        return memberService.findMembersByName(name);
+//    }
 
 //    @PutMapping("/{memberId}")
 //    public void modifyMember(@PathVariable String memberId, @RequestBody NameValueList member){

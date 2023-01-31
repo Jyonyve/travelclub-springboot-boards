@@ -11,6 +11,7 @@ import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberServiceLogic implements MemberService {
@@ -66,6 +67,11 @@ public class MemberServiceLogic implements MemberService {
 	}
 
 	@Override
+	public CommunityMember findMemberByIdToken(String idToken) {
+		return memberStore.retrieveByIdToken(idToken);
+	}
+
+	@Override
 	public List<CommunityMember> findMembersByName(String name) {
 		//
 		return memberStore.retrieveByName(name);
@@ -73,7 +79,14 @@ public class MemberServiceLogic implements MemberService {
 
 	@Override
 	public List<CommunityMember> findAll() {
-		return memberStore.retrieveAll();
+		List<CommunityMember> membersForFront = memberStore.retrieveAll().stream()
+				.map(communityMember -> new CommunityMember(communityMember)).collect(Collectors.toList());
+		return membersForFront;
+	}
+
+	@Override
+	public List<CommunityMember> findAllByRoles(Roles roles) {
+		return memberStore.retrieveAllByRoles(roles);
 	}
 
 	@Override

@@ -19,11 +19,6 @@ import java.util.List;
 @RequestMapping("/club") //이 클래스가 호출하는 모든 메소드의 url 앞에 /club이 들어간다는 뜻.
 public class ClubContoller {
 
-//    @GetMapping("/test") //Get 메소드를 써서 접근할거야. 그리고 접근을 위해 이 url (/test) 을 쓸 거야,
-//    public String test(){
-//        return "Hello Spring MVC!";
-//    }
-
     //사용할 서비스 클래스를 변수에 담아서 선언
     private ClubService clubService;
 

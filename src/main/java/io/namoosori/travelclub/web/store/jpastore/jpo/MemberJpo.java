@@ -7,7 +7,9 @@ import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,7 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "Community_Member")
 @NoArgsConstructor
@@ -40,7 +43,7 @@ public class MemberJpo implements UserDetails {
     private Roles roles;
     private Provider provider;
     @Column(columnDefinition = "TEXT")
-    private String id_token;
+    private String idToken;
 
     public MemberJpo(CommunityMember member){
         BeanUtils.copyProperties(member,this);
@@ -61,8 +64,6 @@ public class MemberJpo implements UserDetails {
     }
     public CommunityMember toDomain(){
         CommunityMember member = new CommunityMember(this);
-        member.setId_token("secret");
-
         return member;
     }
 

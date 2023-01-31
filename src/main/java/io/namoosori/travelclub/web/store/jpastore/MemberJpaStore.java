@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.AddressService;
 import io.namoosori.travelclub.web.store.MemberStore;
 import io.namoosori.travelclub.web.store.jpastore.jpo.AddressJpo;
@@ -69,6 +70,18 @@ public class MemberJpaStore implements MemberStore {
             return null;
         }
         return ((MemberJpo)memberJpo).toDomain() ;
+    }
+
+    @Override
+    public CommunityMember retrieveByIdToken(String idToken) {
+        MemberJpo memberJpo = memberRepository.findByIdToken(idToken);
+        return memberJpo != null ? memberJpo.toDomain() : null;
+    }
+
+    @Override
+    public List<CommunityMember> retrieveAllByRoles(Roles roles) {
+        List<MemberJpo> memberJpos = memberRepository.findAllByRoles(roles);
+        return memberJpos.stream().map(MemberJpo::toDomain).collect(Collectors.toList());
     }
 
     @Override

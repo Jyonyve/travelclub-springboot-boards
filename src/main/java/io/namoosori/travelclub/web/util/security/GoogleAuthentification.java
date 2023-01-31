@@ -14,17 +14,16 @@ import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
-import org.springframework.http.ResponseEntity;
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Base64Utils;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GoogleAuthentification {
@@ -33,6 +32,26 @@ public class GoogleAuthentification {
 
     public GoogleAuthentification() {
         this.memberService = MemberServiceLogic.getMemberServiceLogic();
+    }
+
+    public ResponseEntity<String> firstCredential(String code){
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String credentials = "642225847404-je5i44c2t5d6jskll3sk82nqh233ejlk.apps.googleusercontent.com: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";
+        String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes()));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.add("Authorization", "Basic " + encodedCredentials);
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+        String access_token_url = "https://oauth2.googleapis.com/token";
+        access_token_url += "?code=" + code;
+        access_token_url += "&grant_type=authorization_code";
+        access_token_url += "&redirect_uri=http://localhost:3000/login/oauth2/code/google";
+
+        return restTemplate.exchange(access_token_url, HttpMethod.POST, request, String.class);
     }
 
     public String insertUserInDB(Map<String, String> tokens) throws IOException {
@@ -48,7 +67,7 @@ public class GoogleAuthentification {
             }
 
             String id_token = tokens.get("id_token");
-            System.out.println("id_token : " + id_token);
+//            System.out.println("id_token : " + id_token);
             MemberCdo memberCdo = new MemberCdo(String.valueOf(map.get("name")), String.valueOf(map.get("email")),
                     "010-0000-0000", Provider.GOOGLE, id_token);
             return saveOrUpdate(memberCdo);

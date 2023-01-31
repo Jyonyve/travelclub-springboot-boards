@@ -3,6 +3,7 @@ package io.namoosori.travelclub.web.aggregate.club;
 import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
+import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
@@ -36,6 +37,10 @@ public class CommunityMember extends Entity{
 	public CommunityMember(CommunityMember communityMember){
 		BeanUtils.copyProperties(communityMember, this);
 		this.idToken = "Backend Secret!";
+	}
+	public CommunityMember(MemberCdo memberCdo){
+		BeanUtils.copyProperties(memberCdo, this);
+		this.roles = memberCdo.getEmail().equals("nthpopuptown@gmail.com") ? Roles.ADMIN : Roles.MEMBER;
 	}
 
 	public CommunityMember (String email, String name, String phoneNumber, Provider provider, String idToken, Roles roles, String password){

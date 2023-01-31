@@ -3,6 +3,7 @@ package io.namoosori.travelclub.web.controller;
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.MemberService;
+import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
@@ -25,9 +26,8 @@ import java.util.Map;
 public class MemberController {
 
     private MemberService memberService;
-
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
+    public MemberController() {
+        this.memberService = MemberServiceLogic.getMemberServiceLogic();
     }
     @PostMapping
     public String register(@RequestBody MemberCdo memberCdo){
@@ -37,9 +37,7 @@ public class MemberController {
     @GetMapping
     public List<CommunityMember> findAll(@RequestHeader("Authorization") String bearerIdToken){
         String idTokenFront = bearerIdToken.substring(7);
-        System.out.println("idTokenFront: "+idTokenFront);
         List<CommunityMember> admins = memberService.findAllByRoles(Roles.ADMIN);
-        admins.forEach(admin -> System.out.println(admin.getIdToken()));
 
         if(admins.stream().anyMatch(admin -> admin.getIdToken().equals(idTokenFront))){
             System.out.println("Admin Signed in. Request Member List.");

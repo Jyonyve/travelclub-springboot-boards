@@ -28,31 +28,15 @@ public class LoginController {
 
     @GetMapping("/code/google")
     public List<String> googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
+        //methods for google oauth2 login
+        GoogleAuthentification googleAuthentification = new GoogleAuthentification();
 
+        //get first credential
         ResponseEntity<String> response = null;
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        String credentials = "642225847404-je5i44c2t5d6jskll3sk82nqh233ejlk.apps.googleusercontent.com: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";
-        String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes()));
-        System.out.println(encodedCredentials);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.add("Authorization", "Basic " + encodedCredentials);
-
-        HttpEntity<String> request = new HttpEntity<>(headers);
-        String access_token_url = "https://oauth2.googleapis.com/token";
-        access_token_url += "?code=" + code;
-        access_token_url += "&grant_type=authorization_code";
-        access_token_url += "&redirect_uri=http://localhost:3000/login/oauth2/code/google";
-
-        //sending token url(post) and getting tokens
-        response = restTemplate.exchange(access_token_url, HttpMethod.POST, request, String.class);
-        System.out.println("response.getBody()  "+response.getBody());
+        response = googleAuthentification.firstCredential(code);
+//        System.out.println("response.getBody()  "+response.getBody()); //가져온 모든 유저 정보 볼수있음
 
         // Parsing tokens from Google API server, and set info to DB
-        GoogleAuthentification googleAuthentification = new GoogleAuthentification();
         Map<String, String > tokensMap = googleAuthentification.responseParser(response);
         String id = googleAuthentification.insertUserInDB(tokensMap);
         List<String> userRoles = googleAuthentification.getUserRoles(id).stream()
@@ -60,7 +44,6 @@ public class LoginController {
 
         // Use the access token for authentication
         res.addHeader("Authorization", "Bearer " + tokensMap.get("id_token"));
-        System.out.println(userRoles + ", " + res.getHeader("Authorization"));
         return userRoles;
     }
 }

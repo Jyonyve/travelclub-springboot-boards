@@ -34,23 +34,13 @@ public class MemberServiceLogic implements MemberService {
 	@Override
 	public String register(MemberCdo memberCdo) {
 		//
-		String email = memberCdo.getEmail();
-		CommunityMember memberchk = memberStore.retrieveByEmail(email);
+		CommunityMember memberchk = memberStore.retrieveByEmail(memberCdo.getEmail());
 		if (memberchk != null) {
 			throw new MemberDuplicationException("Member already exists with email: " + memberchk.getEmail());
 		}
-		CommunityMember member = new CommunityMember(
-				memberCdo.getEmail(),
-				memberCdo.getName(),
-				memberCdo.getPhoneNumber(),
-				memberCdo.getProvider(),
-				memberCdo.getId_token(),
-				memberCdo.getEmail().equals("nthpopuptown@gmail.com") ? Roles.ADMIN	: Roles.MEMBER,
-				memberCdo.getPassword()
-		);
+		CommunityMember member = new CommunityMember(memberCdo);
 		member.checkValidation();
 		memberStore.create(member);
-		System.out.println("ServiceMemberId"+ member.getId());
 		return member.getId();
 	}
 

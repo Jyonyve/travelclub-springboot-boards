@@ -29,12 +29,12 @@ public class LoginController {
     @GetMapping("/code/google")
     public List<String> googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
         //methods for google oauth2 login
-        GoogleAuthentification googleAuthentification = new GoogleAuthentification();
+        GoogleAuthentification googleAuthentification = GoogleAuthentification.getGoogleAuthentification();
 
         //get first credential
         ResponseEntity<String> response = null;
         response = googleAuthentification.firstCredential(code);
-//        System.out.println("response.getBody()  "+response.getBody()); //가져온 모든 유저 정보 볼수있음
+        System.out.println("response.getBody()  "+response.getBody()); //가져온 모든 유저 정보 볼수있음
 
         // Parsing tokens from Google API server, and set info to DB
         Map<String, String > tokensMap = googleAuthentification.responseParser(response);

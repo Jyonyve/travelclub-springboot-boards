@@ -17,7 +17,6 @@ public class TravelClub extends Entity {
 
 	private String name;
 	private String intro;
-	//private String reactId;
 	private long foundationTime;
 
 	public TravelClub(String id) {

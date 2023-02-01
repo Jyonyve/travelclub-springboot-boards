@@ -7,6 +7,7 @@ import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
+import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +27,10 @@ import java.util.Map;
 public class MemberController {
 
     private MemberService memberService;
+    private GoogleAuthentification googleAuthentification;
     public MemberController() {
         this.memberService = MemberServiceLogic.getMemberServiceLogic();
+        this.googleAuthentification = GoogleAuthentification.getGoogleAuthentification();
     }
     @PostMapping
     public String register(@RequestBody MemberCdo memberCdo){
@@ -37,9 +40,11 @@ public class MemberController {
     @GetMapping
     public List<CommunityMember> findAll(@RequestHeader("Authorization") String bearerIdToken){
         String idTokenFront = bearerIdToken.substring(7);
+        Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idTokenFront);
+
         List<CommunityMember> admins = memberService.findAllByRoles(Roles.ADMIN);
 
-        if(admins.stream().anyMatch(admin -> admin.getIdToken().equals(idTokenFront))){
+        if(admins.stream().anyMatch(admin -> admin.getEmail().equals((String.valueOf(payload.get("email")))))){
             System.out.println("Admin Signed in. Request Member List.");
             return memberService.findAll();
         }

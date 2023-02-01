@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
+import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.store.BoardStore;
 import io.namoosori.travelclub.web.store.jpastore.jpo.SocialBoardJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.BoardRepository;
@@ -33,6 +34,15 @@ public class BoardJpaStore implements BoardStore {
             throw new NoSuchBoardException("No Board is found"+boardId);
         }
         return socialBoardJpo.get().toDomain();
+    }
+
+    @Override
+    public SocialBoard retrieveByClubIdAndBoardKind(String clubId, BoardKind boardKind) {
+        SocialBoardJpo socialBoardJpo = boardRepository.findByTravelClubJpo_IdAndBoardKind(clubId, boardKind);
+        if(socialBoardJpo == null){
+            throw new NoSuchBoardException("No Board is found");
+        }
+        return null;
     }
 
     @Override

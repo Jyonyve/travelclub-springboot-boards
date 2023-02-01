@@ -29,10 +29,19 @@ import java.util.stream.Collectors;
 public class GoogleAuthentification {
 
     private MemberService memberService;
+    private static GoogleAuthentification googleAuthentification;
 
-    public GoogleAuthentification() {
+    private GoogleAuthentification() {
         this.memberService = MemberServiceLogic.getMemberServiceLogic();
     }
+
+    public static GoogleAuthentification getGoogleAuthentification(){
+        if (googleAuthentification == null){
+            googleAuthentification = new GoogleAuthentification();
+        }
+        return googleAuthentification;
+    }
+
 
     public ResponseEntity<String> firstCredential(String code){
 
@@ -54,20 +63,22 @@ public class GoogleAuthentification {
         return restTemplate.exchange(access_token_url, HttpMethod.POST, request, String.class);
     }
 
+    public Map<String, Object> JWTTokenDecoder(String idToken){
+        DecodedJWT decodedJWT = JWT.decode(idToken);
+        String payload = new String(Base64Utils.decode(decodedJWT.getPayload().getBytes(StandardCharsets.UTF_8)));
+
+        Gson gson = new Gson();
+        Map<String, Object> map = gson.fromJson(payload, Map.class);
+//            for(Map.Entry<String, Object> entry : map.entrySet()){
+//                System.out.println(entry.getKey() + "=" + entry.getValue());
+//            }
+        return map;
+    }
+
     public String insertUserInDB(Map<String, String> tokens) throws IOException {
-
         try {
-            DecodedJWT decodedJWT = JWT.decode(tokens.get("id_token"));
-            String payload = new String(Base64Utils.decode(decodedJWT.getPayload().getBytes(StandardCharsets.UTF_8)));
-
-            Gson gson = new Gson();
-            Map<String, Object> map = gson.fromJson(payload, Map.class);
-            for(Map.Entry<String, Object> entry : map.entrySet()){
-                System.out.println(entry.getKey() + "=" + entry.getValue());
-            }
-
             String id_token = tokens.get("id_token");
-//            System.out.println("id_token : " + id_token);
+            Map<String, Object> map = JWTTokenDecoder(id_token);
             MemberCdo memberCdo = new MemberCdo(String.valueOf(map.get("name")), String.valueOf(map.get("email")),
                     "010-0000-0000", Provider.GOOGLE, id_token);
             return saveOrUpdate(memberCdo);
@@ -86,7 +97,7 @@ public class GoogleAuthentification {
         }else {
             NameValueList nameValueList = new NameValueList();
             nameValueList.addNameValue("name", memberCdo.getName());
-            nameValueList.addNameValue("id_token", memberCdo.getId_token());
+            nameValueList.addNameValue("idToken", memberCdo.getIdToken());
             if(memberCdo.getEmail().equals("nthpopuptown@gmail.com")){
                 nameValueList.addNameValue("roles", Roles.ADMIN.getKey());
             } else{

@@ -20,7 +20,7 @@ public class MemberCdo implements Serializable {
     //private String nickName;
     private String phoneNumber;
     private Provider provider;
-    private String id_token;
+    private String idToken;
     private String password;
 
     public MemberCdo(CommunityMember member) {
@@ -35,12 +35,12 @@ public class MemberCdo implements Serializable {
         this.password = String.valueOf(Math.round(Math.random()*1000000));
     }
 
-    public MemberCdo(String name, String email, String phoneNumber, Provider provider, String id_token) {
+    public MemberCdo(String name, String email, String phoneNumber, Provider provider, String idToken) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.provider = provider;
-        this.id_token = id_token;
+        this.idToken = idToken;
         this.password = String.valueOf(Math.round(Math.random()*1000000));
     }
 }

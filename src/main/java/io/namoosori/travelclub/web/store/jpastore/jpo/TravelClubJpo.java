@@ -21,8 +21,8 @@ public class TravelClubJpo {
     private String name;
     private String intro;
     private long foundationTime;
-    @OneToOne(mappedBy = "travelClubJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private SocialBoardJpo socialBoardJpo;
+    @OneToMany(mappedBy = "travelClubJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SocialBoardJpo> socialBoardJpos = new ArrayList<>();
     @OneToMany(mappedBy = "travelClubJpo")
     private List<MembershipJpo> membershipJpos = new ArrayList<>();
 

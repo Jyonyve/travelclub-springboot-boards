@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.controller;
 
 import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
+import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.service.BoardService;
 import io.namoosori.travelclub.web.service.sdo.SocialBoardCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -24,18 +25,18 @@ public class BoardController {
         return boardService.registerBoard(boardCdo);
     }
 
-    @GetMapping("/{id}")
-    public SocialBoard findBoardById(@PathVariable String id){
-        return boardService.findBoardById(id);
+//    @GetMapping("/{id}")
+//    public SocialBoard findBoardById(@PathVariable String id){
+//        return boardService.findBoardById(id);
+//    }
+
+    @GetMapping("/{clubId}/{boardKind}")
+    public SocialBoard findByClubIdAndBoardKind(@PathVariable("clubId") String clubId, @PathVariable("boardKind") BoardKind boardKind){
+        return boardService.findByClubIdAndBoardKind(clubId, boardKind);
     }
 
-    @GetMapping("/all/{name}")
-    public List<SocialBoard> findBoardsByName(@PathVariable String name){
-        return boardService.findBoardsByName(name);
-    }
-
-    @GetMapping("/all")
-    public List<SocialBoard> findAll(){
+    @GetMapping("/{clubId}")
+    public List<SocialBoard> findAll(@PathVariable String clubId){
         return boardService.findAll();
     }
 

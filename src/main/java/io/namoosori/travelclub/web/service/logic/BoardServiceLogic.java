@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.service.logic;
 
 import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
+import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.aggregate.club.TravelClub;
 import io.namoosori.travelclub.web.service.BoardService;
 import io.namoosori.travelclub.web.service.sdo.SocialBoardCdo;
@@ -30,14 +31,23 @@ public class BoardServiceLogic implements BoardService {
     @Override
     public String registerBoard(@NotNull SocialBoardCdo boardCdo) {
 
-        SocialBoard board = new SocialBoard(boardCdo.getClubId(),boardCdo.getName(),boardCdo.getAdminEmail());
+        SocialBoard board = new SocialBoard(boardCdo.getClubId(),boardCdo.getName(),boardCdo.getBoardKind());
         return boardStore.create(board);
 
     }
 
     @Override
-    public SocialBoard findBoardById(String id) {
+    public SocialBoard findById(String id) {
         SocialBoard board = boardStore.retrieve(id);
+        if(board == null){
+            throw new NoSuchBoardException("No such board in storage");
+        }
+        return board;
+    }
+
+    @Override
+    public SocialBoard findByClubIdAndBoardKind(String clubId, BoardKind boardKind) {
+        SocialBoard board = boardStore.retrieveByClubIdAndBoardKind(clubId, boardKind );
         if(board == null){
             throw new NoSuchBoardException("No such board in storage");
         }
@@ -70,7 +80,7 @@ public class BoardServiceLogic implements BoardService {
         List<TravelClub> clubs = clubStore.retrieveByName(clubName);
 
         List<SocialBoard> boards = clubs.stream().map(TravelClub::getId).collect(Collectors.toList())
-                                        .stream().map(id -> findBoardById(id)).collect(Collectors.toList());
+                                        .stream().map(id -> findById(id)).collect(Collectors.toList());
 
 
         return boards;

@@ -1,5 +1,7 @@
 package io.namoosori.travelclub.web.store.jpastore;
 
+import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
+import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.aggregate.club.TravelClub;
 import io.namoosori.travelclub.web.store.ClubStore;
 import io.namoosori.travelclub.web.store.jpastore.jpo.SocialBoardJpo;
@@ -7,6 +9,7 @@ import io.namoosori.travelclub.web.store.jpastore.jpo.TravelClubJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.ClubRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,11 +27,21 @@ public class ClubJpaStore implements ClubStore {
     @Override
     public String create(TravelClub club) {
         TravelClubJpo travelClubJpo = new TravelClubJpo(club);
+        List<SocialBoardJpo> socialBoardJpos = new ArrayList<>();
 
-        SocialBoardJpo socialBoardJpo = new SocialBoardJpo();
+        //auto-generated 3 boards
+        SocialBoardJpo noticeBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"Notice Board", BoardKind.NOTICEBOARD));
+            noticeBoardJpo.setTravelClubJpo(travelClubJpo);
+        SocialBoardJpo socialBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"Social Board", BoardKind.SOCIALBOARD));
         socialBoardJpo.setTravelClubJpo(travelClubJpo);
+        SocialBoardJpo qnaBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"QnA Board", BoardKind.QNABOARD));
+            qnaBoardJpo.setTravelClubJpo((travelClubJpo));
 
-        travelClubJpo.setSocialBoardJpo(socialBoardJpo);
+        socialBoardJpos.add(socialBoardJpo);
+        socialBoardJpos.add(noticeBoardJpo);
+        socialBoardJpos.add(qnaBoardJpo);
+
+        travelClubJpo.setSocialBoardJpos(socialBoardJpos);
 
         clubRepository.save(travelClubJpo);
         return club.getId();

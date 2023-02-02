@@ -5,8 +5,9 @@ import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.service.BoardService;
 import io.namoosori.travelclub.web.service.PostingService;
+import io.namoosori.travelclub.web.service.logic.BoardServiceLogic;
 import io.namoosori.travelclub.web.service.logic.PostingServiceLogic;
-import io.namoosori.travelclub.web.service.sdo.SocialBoardCdo;
+import io.namoosori.travelclub.web.service.sdo.PostingCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,18 +17,22 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/board")
-public class BoardController {
+public class BoardAndPostingController {
 
     private BoardService boardService;
+    private PostingService postingService;
 
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
+    public BoardAndPostingController() {
+        this.boardService = BoardServiceLogic.getBoardServiceLogic();
+        this.postingService = PostingServiceLogic.getPostingServiceLogic();
     }
 
-
-    @PostMapping
-    public String register(@RequestBody SocialBoardCdo boardCdo){
-        return boardService.registerBoard(boardCdo);
+    //All board is automatically generated : cannot make new board by user.
+    // ~/board/boardId @PostMapping goes to insert new posting.
+    @PostMapping("/{clubId}/{boardKind}")
+    public String registerNewPosting(@PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind, @RequestBody PostingCdo postingCdo){
+        String boardId = clubId+"/"+boardKind;
+        return postingService.register(boardId, postingCdo);
     }
 
 //    @GetMapping("/{id}")
@@ -37,7 +42,7 @@ public class BoardController {
 
     @GetMapping("/{clubId}/{boardKind}")
     public Map<String, Object> findByClubIdAndBoardKind(@PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind){
-        System.out.println("clubId , boardKindNumber : " + clubId + ", " +BoardKind.valueOf(boardKind));
+        System.out.println("clubId , boardKind : " + clubId + ", " +BoardKind.valueOf(boardKind));
         Map<String, Object> boardInfoAndPostingList = new HashMap<>();
         SocialBoard oneBoardInfo = boardService.findByClubIdAndBoardKind(clubId, BoardKind.valueOf(boardKind));
         List<Posting> postings = PostingServiceLogic.getPostingServiceLogic().findByBoardId(oneBoardInfo.getId());

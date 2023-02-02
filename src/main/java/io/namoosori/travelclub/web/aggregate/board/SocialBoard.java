@@ -15,16 +15,17 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SocialBoard extends Entity {
+public class SocialBoard  {
 
     private String clubId;
     private String name;
     private String createDate;
     private BoardKind boardKind;
+    private String id;
 
 
     public SocialBoard(String clubId, String name, BoardKind boardKind) {
-        super();
+        this.id = clubId+"/"+boardKind.name();
         this.clubId = clubId;
         this.name = name;
         this.boardKind = boardKind;

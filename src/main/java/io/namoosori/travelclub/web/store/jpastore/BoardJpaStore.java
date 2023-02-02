@@ -42,7 +42,7 @@ public class BoardJpaStore implements BoardStore {
         if(socialBoardJpo == null){
             throw new NoSuchBoardException("No Board is found");
         }
-        return null;
+        return socialBoardJpo.toDomain();
     }
 
     @Override

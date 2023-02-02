@@ -19,14 +19,20 @@ import java.util.stream.Collectors;
 @Service
 public class BoardServiceLogic implements BoardService {
 
-    private BoardStore boardStore;
-    private ClubStore clubStore;
-
-    public BoardServiceLogic(BoardStore boardStore, ClubStore clubStore){
+    private static BoardStore boardStore;
+    private static ClubStore clubStore;
+    private static BoardService boardServiceLogic;
+    private BoardServiceLogic (BoardStore boardStore, ClubStore clubStore){
+        this.boardStore =boardStore;
         this.clubStore = clubStore;
-        this.boardStore = boardStore;
     }
 
+    public static BoardService getBoardServiceLogic(){
+        if (boardServiceLogic == null){
+            boardServiceLogic = new BoardServiceLogic(boardStore, clubStore);
+        }
+        return boardServiceLogic;
+    }
 
     @Override
     public String registerBoard(@NotNull SocialBoardCdo boardCdo) {
@@ -47,7 +53,7 @@ public class BoardServiceLogic implements BoardService {
 
     @Override
     public SocialBoard findByClubIdAndBoardKind(String clubId, BoardKind boardKind) {
-        SocialBoard board = boardStore.retrieveByClubIdAndBoardKind(clubId, boardKind );
+        SocialBoard board = boardStore.retrieveByClubIdAndBoardKind(clubId, boardKind);
         if(board == null){
             throw new NoSuchBoardException("No such board in storage");
         }

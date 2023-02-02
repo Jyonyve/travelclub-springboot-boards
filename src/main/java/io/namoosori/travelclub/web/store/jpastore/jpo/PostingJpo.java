@@ -20,10 +20,10 @@ public class PostingJpo {
     private String id;
     private String title;
     private String writerEmail;
+    @Column(columnDefinition = "TEXT")
     private String contents;
     private String writtenDate;
     private int readCount;
-    //private String boardId;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "boardId")
     private SocialBoardJpo socialBoardJpo;

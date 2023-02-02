@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.service.logic;
 
 import io.namoosori.travelclub.web.aggregate.board.Posting;
+import io.namoosori.travelclub.web.service.BoardService;
 import io.namoosori.travelclub.web.service.PostingService;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -17,14 +18,22 @@ import java.util.List;
 @Service
 public class PostingServiceLogic implements PostingService {
 
-    private PostingStore postingStore;
-    private BoardStore boardStore;
-    private MembershipStore membershipStore;
+    private static PostingStore postingStore;
+    private static BoardStore boardStore;
+    private static MembershipStore membershipStore;
+    private static PostingServiceLogic postingServiceLogic;
 
-    public PostingServiceLogic(PostingStore postingStore, BoardStore boardStore, MembershipStore membershipStore) {
+    private PostingServiceLogic(PostingStore postingStore, BoardStore boardStore, MembershipStore membershipStore) {
         this.postingStore = postingStore;
         this.boardStore = boardStore;
         this.membershipStore = membershipStore;
+    }
+
+    public static PostingService getPostingServiceLogic(){
+        if (postingServiceLogic == null){
+            postingServiceLogic = new PostingServiceLogic(postingStore, boardStore, membershipStore);
+        }
+        return postingServiceLogic;
     }
 
     @Override

@@ -5,11 +5,13 @@ import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
+import io.namoosori.travelclub.web.store.jpastore.jpo.SocialBoardJpo;
 import io.namoosori.travelclub.web.util.helper.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.BeanUtils;
 
 @Getter
 @Setter
@@ -30,6 +32,10 @@ public class SocialBoard  {
         this.name = name;
         this.boardKind = boardKind;
         this.createDate = DateUtil.today();
+    }
+
+    public SocialBoard(SocialBoardJpo socialBoardJpo){
+        BeanUtils.copyProperties(socialBoardJpo, this);
     }
 
 

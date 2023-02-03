@@ -18,13 +18,16 @@ public class PostingJpaStore implements PostingStore {
     private PostingRepository postingRepository;
     private BoardRepository boardRepository;
 
-    public PostingJpaStore(PostingRepository postingRepository) {
+    public PostingJpaStore(PostingRepository postingRepository, BoardRepository boardRepository) {
         this.postingRepository = postingRepository;
+        this.boardRepository = boardRepository;
     }
 
     @Override
     public String create(Posting posting) {
-        postingRepository.save(new PostingJpo(posting));
+        PostingJpo postingJpo = new PostingJpo(posting);
+        postingJpo.setSocialBoardJpo(boardRepository.findById(posting.getBoardId()).get());
+        postingRepository.save(postingJpo);
         return posting.getId();
     }
 

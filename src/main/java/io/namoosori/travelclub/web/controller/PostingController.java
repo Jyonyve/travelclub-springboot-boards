@@ -19,8 +19,8 @@ public class PostingController {
 
 
     @PostMapping("/{boardId}")
-    public String register(@PathVariable String boardId, @RequestBody PostingCdo postingDto){
-        return postingService.register(boardId, postingDto);
+    public String register(@PathVariable String boardId, @RequestBody PostingCdo postingCdo){
+        return postingService.register(boardId, postingCdo);
     }
 
     @GetMapping("/{postingId}")

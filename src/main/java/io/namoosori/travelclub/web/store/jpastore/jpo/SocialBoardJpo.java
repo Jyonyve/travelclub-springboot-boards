@@ -2,6 +2,7 @@ package io.namoosori.travelclub.web.store.jpastore.jpo;
 
 import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
+import io.namoosori.travelclub.web.service.logic.ClubServiceLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class SocialBoardJpo {
     private String name;
     private String createDate;
     private BoardKind boardKind;
-    @OneToMany(mappedBy = "socialBoardJpo")
+    @OneToMany(mappedBy = "socialBoardJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PostingJpo> postingJpos = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clubId")
@@ -35,9 +36,8 @@ public class SocialBoardJpo {
     }
 
     public SocialBoard toDomain(){
-        SocialBoard socialBoard = new SocialBoard(travelClubJpo.getId(), name, boardKind);
-        socialBoard.setCreateDate(createDate);
-
+        SocialBoard socialBoard = new SocialBoard(this);
+        socialBoard.setClubId(this.travelClubJpo.getId());
         return socialBoard;
     }
 

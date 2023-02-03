@@ -1,6 +1,8 @@
 package io.namoosori.travelclub.web.store.jpastore.jpo;
 
 import io.namoosori.travelclub.web.aggregate.board.Posting;
+import io.namoosori.travelclub.web.service.BoardService;
+import io.namoosori.travelclub.web.service.logic.BoardServiceLogic;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -10,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @Table(name = "Posting")
 @Entity
+@NoArgsConstructor
 public class PostingJpo {
 
     @Id
@@ -27,7 +29,7 @@ public class PostingJpo {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "boardId")
     private SocialBoardJpo socialBoardJpo;
-    @OneToMany(mappedBy = "postingJpo")
+    @OneToMany(mappedBy = "postingJpo",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CommentsJpo> commentsJpos = new ArrayList<>();
 
     public PostingJpo(Posting posting) {
@@ -35,11 +37,8 @@ public class PostingJpo {
     }
 
     public Posting toDomain(){
-        Posting posting = new Posting(title, writerEmail, contents, socialBoardJpo.getId());
-        posting.setReadCount(readCount);
-        posting.setWrittenDate(writtenDate);
-        posting.setId(id);
-
+        Posting posting = new Posting(this);
+        posting.setBoardId(this.socialBoardJpo.getId());
         return posting;
 
     }

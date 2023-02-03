@@ -1,11 +1,14 @@
 package io.namoosori.travelclub.web.service.logic;
 
 import io.namoosori.travelclub.web.aggregate.board.Posting;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.BoardService;
+import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.PostingService;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.BoardStore;
+import io.namoosori.travelclub.web.store.MemberStore;
 import io.namoosori.travelclub.web.store.MembershipStore;
 import io.namoosori.travelclub.web.store.PostingStore;
 import io.namoosori.travelclub.web.util.exception.NoSuchBoardException;
@@ -21,12 +24,14 @@ public class PostingServiceLogic implements PostingService {
     private static PostingStore postingStore;
     private static BoardStore boardStore;
     private static MembershipStore membershipStore;
-    private static PostingServiceLogic postingServiceLogic;
+    private static PostingService postingServiceLogic;
+    private static MemberService memberService;
 
     private PostingServiceLogic(PostingStore postingStore, BoardStore boardStore, MembershipStore membershipStore) {
         this.postingStore = postingStore;
         this.boardStore = boardStore;
         this.membershipStore = membershipStore;
+        this.memberService = MemberServiceLogic.getMemberServiceLogic();
     }
 
     public static PostingService getPostingServiceLogic(){
@@ -38,18 +43,17 @@ public class PostingServiceLogic implements PostingService {
 
     @Override
     public String register(String boardId, PostingCdo postingCdo) {
+        Posting posting = null;
+
         if(boardStore.retrieve(boardId) == null){
             throw new NoSuchBoardException("there are no board with id: "+boardId);
         }
-        if(membershipStore.retrieveByEmail(postingCdo.getWriterEmail()).isEmpty()){
+        if(memberService.findAllByRoles(Roles.ADMIN).stream().anyMatch(admin -> admin.getEmail().equals(postingCdo.getWriterEmail()))){
+            posting = new Posting(boardId,postingCdo);
+            //운영자일 경우 가입없이도 포스팅 가능
+        } else if(membershipStore.retrieveByEmail(postingCdo.getWriterEmail()).isEmpty()){
             throw new NoSuchMembershipException("no such member in this club");
         }
-
-        Posting posting = new Posting(postingCdo.getTitle(),
-                                    postingCdo.getWriterEmail(),
-                                    postingCdo.getContents(),
-                                    boardId);
-
         return postingStore.create(posting);
     }
 

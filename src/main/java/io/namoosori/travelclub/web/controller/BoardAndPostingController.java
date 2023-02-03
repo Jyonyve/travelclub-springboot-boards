@@ -9,6 +9,7 @@ import io.namoosori.travelclub.web.service.logic.BoardServiceLogic;
 import io.namoosori.travelclub.web.service.logic.PostingServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
+import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -21,17 +22,25 @@ public class BoardAndPostingController {
 
     private BoardService boardService;
     private PostingService postingService;
+    private GoogleAuthentification googleAuthentification;
 
     public BoardAndPostingController() {
         this.boardService = BoardServiceLogic.getBoardServiceLogic();
         this.postingService = PostingServiceLogic.getPostingServiceLogic();
+        googleAuthentification = GoogleAuthentification.getGoogleAuthentification();
     }
 
     //All board is automatically generated : cannot make new board by user.
     // ~/board/boardId @PostMapping goes to insert new posting.
     @PostMapping("/{clubId}/{boardKind}")
-    public String registerNewPosting(@PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind, @RequestBody PostingCdo postingCdo){
+    public String registerNewPosting(@PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind,
+                                     @RequestBody PostingCdo postingCdo, @RequestHeader("Authorization") String idToken){
+        idToken = idToken.substring(7);
+        Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idToken);
+        String email = String.valueOf(payload.get("email"));
         String boardId = clubId+"/"+boardKind;
+
+        postingCdo.setWriterEmail(email);
         return postingService.register(boardId, postingCdo);
     }
 

@@ -67,12 +67,8 @@ public class PostingServiceLogic implements PostingService {
     }
 
     @Override
-    public void modify(String postingId, NameValueList nameValueList) {
-        Posting posting = postingStore.retrieve(postingId);
-        if(posting == null){
-            throw new NoSuchPostingException("No such posting with id: "+postingId);
-        }
-        posting.modifyValues(nameValueList);
+    public void modify(String postingId, Posting posting) {
+
         postingStore.update(posting);
 
     }

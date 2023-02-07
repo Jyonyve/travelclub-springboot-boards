@@ -41,15 +41,20 @@ public class BoardAndPostingController {
         googleAuthentification = GoogleAuthentification.getGoogleAuthentification();
     }
 
+//    No CRUD for Boards : automatically generated and no modifying, deleting
+
+
+
+
     //All board is automatically generated : cannot make new board by user.
     // ~/board/boardId @PostMapping goes to insert new posting.
     @PostMapping("/{clubId}/{boardKind}")
     public String registerNewPosting(@PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind,
-                                     @RequestBody PostingCdo postingCdo, @RequestHeader("Authorization") String idToken){
+                                     @RequestBody PostingCdo postingCdo, @RequestHeader("Authorization") String idToken) {
         idToken = idToken.substring(7);
         Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idToken);
         String email = String.valueOf(payload.get("email"));
-        String boardId = clubId+"/"+boardKind;
+        String boardId = clubId + "/" + boardKind;
 
         postingCdo.setWriterEmail(email);
         return postingService.register(boardId, postingCdo);
@@ -57,8 +62,8 @@ public class BoardAndPostingController {
 
     //same as /{boardId}
     @GetMapping("/{clubId}/{boardKind}")
-    public Map<String, Object> findByClubIdAndBoardKind(@PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind){
-        System.out.println("clubId , boardKind : " + clubId + ", " +BoardKind.valueOf(boardKind));
+    public Map<String, Object> findByClubIdAndBoardKind(@PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind) {
+        System.out.println("clubId , boardKind : " + clubId + ", " + BoardKind.valueOf(boardKind));
         Map<String, Object> boardInfoAndPostingList = new HashMap<>();
         SocialBoard oneBoardInfo = boardService.findByClubIdAndBoardKind(clubId, BoardKind.valueOf(boardKind));
         List<Posting> postings = PostingServiceLogic.getPostingServiceLogic().findByBoardId(oneBoardInfo.getId());
@@ -67,16 +72,17 @@ public class BoardAndPostingController {
         return boardInfoAndPostingList;
     }
 
-//    @GetMapping("/{clubId}")
+    //    @GetMapping("/{clubId}")
 //    public List<SocialBoard> findAll(@PathVariable String clubId){
 //        return boardService.findAll();
 //    }
+    @PutMapping("/{postingId}")
+    public void modify(@PathVariable String postingId, @RequestBody Posting posting) {
+        postingService.modify(postingId, posting);
+    }
 
-
-
-
-    @DeleteMapping("/{boardId}")
-    public void remove(@PathVariable String boardId){
-        boardService.remove(boardId);
+    @DeleteMapping("/{postingId}")
+    public void remove(@PathVariable String postingId) {
+        postingService.remove(postingId);
     }
 }

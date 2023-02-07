@@ -60,8 +60,14 @@ public class PostingController {
 
     @PutMapping("/{postingId}/{commentNumber}")
     public void modify(@PathVariable String postingId, @PathVariable int commentNumber, @RequestBody Comment comment){
-        commentService.modify(postingId+commentNumber, comment);
+        commentService.modify(postingId+"/"+commentNumber, comment);
     }
+
+    @DeleteMapping("/{postingId}/{commentNumber}")
+    void remove(@PathVariable String postingId, @PathVariable int commentNumber){
+        commentService.remove(postingId+"/"+commentNumber);
+    }
+
 
 //
 //    @PutMapping("/{postingId}")
@@ -69,8 +75,5 @@ public class PostingController {
 //        postingService.modify(postingId, nameValueList);
 //    }
 //
-//    @DeleteMapping("/{postingId}")
-//    void remove(String postingId){
-//        postingService.remove(postingId);
-//    }
+
 }

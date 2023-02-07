@@ -29,6 +29,8 @@ public class ClubJpaStore implements ClubStore {
         TravelClubJpo travelClubJpo = new TravelClubJpo(club);
         List<SocialBoardJpo> socialBoardJpos = new ArrayList<>();
 
+        clubRepository.save(travelClubJpo);
+
         //auto-generated 3 boards
         SocialBoardJpo noticeBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"Notice Board", BoardKind.NOTICEBOARD));
             noticeBoardJpo.setTravelClubJpo(travelClubJpo);
@@ -43,7 +45,7 @@ public class ClubJpaStore implements ClubStore {
 
         travelClubJpo.setSocialBoardJpos(socialBoardJpos);
 
-        clubRepository.save(travelClubJpo);
+
         return club.getId();
     }
 
@@ -51,7 +53,7 @@ public class ClubJpaStore implements ClubStore {
     public TravelClub retrieve(String clubId) {
         Optional<TravelClubJpo> clubJpo = clubRepository.findById(clubId); //return 타입이 Optional이다. (nullable)
 
-        return clubJpo != null ? clubJpo.map(TravelClubJpo::toDomain).get() : null;
+        return clubJpo.isPresent() ? clubJpo.map(TravelClubJpo::toDomain).get() : null;
     }
 
 //    @Override

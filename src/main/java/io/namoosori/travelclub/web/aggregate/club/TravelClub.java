@@ -33,6 +33,15 @@ public class TravelClub extends Entity {
 		this.foundationTime = System.currentTimeMillis();
 	}
 
+	public TravelClub(String name, String intro, String id) {
+		//
+		super();
+		this.name = name;
+		this.intro = intro;
+		this.id = id;
+		this.foundationTime = System.currentTimeMillis();
+	}
+
 	@Override
 	public String toString() {
 		//

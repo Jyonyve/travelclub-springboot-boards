@@ -67,10 +67,6 @@ public class CommentServiceLogic implements CommentService {
 
     @Override
     public void remove(String commentId) {
-        Comment comment = commentStore.retrieve(commentId);
-        if(comment == null){
-            throw new NoSuchCommentException("there are no comment with that id: " +commentId);
-        }
         commentStore.delete(commentId);
     }
 }

@@ -15,7 +15,7 @@ public interface PostingService {
 
     List<Posting> findByBoardId(String boardId);
 
-    void modify(String postingId, NameValueList nameValueList);
+    void modify(String postingId, Posting posting);
 
     void remove(String postingId);
 }

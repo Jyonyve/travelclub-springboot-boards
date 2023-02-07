@@ -21,9 +21,15 @@ public class CommentJpaStore implements CommentStore {
     }
 
     @Override
-    public String create(Comment comment) {
-        commentRepository.save(new CommentsJpo(comment));
-        return comment.getId();
+    public Comment create(Comment comment) {
+        int commentNumber = commentRepository.findAllByPostingJpo_Id(comment.getPostingId()).size();
+        if (commentNumber == comment.getCommentNumber()) {
+            comment.setCommentNumber(++commentNumber);
+            commentRepository.save(new CommentsJpo(comment));
+        } else {
+            commentRepository.save(new CommentsJpo(comment));
+        }
+        return comment;
     }
 
     @Override
@@ -32,6 +38,7 @@ public class CommentJpaStore implements CommentStore {
         if(commentsJpo == null){
             throw new NoSuchCommentException("No such comment id: "+commentId);
         }
+        System.out.println(commentsJpo.get().getCommentNumber());
         return commentsJpo.get().toDomain();
     }
 

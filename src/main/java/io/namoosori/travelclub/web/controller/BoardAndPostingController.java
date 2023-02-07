@@ -1,14 +1,19 @@
 package io.namoosori.travelclub.web.controller;
 
+import io.namoosori.travelclub.web.aggregate.board.Comment;
 import io.namoosori.travelclub.web.aggregate.board.Posting;
 import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.service.BoardService;
+import io.namoosori.travelclub.web.service.CommentService;
 import io.namoosori.travelclub.web.service.PostingService;
 import io.namoosori.travelclub.web.service.logic.BoardServiceLogic;
+import io.namoosori.travelclub.web.service.logic.CommentServiceLogic;
 import io.namoosori.travelclub.web.service.logic.PostingServiceLogic;
+import io.namoosori.travelclub.web.service.sdo.CommentCdo;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
+import io.namoosori.travelclub.web.store.jpastore.jpo.CommentsJpo;
 import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(
+        allowCredentials = "true",
+        origins = {"http://localhost:3000", "http://localhost:8080", "https://localhost:3000", "https://localhost:8080"},
+        methods = {RequestMethod.HEAD, RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.PUT, RequestMethod.DELETE},
+        allowedHeaders = {"Origin", "Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization", "Access-Control-Allow-Credentials", "X-AUTH-TOKEN"}
+)
 @RestController
 @RequestMapping("/board")
 public class BoardAndPostingController {
@@ -44,11 +55,7 @@ public class BoardAndPostingController {
         return postingService.register(boardId, postingCdo);
     }
 
-//    @GetMapping("/{id}")
-//    public SocialBoard findBoardById(@PathVariable String id){
-//        return boardService.findBoardById(id);
-//    }
-
+    //same as /{boardId}
     @GetMapping("/{clubId}/{boardKind}")
     public Map<String, Object> findByClubIdAndBoardKind(@PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind){
         System.out.println("clubId , boardKind : " + clubId + ", " +BoardKind.valueOf(boardKind));
@@ -60,20 +67,13 @@ public class BoardAndPostingController {
         return boardInfoAndPostingList;
     }
 
-    @GetMapping("/{clubId}")
-    public List<SocialBoard> findAll(@PathVariable String clubId){
-        return boardService.findAll();
-    }
+//    @GetMapping("/{clubId}")
+//    public List<SocialBoard> findAll(@PathVariable String clubId){
+//        return boardService.findAll();
+//    }
 
-    @GetMapping
-    public List<SocialBoard> findByClubName(@RequestParam String clubName){
-        return boardService.findByClubName(clubName);
-    }
 
-    @PutMapping("/{boardId}")
-    public void modify(@PathVariable String boardId, @RequestBody NameValueList nameValueList){
-        boardService.modify(boardId, nameValueList);
-    }
+
 
     @DeleteMapping("/{boardId}")
     public void remove(@PathVariable String boardId){

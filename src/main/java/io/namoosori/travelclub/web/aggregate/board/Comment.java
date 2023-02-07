@@ -13,20 +13,33 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Comment extends Entity {
+public class Comment {
 
-    private String writer;
+    private String id;
+    private String writerEmail;
     private String contents;
     private String writtenDate;
-
+    private int commentNumber;
     private String postingId;
 
-    public Comment(String writer, String contents, String postingId) {
+    public Comment(String writerEmail, String contents, String postingId, int commentNumber) {
         super();
-        this.writer = writer;
+        this.writerEmail = writerEmail;
         this.contents = contents;
         this.writtenDate = DateUtil.today();
         this.postingId = postingId;
+        this.commentNumber = commentNumber;
+        this.id = postingId+"/"+commentNumber;
+    }
+
+    public Comment(String writerEmail, String contents, String postingId) {
+        super();
+        this.writerEmail = writerEmail;
+        this.contents = contents;
+        this.writtenDate = DateUtil.today();
+        this.postingId = postingId;
+        this.commentNumber = 0;
+        this.id = postingId+"/"+commentNumber;
     }
 
     public void modifyValues(NameValueList nameValues) {
@@ -41,16 +54,16 @@ public class Comment extends Entity {
         }
     }
 
-    public static Comment sample() {
-        //
-        String writer="mymy2@nextree.co.kr";
-        String contents = "comment contents!";
-        String postingId = "";
-        return new Comment(writer, contents, postingId);
-    }
-
-    public static void main(String[] args) {
-        //
-        System.out.println(new Gson().toJson(sample()));
-    }
+//    public static Comment sample() {
+//        //
+//        String writer="mymy2@nextree.co.kr";
+//        String contents = "comment contents!";
+//        String postingId = "";
+//        return new Comment(writer, contents, postingId);
+//    }
+//
+//    public static void main(String[] args) {
+//        //
+//        System.out.println(new Gson().toJson(sample()));
+//    }
 }

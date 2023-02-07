@@ -11,7 +11,7 @@ public interface PostingService {
 
     String register(String boardId, PostingCdo postingDto);
 
-    Posting find(String postingId);
+    Posting findById(String postingId);
 
     List<Posting> findByBoardId(String boardId);
 

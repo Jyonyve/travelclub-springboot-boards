@@ -6,6 +6,7 @@ import io.namoosori.travelclub.web.service.sdo.CommentCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.CommentStore;
 import io.namoosori.travelclub.web.store.PostingStore;
+import io.namoosori.travelclub.web.store.jpastore.jpo.CommentsJpo;
 import io.namoosori.travelclub.web.util.exception.NoSuchCommentException;
 import io.namoosori.travelclub.web.util.exception.NoSuchPostingException;
 import org.springframework.stereotype.Service;
@@ -15,21 +16,30 @@ import java.util.List;
 @Service
 public class CommentServiceLogic implements CommentService {
 
-    private CommentStore commentStore;
-    private PostingStore postingStore;
+    private static CommentStore commentStore;
+    private static PostingStore postingStore;
+    private static CommentService commentService;
 
-    public CommentServiceLogic(CommentStore commentStore, PostingStore postingStore) {
+    private CommentServiceLogic(CommentStore commentStore, PostingStore postingStore) {
         this.commentStore = commentStore;
         this.postingStore = postingStore;
     }
 
+    public static CommentService getCommentServiceLogic(){
+        if(commentService == null){
+            commentService = new CommentServiceLogic(commentStore, postingStore);
+        }
+        return commentService;
+
+    }
+
     @Override
-    public String register(String postingId, CommentCdo commentCdo) {
-        if(postingStore.retrieve(postingId)==null){
+    public Comment register(String postingId, CommentCdo commentCdo) {
+        List<Comment> comments = commentStore.retrieveByPostingId(postingId);
+        if(comments == null){
             throw new NoSuchPostingException("there are no posting with the id: "+postingId);
         }
-        Comment comment = new Comment(commentCdo.getWriter(), commentCdo.getContents(), postingId);
-
+        Comment comment = new Comment(commentCdo.getWriterEmail(), commentCdo.getContents(), postingId, comments.size()+1);
         return commentStore.create(comment);
     }
 
@@ -43,20 +53,14 @@ public class CommentServiceLogic implements CommentService {
     }
 
     @Override
-    public List<Comment> findByPostingId(String postingId) {
+    public List<Comment> findAllByPostingId(String postingId) {
         List<Comment> comments = commentStore.retrieveByPostingId(postingId);
 
         return comments;
     }
 
     @Override
-    public void modify(String commentId, NameValueList nameValueList) {
-
-        Comment comment = commentStore.retrieve(commentId);
-        if(comment == null){
-            throw new NoSuchCommentException("there are no comment with that id: " +commentId);
-        }
-        comment.modifyValues(nameValueList);
+    public void modify(String commentId, Comment comment) {
         commentStore.update(comment);
 
     }

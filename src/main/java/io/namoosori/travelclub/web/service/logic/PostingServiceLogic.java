@@ -22,21 +22,19 @@ import java.util.List;
 public class PostingServiceLogic implements PostingService {
 
     private static PostingStore postingStore;
-    private static BoardStore boardStore;
     private static MembershipStore membershipStore;
     private static PostingService postingServiceLogic;
     private static MemberService memberService;
 
-    private PostingServiceLogic(PostingStore postingStore, BoardStore boardStore, MembershipStore membershipStore) {
+    private PostingServiceLogic(PostingStore postingStore, MembershipStore membershipStore) {
         this.postingStore = postingStore;
-        this.boardStore = boardStore;
         this.membershipStore = membershipStore;
         this.memberService = MemberServiceLogic.getMemberServiceLogic();
     }
 
     public static PostingService getPostingServiceLogic(){
         if (postingServiceLogic == null){
-            postingServiceLogic = new PostingServiceLogic(postingStore, boardStore, membershipStore);
+            postingServiceLogic = new PostingServiceLogic(postingStore, membershipStore);
         }
         return postingServiceLogic;
     }
@@ -44,10 +42,6 @@ public class PostingServiceLogic implements PostingService {
     @Override
     public String register(String boardId, PostingCdo postingCdo) {
         Posting posting = null;
-
-        if(boardStore.retrieve(boardId) == null){
-            throw new NoSuchBoardException("there are no board with id: "+boardId);
-        }
         if(memberService.findAllByRoles(Roles.ADMIN).stream().anyMatch(admin -> admin.getEmail().equals(postingCdo.getWriterEmail()))){
             posting = new Posting(boardId,postingCdo);
             //운영자일 경우 가입없이도 포스팅 가능
@@ -58,7 +52,7 @@ public class PostingServiceLogic implements PostingService {
     }
 
     @Override
-    public Posting find(String postingId) {
+    public Posting findById(String postingId) {
         Posting posting = postingStore.retrieve(postingId);
         if(posting == null){
             throw new NoSuchPostingException("no posting with the id: "+postingId);

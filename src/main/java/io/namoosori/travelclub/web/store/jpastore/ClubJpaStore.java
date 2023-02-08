@@ -28,8 +28,7 @@ public class ClubJpaStore implements ClubStore {
     public String create(TravelClub club) {
         TravelClubJpo travelClubJpo = new TravelClubJpo(club);
         List<SocialBoardJpo> socialBoardJpos = new ArrayList<>();
-
-        clubRepository.save(travelClubJpo);
+        clubRepository.save(travelClubJpo); //save
 
         //auto-generated 3 boards
         SocialBoardJpo noticeBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"Notice Board", BoardKind.NOTICEBOARD));
@@ -45,6 +44,7 @@ public class ClubJpaStore implements ClubStore {
 
         travelClubJpo.setSocialBoardJpos(socialBoardJpos);
 
+        clubRepository.save(travelClubJpo);//update
 
         return club.getId();
     }

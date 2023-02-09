@@ -8,6 +8,7 @@ public interface PostingStore {
     String create(Posting posting);
     Posting retrieve(String postingId);
     List<Posting> retrieveByBoardId(String boardId);
+    List<Posting> retrieveByBoardIdAndWriterEmail(String boardId, String writerEmail);
     void update(Posting posting);
     void delete(String postingId);
     boolean exists(String postingId);

@@ -27,6 +27,7 @@ public class PostingJpaStore implements PostingStore {
     public String create(Posting posting) {
         PostingJpo postingJpo = new PostingJpo(posting);
         postingJpo.setSocialBoardJpo(boardRepository.findById(posting.getBoardId()).get());
+        System.out.println(posting.getBoardId());
         postingRepository.save(postingJpo);
         return posting.getId();
     }
@@ -46,6 +47,12 @@ public class PostingJpaStore implements PostingStore {
     public List<Posting> retrieveByBoardId(String boardId) {
         List<PostingJpo> postingJpos = postingRepository.findAllBySocialBoardJpo_Id(boardId);
         return postingJpos.stream().map(PostingJpo::toDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Posting> retrieveByBoardIdAndWriterEmail(String boardId, String writerEmail) {
+        List<PostingJpo> personalPostingJpos = postingRepository.findAllBySocialBoardJpo_IdAndWriterEmail(boardId, writerEmail);
+        return personalPostingJpos.stream().map(PostingJpo::toDomain).collect(Collectors.toList());
     }
 
     @Override

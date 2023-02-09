@@ -103,4 +103,9 @@ public class MemberServiceLogic implements MemberService {
 
 		memberStore.delete(memberId);
 	}
+
+	@Override
+	public boolean existChecker(String memberId) {
+		return memberStore.exists(memberId);
+	}
 }

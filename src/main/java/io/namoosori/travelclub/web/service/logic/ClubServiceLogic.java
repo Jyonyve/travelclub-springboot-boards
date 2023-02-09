@@ -75,4 +75,9 @@ public class ClubServiceLogic implements ClubService {
 		}
 		clubStore.delete(clubId);
 	}
+
+	@Override
+	public boolean existChecker(String clubId){
+		return clubStore.exists(clubId);
+	}
 }

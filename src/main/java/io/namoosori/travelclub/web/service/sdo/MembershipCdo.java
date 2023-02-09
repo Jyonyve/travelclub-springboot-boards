@@ -15,7 +15,9 @@ public class MembershipCdo implements Serializable {
     //
     private String clubId;
     private String memberId;
-    private String name;
+    private String nickname;
     private String email;
     private String password;
+
+
 }

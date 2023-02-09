@@ -75,7 +75,8 @@ public class MemberJpaStore implements MemberStore {
     @Override
     public CommunityMember retrieveByIdToken(String idToken) {
         MemberJpo memberJpo = memberRepository.findByIdToken(idToken);
-        return memberJpo != null ? memberJpo.toDomain() : null;
+        System.out.println(memberJpo.getIdToken());
+        return memberJpo !=null ? memberJpo.toDomain() : null;
     }
 
     @Override

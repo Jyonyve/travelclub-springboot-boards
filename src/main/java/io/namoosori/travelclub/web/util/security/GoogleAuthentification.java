@@ -126,4 +126,8 @@ public class GoogleAuthentification {
         return tokensMap;
     }
 
+    public boolean adminChecker (String email) {
+        return memberService.findAllByRoles(Roles.ADMIN).stream().anyMatch(admin -> admin.getEmail().equals(email));
+    }
+
 }

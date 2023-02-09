@@ -14,6 +14,7 @@ import io.namoosori.travelclub.web.service.sdo.CommentCdo;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.jpastore.jpo.CommentsJpo;
+import io.namoosori.travelclub.web.store.jpastore.jpo.PostingJpo;
 import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,14 +63,31 @@ public class BoardAndPostingController {
 
     //same as /{boardId}
     @GetMapping("/{clubId}/{boardKind}")
-    public Map<String, Object> findByClubIdAndBoardKind(@PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind) {
-        System.out.println("clubId , boardKind : " + clubId + ", " + BoardKind.valueOf(boardKind));
+    public Map<String, Object> findByClubIdAndBoardKind(
+            @PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind, @RequestHeader("Authorization") String idToken) {
+
+        idToken = idToken.substring(7);
+        Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idToken);
+        String email = String.valueOf(payload.get("email"));
+
         Map<String, Object> boardInfoAndPostingList = new HashMap<>();
         SocialBoard oneBoardInfo = boardService.findByClubIdAndBoardKind(clubId, BoardKind.valueOf(boardKind));
-        List<Posting> postings = PostingServiceLogic.getPostingServiceLogic().findByBoardId(oneBoardInfo.getId());
-        boardInfoAndPostingList.put("board", oneBoardInfo);
-        boardInfoAndPostingList.put("postings", postings);
-        return boardInfoAndPostingList;
+
+        switch (BoardKind.valueOf(boardKind)){
+            case QNABOARD:
+                if(!googleAuthentification.adminChecker(email)){
+                    List<Posting> postings = postingService.findBySocialBoardJpo_IdAndWriterEmail(oneBoardInfo.getId(), email);
+                    boardInfoAndPostingList.put("board", oneBoardInfo);
+                    boardInfoAndPostingList.put("postings", postings);
+                    return boardInfoAndPostingList;
+                }
+            default:
+                List<Posting> postings = postingService.findByBoardId(oneBoardInfo.getId());
+                boardInfoAndPostingList.put("board", oneBoardInfo);
+                boardInfoAndPostingList.put("postings", postings);
+                return boardInfoAndPostingList;
+        }
+
     }
 
     //    @GetMapping("/{clubId}")

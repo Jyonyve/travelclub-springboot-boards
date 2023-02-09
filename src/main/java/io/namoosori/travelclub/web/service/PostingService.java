@@ -14,6 +14,7 @@ public interface PostingService {
     Posting findById(String postingId);
 
     List<Posting> findByBoardId(String boardId);
+    List<Posting> findBySocialBoardJpo_IdAndWriterEmail(String boardId, String writerEmail);
 
     void modify(String postingId, Posting posting);
 

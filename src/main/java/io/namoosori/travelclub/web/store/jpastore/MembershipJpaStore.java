@@ -21,10 +21,10 @@ public class MembershipJpaStore implements MembershipStore {
     }
 
     @Override
-    public String create(Membership membership) {
+    public Membership create(Membership membership) {
         membershipRepository.save(new MembershipJpo(membership));
 
-        return membership.getId();
+        return membership;
     }
 
     @Override
@@ -53,9 +53,9 @@ public class MembershipJpaStore implements MembershipStore {
     }
 
     @Override
-    public Optional<Membership> retrieveByEmail(String email) {
-        Optional<MembershipJpo> membershipJpo = membershipRepository.findByEmail(email);
-        return membershipJpo.map(MembershipJpo::toDomain);
+    public List<Membership> retrieveByEmail(String email) {
+        List<MembershipJpo> membershipJpo = membershipRepository.findByEmail(email);
+        return membershipJpo.stream().map(MembershipJpo::toDomain).collect(Collectors.toList());
     }
 
     @Override
@@ -77,5 +77,10 @@ public class MembershipJpaStore implements MembershipStore {
     @Override
     public boolean exists(String membershipId) {
         return membershipRepository.existsById(membershipId);
+    }
+
+    @Override
+    public boolean exists(String clubId, String memberId) {
+        return membershipRepository.findByTravelClubJpo_IdAndMemberJpo_Id(clubId,memberId) !=null;
     }
 }

@@ -3,6 +3,8 @@ package io.namoosori.travelclub.web.service.logic;
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.Membership;
 import io.namoosori.travelclub.web.aggregate.club.TravelClub;
+import io.namoosori.travelclub.web.service.ClubService;
+import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.MembershipService;
 import io.namoosori.travelclub.web.service.sdo.MembershipCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -20,52 +22,38 @@ import java.util.List;
 @Service
 public class MembershipServiceLogic implements MembershipService {
     //
-    private MembershipStore membershipStore;
-    private ClubStore clubStore;
-    private MemberStore memberStore;
-
-    public MembershipServiceLogic(MembershipStore membershipStore,
-                                  ClubStore clubStore,
-                                  MemberStore memberStore) {
-        //
+    private static MembershipService membershipService;
+    private static MembershipStore membershipStore;
+    private MemberService memberService;
+    private ClubService clubService;
+    private MembershipServiceLogic(MembershipStore membershipStore){
         this.membershipStore = membershipStore;
-        this.memberStore = memberStore;
-        this.clubStore = clubStore;
-    }
+        this.memberService = MemberServiceLogic.getMemberServiceLogic();
+        this.clubService = ClubServiceLogic.getClubServiceLogic();
+    };
+
+    public static MembershipService getMembershipServiceLogic() {
+        if (membershipService==null){
+            membershipService = new MembershipServiceLogic(membershipStore);
+        }
+        return membershipService;
+    };
 
     @Override
-    public String registerMembership(MembershipCdo membershipCdo) {
-        //
+    public Membership registerMembership(MembershipCdo membershipCdo) {
         String clubId = membershipCdo.getClubId();
         String memberId = membershipCdo.getMemberId();
-        String name = membershipCdo.getName();
-        String email = membershipCdo.getEmail();
-        String password = membershipCdo.getPassword();
 
-        TravelClub club = clubStore.retrieve(clubId);
-
-        if (club == null) {
-            throw new NoSuchClubException("No such club with id " + clubId);
+        if (clubService.existChecker(clubId)
+            && memberService.existChecker(memberId)
+            && !existChecker(clubId, memberId))
+        {
+            Membership membership = new Membership(membershipCdo);
+            membershipStore.create(membership);
+            return membership;
+        } else {
+            throw new MembershipDuplicationException("already exists member.");
         }
-
-        CommunityMember member = memberStore.retrieve(memberId);
-
-        if (member == null) {
-            throw new NoSuchMemberException("No such member with id " + memberId);
-        }
-
-        Membership membership = findMembershipByClubIdAndMemberId(clubId, memberId);
-
-        if (membership != null) {
-            throw new MembershipDuplicationException("Member already exists in the club");
-        }
-
-        membership = new Membership(clubId, memberId, name, email, password);
-
-
-        String membershipId = membershipStore.create(membership);
-
-        return membershipId;
     }
 
     @Override
@@ -83,13 +71,8 @@ public class MembershipServiceLogic implements MembershipService {
     @Override
     public Membership findMembershipByClubIdAndMemberEmail(String clubId, String memberEmail) {
         //
-        CommunityMember member = memberStore.retrieveByEmail(memberEmail);
-
-        if (member == null) {
-            throw new NoSuchMemberException("No such member with email " + memberEmail);
-        }
-
-        return membershipStore.retrieveByClubIdAndMemberId(clubId, member.getId());
+        String memberId = memberService.findMemberByEmail(memberEmail).getId();
+        return membershipStore.retrieveByClubIdAndMemberId(clubId, memberId);
 
     }
 
@@ -123,5 +106,25 @@ public class MembershipServiceLogic implements MembershipService {
     public void removeMembership(String membershipId) {
         //
         membershipStore.delete(membershipId);
+    }
+
+    @Override
+    public boolean existChecker(String clubId, String memberId) {
+        return membershipStore.exists(clubId, memberId);
+    }
+
+    @Override
+    public boolean existChecker(String membershipId) {
+        return membershipStore.exists(membershipId);
+    }
+
+    @Override
+    public List<Membership> findByEmail(String email) {
+        return membershipStore.retrieveByEmail(email);
+    }
+
+    @Override
+    public boolean isClubMember(String clubId, String memberEmail) {
+        return findMembershipByClubIdAndMemberEmail(clubId, memberEmail) != null;
     }
 }

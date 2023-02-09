@@ -42,9 +42,7 @@ public class MemberController {
         String idTokenFront = bearerIdToken.substring(7);
         Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idTokenFront);
 
-        List<CommunityMember> admins = memberService.findAllByRoles(Roles.ADMIN);
-
-        if(admins.stream().anyMatch(admin -> admin.getEmail().equals((String.valueOf(payload.get("email")))))){
+        if(googleAuthentification.adminChecker(String.valueOf(payload.get("email")))){
             System.out.println("Admin Signed in. Request Member List.");
             return memberService.findAll();
         }

@@ -18,4 +18,5 @@ public interface MemberService  {
 	List<CommunityMember> findAllByRoles(Roles roles);
 	void modifyMember(String memberId, NameValueList member);
 	void removeMember(String memberId);
+	boolean existChecker(String memberId);
 }

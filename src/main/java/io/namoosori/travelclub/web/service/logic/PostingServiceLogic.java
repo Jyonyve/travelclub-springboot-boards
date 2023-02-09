@@ -4,6 +4,7 @@ import io.namoosori.travelclub.web.aggregate.board.Posting;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.BoardService;
 import io.namoosori.travelclub.web.service.MemberService;
+import io.namoosori.travelclub.web.service.MembershipService;
 import io.namoosori.travelclub.web.service.PostingService;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -22,41 +23,46 @@ import java.util.List;
 public class PostingServiceLogic implements PostingService {
 
     private static PostingStore postingStore;
-    private static MembershipStore membershipStore;
+    private static MembershipService membershipService;
     private static PostingService postingServiceLogic;
     private static MemberService memberService;
 
-    private PostingServiceLogic(PostingStore postingStore, MembershipStore membershipStore) {
+    private PostingServiceLogic(PostingStore postingStore) {
         this.postingStore = postingStore;
-        this.membershipStore = membershipStore;
+        this.membershipService = MembershipServiceLogic.getMembershipServiceLogic();
         this.memberService = MemberServiceLogic.getMemberServiceLogic();
     }
 
     public static PostingService getPostingServiceLogic(){
         if (postingServiceLogic == null){
-            postingServiceLogic = new PostingServiceLogic(postingStore, membershipStore);
+            postingServiceLogic = new PostingServiceLogic(postingStore);
         }
         return postingServiceLogic;
     }
 
     @Override
     public String register(String boardId, PostingCdo postingCdo) {
-        Posting posting = null;
-        if(memberService.findAllByRoles(Roles.ADMIN).stream().anyMatch(admin -> admin.getEmail().equals(postingCdo.getWriterEmail()))){
-            posting = new Posting(boardId,postingCdo);
+        System.out.println(boardId.split("/")[0]);
+        System.out.println(postingCdo.getWriterEmail());
+        System.out.println(membershipService.isClubMember(boardId.split("/")[0], postingCdo.getWriterEmail()));
+
+        if(memberService.findAllByRoles(Roles.ADMIN).stream().anyMatch(admin -> admin.getEmail().equals(postingCdo.getWriterEmail()))
+        || membershipService.isClubMember(boardId.split("/")[0], postingCdo.getWriterEmail())){
+
+            Posting posting = new Posting(boardId,postingCdo);
             //운영자일 경우 가입없이도 포스팅 가능
-        } else if(membershipStore.retrieveByEmail(postingCdo.getWriterEmail()).isEmpty()){
+            //클럽 멤버일 경우 포스팅 가능
+            return postingStore.create(posting);
+        } else
+        {
             throw new NoSuchMembershipException("no such member in this club");
         }
-        return postingStore.create(posting);
+
     }
 
     @Override
     public Posting findById(String postingId) {
         Posting posting = postingStore.retrieve(postingId);
-        if(posting == null){
-            throw new NoSuchPostingException("no posting with the id: "+postingId);
-        }
         return posting;
     }
 
@@ -64,6 +70,12 @@ public class PostingServiceLogic implements PostingService {
     public List<Posting> findByBoardId(String boardId) {
         List<Posting> postings = postingStore.retrieveByBoardId(boardId);
         return postings;
+    }
+
+    @Override
+    public List<Posting> findBySocialBoardJpo_IdAndWriterEmail(String boardId, String writerEmail) {
+        List<Posting> personalPostings = postingStore.retrieveByBoardIdAndWriterEmail(boardId, writerEmail);
+        return personalPostings;
     }
 
     @Override

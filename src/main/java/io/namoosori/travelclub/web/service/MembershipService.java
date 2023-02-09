@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MembershipService {
     //
-    String registerMembership(MembershipCdo membershipCdo);
+    Membership registerMembership(MembershipCdo membershipCdo);
     Membership findMembership(String membershipId);
     Membership findMembershipByClubIdAndMemberId(String clubId, String memberId);
     Membership findMembershipByClubIdAndMemberEmail(String clubId, String memberEmail);
@@ -16,4 +16,8 @@ public interface MembershipService {
     List<Membership> findAllMembershipsOfMember(String memberId);
     void modifyMembership(String membershipId, NameValueList nameValueList);
     void removeMembership(String membershipId);
+    boolean existChecker(String clubId, String memberId);
+    boolean existChecker(String membershipId);
+    List<Membership> findByEmail(String email);
+    boolean isClubMember (String clubId, String memberEmail);
 }

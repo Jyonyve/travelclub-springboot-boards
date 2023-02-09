@@ -15,4 +15,5 @@ public interface ClubService {
 	List<TravelClub> findAll();
 	void modify(String clubId, NameValueList nameValues);
 	void remove(String clubId);
+	boolean existChecker(String clubId);
 }

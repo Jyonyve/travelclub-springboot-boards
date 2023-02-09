@@ -55,7 +55,7 @@ public class MemberJpo implements UserDetails {
 
     @OneToOne(mappedBy = "memberJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private AddressJpo addressJpo;
-    @OneToMany(mappedBy = "memberJpo", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "memberJpo", cascade = CascadeType.ALL)
     private List<MembershipJpo> membershipJpos = new ArrayList<>();
 
     public void setAddressJpo(AddressJpo addressJpo){

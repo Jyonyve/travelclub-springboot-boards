@@ -19,7 +19,7 @@ public class PostingCdo implements Serializable {
     private String writtenDate;
     private int readCount;
 
-    public PostingCdo(String title, String writerEmail, String contents, String boardId) {
+    public PostingCdo(String title, String writerEmail, String contents) {
         this.title = title;
         this.writerEmail = writerEmail;
         this.contents = contents;

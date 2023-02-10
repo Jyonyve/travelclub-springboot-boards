@@ -32,7 +32,7 @@ public class CommentsJpo {
 
     public Comment toDomain(){
         Comment comment = new Comment(writerEmail, contents, postingJpo.getId(), commentNumber);
-        comment.setId(postingJpo.getId()+commentNumber);
+        comment.setId(postingJpo.getId()+"/"+commentNumber);
         return comment;
     }
 }

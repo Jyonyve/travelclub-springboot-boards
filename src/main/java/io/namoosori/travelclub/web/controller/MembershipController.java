@@ -61,13 +61,13 @@ public class MembershipController {
 
         List<Membership> membershipList= membershipService.findByEmail(memberEmail);
 
-        Map<String, RoleInClub> clubIdAndRoleInClub = new HashMap<>();
+        Map<String, RoleInClub> membershipIdAndRoleInClub = new HashMap<>();
         membershipList.stream().forEach( membership ->
-            clubIdAndRoleInClub.put(membership.getClubId(), membership.getRoleInClub())
+            membershipIdAndRoleInClub.put(membership.getId(), membership.getRoleInClub())
         );
 
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(clubIdAndRoleInClub);
+        return mapper.writeValueAsString(membershipIdAndRoleInClub);
     }
 
 //    //path/path

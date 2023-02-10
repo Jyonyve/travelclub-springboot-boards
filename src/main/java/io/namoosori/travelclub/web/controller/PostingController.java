@@ -44,7 +44,9 @@ public class PostingController {
     //comment
     @GetMapping("/{postingId}/all")
     public List<Comment> findAllByPostingId(@PathVariable String postingId){
-        return commentService.findAllByPostingId(postingId);
+        List<Comment> comments = commentService.findAllByPostingId(postingId);
+        comments.stream().forEach(comment -> System.out.println(comment.getId()));
+        return comments;
     }
 
     @PostMapping("/comment")

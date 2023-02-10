@@ -19,7 +19,9 @@ public class CommentController {
 
     @PostMapping("/{postingId}")
     public Comment register(@PathVariable String postingId, @RequestBody CommentCdo commentCdo){
-        return commentService.register(postingId, commentCdo);
+        Comment comment = commentService.register(postingId, commentCdo);
+        System.out.println(comment.getId());
+        return comment;
     }
 
     @GetMapping("/{commentId}")

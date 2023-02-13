@@ -43,6 +43,11 @@ spring:
   mvc:
     log-request-details: true
 
+  profiles.active: dev
+  web:
+    resources:
+      static-locations: classpath:/static # 이부분 추가해야됨
+
 
 logging:
   exception-conversion-word: '%wEx'

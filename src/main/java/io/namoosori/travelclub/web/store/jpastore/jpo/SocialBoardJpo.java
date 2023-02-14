@@ -2,7 +2,6 @@ package io.namoosori.travelclub.web.store.jpastore.jpo;
 
 import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
-import io.namoosori.travelclub.web.service.logic.BoardServiceLogic;
 import io.namoosori.travelclub.web.service.logic.ClubServiceLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;

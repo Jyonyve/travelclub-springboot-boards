@@ -2,10 +2,6 @@ package io.namoosori.travelclub.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.nimbusds.jose.shaded.json.JSONObject;
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.Membership;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
@@ -14,14 +10,12 @@ import io.namoosori.travelclub.web.service.MembershipService;
 import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.logic.MembershipServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MembershipCdo;
-import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/membership")

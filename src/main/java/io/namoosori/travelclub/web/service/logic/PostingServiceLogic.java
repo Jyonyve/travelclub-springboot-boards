@@ -2,17 +2,11 @@ package io.namoosori.travelclub.web.service.logic;
 
 import io.namoosori.travelclub.web.aggregate.board.Posting;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
-import io.namoosori.travelclub.web.service.BoardService;
 import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.MembershipService;
 import io.namoosori.travelclub.web.service.PostingService;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
-import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.BoardStore;
-import io.namoosori.travelclub.web.store.MemberStore;
-import io.namoosori.travelclub.web.store.MembershipStore;
 import io.namoosori.travelclub.web.store.PostingStore;
-import io.namoosori.travelclub.web.util.exception.NoSuchBoardException;
 import io.namoosori.travelclub.web.util.exception.NoSuchMembershipException;
 import io.namoosori.travelclub.web.util.exception.NoSuchPostingException;
 import org.springframework.stereotype.Service;

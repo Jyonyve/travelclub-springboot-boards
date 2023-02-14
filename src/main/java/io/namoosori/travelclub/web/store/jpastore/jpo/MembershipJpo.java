@@ -3,7 +3,6 @@ package io.namoosori.travelclub.web.store.jpastore.jpo;
 import io.namoosori.travelclub.web.aggregate.club.Membership;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
-import io.namoosori.travelclub.web.service.logic.BoardServiceLogic;
 import io.namoosori.travelclub.web.service.logic.ClubServiceLogic;
 import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import lombok.Data;

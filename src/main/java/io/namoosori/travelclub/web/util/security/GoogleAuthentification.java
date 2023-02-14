@@ -58,7 +58,7 @@ public class GoogleAuthentification {
         String access_token_url = "https://oauth2.googleapis.com/token";
         access_token_url += "?code=" + code;
         access_token_url += "&grant_type=authorization_code";
-        access_token_url += "&redirect_uri=http://localhost:3000/login/oauth2/code/google";
+        access_token_url += "&redirect_uri=http://localhost:8080/login/oauth2/code/google";
 
         return restTemplate.exchange(access_token_url, HttpMethod.POST, request, String.class);
     }

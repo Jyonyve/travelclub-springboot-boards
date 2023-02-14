@@ -1,5 +1,6 @@
 package io.namoosori.travelclub.web.controller;
 
+import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
 import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
@@ -26,8 +27,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LoginController {
 
+    private final MemberRepository memberRepository;
+
     @GetMapping("/code/google")
-    public List<String> googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public void   googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
         //methods for google oauth2 login
         GoogleAuthentification googleAuthentification = GoogleAuthentification.getGoogleAuthentification();
 
@@ -40,10 +43,20 @@ public class LoginController {
         Map<String, String > tokensMap = googleAuthentification.responseParser(response);
         String id = googleAuthentification.insertUserInDB(tokensMap);
         List<String> userRoles = googleAuthentification.getUserRoles(id).stream()
-                                .map(roles -> "{\"site\" : \"" + roles + "\"}").collect(Collectors.toList());
+                                .map(roles -> roles.toString()).collect(Collectors.toList());
+        String userRoleString = userRoles.get(0).toString();
+        System.out.println(userRoleString);
 
         // Use the access token for authentication
-        res.addHeader("Authorization", "Bearer " + tokensMap.get("id_token"));
-        return userRoles;
+
+        res.sendRedirect("/login/oauth2/setter/?userRoles="+userRoleString+"&id="+id);
     }
+
+    @GetMapping("/setter/token/{id}")
+    public void redirectWithData(@PathVariable("id") String id,  HttpServletResponse res) {
+        String idToken = memberRepository.findById(id).get().getIdToken();
+        res.addHeader("Authorization", "Bearer " + idToken);
+    }
+
+
 }

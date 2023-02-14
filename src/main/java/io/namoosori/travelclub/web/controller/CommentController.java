@@ -3,7 +3,6 @@ package io.namoosori.travelclub.web.controller;
 import io.namoosori.travelclub.web.aggregate.board.Comment;
 import io.namoosori.travelclub.web.service.CommentService;
 import io.namoosori.travelclub.web.service.sdo.CommentCdo;
-import io.namoosori.travelclub.web.shared.NameValueList;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

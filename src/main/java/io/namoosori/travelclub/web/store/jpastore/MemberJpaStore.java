@@ -10,14 +10,11 @@ import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.google.gson.internal.bind.util.ISO8601Utils.format;
 
 @Repository
 public class MemberJpaStore implements MemberStore {

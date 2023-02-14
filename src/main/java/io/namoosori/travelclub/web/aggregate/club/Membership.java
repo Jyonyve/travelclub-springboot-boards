@@ -1,6 +1,5 @@
 package io.namoosori.travelclub.web.aggregate.club;
 
-import io.namoosori.travelclub.web.aggregate.Entity;
 import io.namoosori.travelclub.web.aggregate.club.vo.RoleInClub;
 import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.sdo.MembershipCdo;

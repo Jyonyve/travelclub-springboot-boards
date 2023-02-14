@@ -2,7 +2,6 @@ package io.namoosori.travelclub.web.service;
 
 import io.namoosori.travelclub.web.aggregate.board.Posting;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
-import io.namoosori.travelclub.web.shared.NameValueList;
 
 import java.util.List;
 

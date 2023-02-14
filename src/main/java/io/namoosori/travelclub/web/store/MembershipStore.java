@@ -1,11 +1,8 @@
 package io.namoosori.travelclub.web.store;
 
 import io.namoosori.travelclub.web.aggregate.club.Membership;
-import io.namoosori.travelclub.web.service.sdo.MembershipCdo;
 
-import java.lang.reflect.Member;
 import java.util.List;
-import java.util.Optional;
 
 public interface MembershipStore {
     //

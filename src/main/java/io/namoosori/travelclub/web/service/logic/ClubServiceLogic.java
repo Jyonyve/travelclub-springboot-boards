@@ -13,11 +13,20 @@ import java.util.List;
 @Service
 public class ClubServiceLogic implements ClubService {
 	//
-	private ClubStore clubStore;
+	private static ClubStore clubStore;
 
-	public ClubServiceLogic(ClubStore clubStore) {
+	public static ClubServiceLogic clubServiceLogic;
+
+	private ClubServiceLogic(ClubStore clubStore) {
 		//
 		this.clubStore = clubStore;
+	}
+
+	public static ClubServiceLogic getClubServiceLogic(){
+		if (clubServiceLogic == null){
+			clubServiceLogic = new ClubServiceLogic(clubStore);
+		}
+		return clubServiceLogic;
 	}
 
 	@Override
@@ -65,5 +74,10 @@ public class ClubServiceLogic implements ClubService {
 			throw new NoSuchClubException("No such club with id " + clubId);
 		}
 		clubStore.delete(clubId);
+	}
+
+	@Override
+	public boolean existChecker(String clubId){
+		return clubStore.exists(clubId);
 	}
 }

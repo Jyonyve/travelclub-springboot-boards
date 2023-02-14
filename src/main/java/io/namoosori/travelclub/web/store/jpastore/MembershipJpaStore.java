@@ -21,10 +21,10 @@ public class MembershipJpaStore implements MembershipStore {
     }
 
     @Override
-    public String create(Membership membership) {
+    public Membership create(Membership membership) {
         membershipRepository.save(new MembershipJpo(membership));
 
-        return membership.getId();
+        return membership;
     }
 
     @Override
@@ -35,27 +35,27 @@ public class MembershipJpaStore implements MembershipStore {
 
     @Override
     public Membership retrieveByClubIdAndMemberId(String clubId, String memberId) {
-        Optional<MembershipJpo> membershipJpo = Optional.ofNullable(membershipRepository.findByClubIdAndMemberId(clubId, memberId));
+        Optional<MembershipJpo> membershipJpo = Optional.ofNullable(membershipRepository.findByTravelClubJpo_IdAndMemberJpo_Id(clubId, memberId));
 
         return membershipJpo.map(MembershipJpo::toDomain).orElse(null);
     }
 
     @Override
     public List<Membership> retrieveByClubId(String clubId) {
-        List<MembershipJpo> membershipJpos = membershipRepository.findByClubId(clubId);
+        List<MembershipJpo> membershipJpos = membershipRepository.findByTravelClubJpo_Id(clubId);
         return membershipJpos.stream().map(MembershipJpo::toDomain).collect(Collectors.toList());
     }
 
     @Override
     public List<Membership> retrieveByMemberId(String memberId) {
-        List<MembershipJpo> membershipJpos = membershipRepository.findByMemberId(memberId);
+        List<MembershipJpo> membershipJpos = membershipRepository.findByMemberJpo_Id(memberId);
         return membershipJpos.stream().map(MembershipJpo::toDomain).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Membership> retrieveByEmail(String email) {
-        Optional<MembershipJpo> membershipJpo = membershipRepository.findByEmail(email);
-        return membershipJpo.map(MembershipJpo::toDomain);
+    public List<Membership> retrieveByEmail(String email) {
+        List<MembershipJpo> membershipJpo = membershipRepository.findByEmail(email);
+        return membershipJpo.stream().map(MembershipJpo::toDomain).collect(Collectors.toList());
     }
 
     @Override
@@ -77,5 +77,10 @@ public class MembershipJpaStore implements MembershipStore {
     @Override
     public boolean exists(String membershipId) {
         return membershipRepository.existsById(membershipId);
+    }
+
+    @Override
+    public boolean exists(String clubId, String memberId) {
+        return membershipRepository.findByTravelClubJpo_IdAndMemberJpo_Id(clubId,memberId) !=null;
     }
 }

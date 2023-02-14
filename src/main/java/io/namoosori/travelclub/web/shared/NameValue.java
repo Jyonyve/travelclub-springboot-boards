@@ -12,7 +12,7 @@ import lombok.Setter;
 public class NameValue {
     //
     private String name;
-    private String value;
+    private Object value;
 
     @Override
     public String toString() {

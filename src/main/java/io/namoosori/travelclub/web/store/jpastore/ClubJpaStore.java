@@ -1,11 +1,15 @@
 package io.namoosori.travelclub.web.store.jpastore;
 
+import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
+import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.aggregate.club.TravelClub;
 import io.namoosori.travelclub.web.store.ClubStore;
+import io.namoosori.travelclub.web.store.jpastore.jpo.SocialBoardJpo;
 import io.namoosori.travelclub.web.store.jpastore.jpo.TravelClubJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.ClubRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +26,29 @@ public class ClubJpaStore implements ClubStore {
 
     @Override
     public String create(TravelClub club) {
-        clubRepository.save(new TravelClubJpo(club));
+        TravelClubJpo travelClubJpo = new TravelClubJpo(club);
+        List<SocialBoardJpo> socialBoardJpos = new ArrayList<>();
+        clubRepository.save(travelClubJpo); //save
+
+        //auto-generated 4 boards
+        SocialBoardJpo noticeBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"Notice Board", BoardKind.NOTICEBOARD));
+            noticeBoardJpo.setTravelClubJpo(travelClubJpo);
+        SocialBoardJpo socialBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"Social Board", BoardKind.SOCIALBOARD));
+        socialBoardJpo.setTravelClubJpo(travelClubJpo);
+        SocialBoardJpo qnaBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"QnA Board", BoardKind.QNABOARD));
+            qnaBoardJpo.setTravelClubJpo((travelClubJpo));
+        SocialBoardJpo faqBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"FaQ Board", BoardKind.FAQBOARD));
+        faqBoardJpo.setTravelClubJpo((travelClubJpo));
+
+        socialBoardJpos.add(socialBoardJpo);
+        socialBoardJpos.add(noticeBoardJpo);
+        socialBoardJpos.add(qnaBoardJpo);
+        socialBoardJpos.add(faqBoardJpo);
+
+        travelClubJpo.setSocialBoardJpos(socialBoardJpos);
+
+        clubRepository.save(travelClubJpo);//update
+
         return club.getId();
     }
 
@@ -30,7 +56,7 @@ public class ClubJpaStore implements ClubStore {
     public TravelClub retrieve(String clubId) {
         Optional<TravelClubJpo> clubJpo = clubRepository.findById(clubId); //return 타입이 Optional이다. (nullable)
 
-        return clubJpo.map(TravelClubJpo::toDomain).orElseThrow();
+        return clubJpo.isPresent() ? clubJpo.map(TravelClubJpo::toDomain).get() : null;
     }
 
 //    @Override

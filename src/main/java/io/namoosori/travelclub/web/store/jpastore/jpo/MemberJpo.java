@@ -1,66 +1,107 @@
 package io.namoosori.travelclub.web.store.jpastore.jpo;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
-import io.namoosori.travelclub.web.aggregate.club.vo.Address;
-import io.namoosori.travelclub.web.aggregate.club.vo.AddressType;
+import io.namoosori.travelclub.web.aggregate.club.vo.Provider;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
+import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
+import io.namoosori.travelclub.web.service.sdo.MemberCdo;
+import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "Community_Member")
 @NoArgsConstructor
-public class MemberJpo {
+public class MemberJpo implements UserDetails {
 
+    @Transient
+    private CommunityMember member;
     @Id
+    @JoinColumn(name = "memberId")
     private String id;
     private String email;
     private String name;
-    private String nickname;
+    private String nickName;
     private String phoneNumber;
     private String birthday;
-    @ElementCollection
-    //private String addresses;
-    private List<Address> addresses;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private Roles roles;
+    private Provider provider;
+    @Column(columnDefinition = "TEXT")
+    private String idToken;
 
-    public MemberJpo(CommunityMember member) {
-        BeanUtils.copyProperties(member, this, "addresses");
-        //member.getAddresses().stream().map(Address::toString).forEach(address -> this.addresses = address);
+    public MemberJpo(CommunityMember member){
+        BeanUtils.copyProperties(member,this);
     }
 
-    public CommunityMember toDomain(){
-        CommunityMember member = new CommunityMember(this.email, this.name, this.phoneNumber);
-        member.setId(id);
-        member.setBirthDay(this.birthday);
-        member.setNickName(nickname);
-        //member.setAddresses(splitAddress(addresses));
+    public MemberJpo(MemberCdo memberCdo){
+        BeanUtils.copyProperties(memberCdo,this);
+    }
 
+    @OneToOne(mappedBy = "memberJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private AddressJpo addressJpo;
+    @OneToMany(mappedBy = "memberJpo", cascade = CascadeType.ALL)
+    private List<MembershipJpo> membershipJpos = new ArrayList<>();
+
+    public void setAddressJpo(AddressJpo addressJpo){
+        this.addressJpo = addressJpo;
+        addressJpo.setMemberJpo(this);
+    }
+    public CommunityMember toDomain(){
+        CommunityMember member = new CommunityMember(this);
         return member;
     }
 
-    //@ElementCollection 과 @Embeddable 어노테이션을 사용하면 스트링 변환을 거치지 않고 주소를 종속 테이블로 만들 수 있음...
-    public List<Address> splitAddress(String addresses) {
-        Pattern pattern = Pattern.compile("[:](.*?)[/]");
-        Matcher matcher = pattern.matcher(addresses);
-        List<String> list = new ArrayList<>();
-        while (matcher.find()){
-            String add = matcher.group(1);
-            list.add(add);
-        }
-        Address address = new Address(list.get(0), list.get(1), list.get(2), list.get(3), AddressType.valueOf(list.get(4)));
-        List<Address> addressList = new ArrayList<>();
-        addressList.add(address);
 
-        return addressList;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        member = MemberServiceLogic.getMemberServiceLogic().findMemberById(id);
+        if(member == null){
+            throw new NoSuchMemberException("No such member with id: " + id);
+        }
+        //membershipJpo 에서 설정할 것 : String clubName = ClubServiceLogic.getClubServiceLogic().findClubsByName();
+        authorities.add(new SimpleGrantedAuthority(member.getRoles().getKey()));
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

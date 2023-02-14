@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,11 +16,15 @@ import javax.persistence.Table;
 public class TravelClubJpo {
 
     @Id
+    @JoinColumn(name = "clubId")
     private String id;
     private String name;
     private String intro;
     private long foundationTime;
-    //private String reactId;
+    @OneToMany(mappedBy = "travelClubJpo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SocialBoardJpo> socialBoardJpos = new ArrayList<>();
+    @OneToMany(mappedBy = "travelClubJpo")
+    private List<MembershipJpo> membershipJpos = new ArrayList<>();
 
     public TravelClubJpo(TravelClub travelClub){
 //        this.id = travelClub.getId();

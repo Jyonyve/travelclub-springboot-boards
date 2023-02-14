@@ -8,17 +8,16 @@ import io.namoosori.travelclub.web.store.jpastore.jpo.TravelClubJpo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(
+        allowCredentials = "true",
+        origins = {"http://localhost:3000", "http://localhost:8080", "https://localhost:3000", "https://localhost:8080"},
+        methods = {RequestMethod.HEAD, RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.PUT},
+        allowedHeaders = {"origin", "Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization", "Access-Control-Allow-Credentials", "X-AUTH-TOKEN"}
+)
 @RestController //spring ioc에 이 클래스를 컨트롤러 빈으로 등록할게. +@ResponseBody 어노테이션을 포함
                 // (@Controller는 JSP view 페이지가 있어야 쓸수있음)
 @RequestMapping("/club") //이 클래스가 호출하는 모든 메소드의 url 앞에 /club이 들어간다는 뜻.
 public class ClubContoller {
-
-//    @GetMapping("/test") //Get 메소드를 써서 접근할거야. 그리고 접근을 위해 이 url (/test) 을 쓸 거야,
-//    public String test(){
-//        return "Hello Spring MVC!";
-//    }
 
     //사용할 서비스 클래스를 변수에 담아서 선언
     private ClubService clubService;
@@ -35,7 +34,7 @@ public class ClubContoller {
     }
 
 
-    @GetMapping("/all") // 조회할 때에는 Get을 쓴다.
+    @GetMapping // 조회할 때에는 Get을 쓴다.
     public List<TravelClub> findAll(){
         return clubService.findAll();
     }
@@ -46,7 +45,7 @@ public class ClubContoller {
     }
 
    // @GetMapping("/club/{clubName}") <<이렇게 설계를 해 버리면 컴퓨터는 clubName과 clubId를 포맷상으로 구분하지 못해서 어떤 메소드를 호출할지 몰라 오류를 냄.
-    @GetMapping //localhost:8090/club?name=JavaTravelClub3
+    @GetMapping("/?name=") //localhost:8090/club?name=JavaTravelClub3
     public List<TravelClub> findByName(@RequestParam String name){ //@RequestParam :  ? 이후 name을 key로, = 뒤의 value를 변수로 가지고 올게.
         return clubService.findClubsByName(name);
     }
@@ -56,12 +55,12 @@ public class ClubContoller {
 //        return clubService.findIdByReactId(reactId);
 //    }
 
-    @PutMapping("/{clubId}")
-    public void modify(@PathVariable String clubId, @RequestBody NameValueList nameValueList){
-        clubService.modify(clubId, nameValueList);
-    }
+//    @PutMapping("/{clubId}")
+//    public void modify(@PathVariable String clubId, @RequestBody NameValueList nameValueList){
+//        clubService.modify(clubId, nameValueList);
+//    }
 
-    @PutMapping("/react/{id}")
+    @PutMapping("/{id}")
     public void modifyReact(@PathVariable String id, @RequestBody TravelClubJpo travelClubJpo){
         NameValueList nameValueList = new NameValueList();
         nameValueList.addNameValue("name", travelClubJpo.getName());

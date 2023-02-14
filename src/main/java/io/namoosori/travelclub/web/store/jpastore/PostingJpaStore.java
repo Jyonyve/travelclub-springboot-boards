@@ -18,13 +18,17 @@ public class PostingJpaStore implements PostingStore {
     private PostingRepository postingRepository;
     private BoardRepository boardRepository;
 
-    public PostingJpaStore(PostingRepository postingRepository) {
+    public PostingJpaStore(PostingRepository postingRepository, BoardRepository boardRepository) {
         this.postingRepository = postingRepository;
+        this.boardRepository = boardRepository;
     }
 
     @Override
     public String create(Posting posting) {
-        postingRepository.save(new PostingJpo(posting));
+        PostingJpo postingJpo = new PostingJpo(posting);
+        postingJpo.setSocialBoardJpo(boardRepository.findById(posting.getBoardId()).get());
+        System.out.println(posting.getBoardId());
+        postingRepository.save(postingJpo);
         return posting.getId();
     }
 
@@ -41,8 +45,14 @@ public class PostingJpaStore implements PostingStore {
 
     @Override
     public List<Posting> retrieveByBoardId(String boardId) {
-        List<PostingJpo> postingJpos = postingRepository.findAllByBoardId(boardId);
+        List<PostingJpo> postingJpos = postingRepository.findAllBySocialBoardJpo_Id(boardId);
         return postingJpos.stream().map(PostingJpo::toDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Posting> retrieveByBoardIdAndWriterEmail(String boardId, String writerEmail) {
+        List<PostingJpo> personalPostingJpos = postingRepository.findAllBySocialBoardJpo_IdAndWriterEmail(boardId, writerEmail);
+        return personalPostingJpos.stream().map(PostingJpo::toDomain).collect(Collectors.toList());
     }
 
     @Override

@@ -3,24 +3,55 @@ server: #SpringBoot가 시작할때 제일 처음 읽혀지는 환경설정 파�
 
 
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-#    enabled: true
-#    path: /h2-console
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
+##    enabled: true
+##    path: /h2-console
+
+  # database-platform: org.hibernate.dialect.H2Dialect
+
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:test
+#    username: sa
+#    password:
+  config:
+    import:
+      - classpath:/application-oauth.yml
+#    activate:
+#      on-profile:
+#        include=oauth
 
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/travelClub?characterEncoding=UTF-8&serverTimezone=UTC
+    username: admin
+    password: bizadmin
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    show_sql: true
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    open-in-view: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
     properties:
-      hibernate:
-        format_sql=true
+        hibernate:
+        format_sql: true #To beautify or pretty print the SQL
+        show_sql: true #show sql
+  mvc:
+    log-request-details: true
+
+  profiles.active: dev
+  web:
+    resources:
+      static-locations: classpath:/static # 이부분 추가해야됨
 
 
+logging:
+  exception-conversion-word: '%wEx'
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:-%5p}){green} %clr([%22thread]){magenta} %clr(%-40.40logger{39}){cyan} %clr(: %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}){faint}'
+  level:
+    web: debug

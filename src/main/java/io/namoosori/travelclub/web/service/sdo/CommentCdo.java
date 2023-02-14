@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class CommentCdo implements Serializable {
 
-    private String writer;
+    private String writerEmail;
     private String contents;
     private String postingId;
 }

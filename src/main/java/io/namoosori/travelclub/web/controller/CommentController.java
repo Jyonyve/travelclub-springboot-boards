@@ -18,8 +18,10 @@ public class CommentController {
     }
 
     @PostMapping("/{postingId}")
-    public String register(@PathVariable String postingId, @RequestBody CommentCdo commentCdo){
-        return commentService.register(postingId, commentCdo);
+    public Comment register(@PathVariable String postingId, @RequestBody CommentCdo commentCdo){
+        Comment comment = commentService.register(postingId, commentCdo);
+        System.out.println(comment.getId());
+        return comment;
     }
 
     @GetMapping("/{commentId}")
@@ -28,13 +30,13 @@ public class CommentController {
     }
 
     @GetMapping("/all/{postingId}")
-    List<Comment> findByPostingId(@PathVariable String postingId){
-        return commentService.findByPostingId(postingId);
+    List<Comment> findAllByPostingId(@PathVariable String postingId){
+        return commentService.findAllByPostingId(postingId);
     }
 
     @PutMapping("/{commentId}")
-    void modify(@PathVariable String commentId, @RequestBody NameValueList nameValueList){
-        commentService.modify(commentId, nameValueList);
+    void modify(@PathVariable String commentId, @RequestBody Comment comment){
+        commentService.modify(commentId, comment);
     }
 
     @DeleteMapping("/{commentId}")

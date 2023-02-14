@@ -17,7 +17,6 @@ public class TravelClub extends Entity {
 
 	private String name;
 	private String intro;
-	//private String reactId;
 	private long foundationTime;
 
 	public TravelClub(String id) {
@@ -31,6 +30,15 @@ public class TravelClub extends Entity {
 		this.name = name;
 		this.intro = intro;
 		//this.reactId = reactId;
+		this.foundationTime = System.currentTimeMillis();
+	}
+
+	public TravelClub(String name, String intro, String id) {
+		//
+		super();
+		this.name = name;
+		this.intro = intro;
+		this.id = id;
 		this.foundationTime = System.currentTimeMillis();
 	}
 
@@ -70,7 +78,7 @@ public class TravelClub extends Entity {
 	public void modifyValues(NameValueList nameValues) {
 		//
 		for (NameValue nameValue : nameValues.getNameValues()) {
-			String value = nameValue.getValue();
+			String value = String.valueOf(nameValue.getValue());
 			switch (nameValue.getName()) {
 				case "name":
 					checkNameValidation(value);

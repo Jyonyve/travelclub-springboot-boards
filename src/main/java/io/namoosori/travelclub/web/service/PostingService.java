@@ -11,11 +11,12 @@ public interface PostingService {
 
     String register(String boardId, PostingCdo postingDto);
 
-    Posting find(String postingId);
+    Posting findById(String postingId);
 
     List<Posting> findByBoardId(String boardId);
+    List<Posting> findBySocialBoardJpo_IdAndWriterEmail(String boardId, String writerEmail);
 
-    void modify(String postingId, NameValueList nameValueList);
+    void modify(String postingId, Posting posting);
 
     void remove(String postingId);
 }

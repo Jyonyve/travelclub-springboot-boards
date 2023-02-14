@@ -8,9 +8,8 @@ import java.util.Optional;
 
 public interface MembershipRepository extends JpaRepository<MembershipJpo, String> {
 
-    List<MembershipJpo> findAllByName(String name);
-    MembershipJpo findByClubIdAndMemberId(String clubId, String memberId);
-    List<MembershipJpo> findByClubId(String clubId);
-    List<MembershipJpo> findByMemberId(String memberId);
-    Optional<MembershipJpo> findByEmail(String email);
+    MembershipJpo findByTravelClubJpo_IdAndMemberJpo_Id(String clubId, String memberId);
+    List<MembershipJpo> findByTravelClubJpo_Id(String clubId);
+    List<MembershipJpo> findByMemberJpo_Id(String memberId);
+    List<MembershipJpo> findByEmail(String email);
 }

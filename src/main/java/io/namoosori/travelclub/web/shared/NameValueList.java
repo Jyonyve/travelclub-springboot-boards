@@ -18,7 +18,7 @@ public class NameValueList {
         this.nameValues = new ArrayList<NameValue>();
     }
 
-    public void addNameValue(String name, String value) {
+    public void addNameValue(String name, Object value) {
         //
         NameValue nameValue = new NameValue(name, value);
         nameValues.add(nameValue);

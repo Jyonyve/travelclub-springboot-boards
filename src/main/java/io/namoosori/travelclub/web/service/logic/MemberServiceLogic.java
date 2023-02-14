@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.web.service.logic;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
@@ -10,40 +11,36 @@ import io.namoosori.travelclub.web.util.exception.NoSuchMemberException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberServiceLogic implements MemberService {
 	//
-	private MemberStore memberStore;
+	private static MemberStore memberStore;
+	public static MemberServiceLogic memberServiceLogic;
 
-	public MemberServiceLogic(MemberStore memberStore) {
+	private MemberServiceLogic(MemberStore memberStore) {
 		//
 		this.memberStore = memberStore;
+	}
+
+	public static MemberServiceLogic getMemberServiceLogic(){
+		if (memberServiceLogic == null){
+			memberServiceLogic = new MemberServiceLogic(memberStore);
+		}
+		return memberServiceLogic;
 	}
 
 	@Override
 	public String register(MemberCdo memberCdo) {
 		//
-		String email = memberCdo.getEmail();
-		CommunityMember memberchk = memberStore.retrieveByEmail(email);
-
+		CommunityMember memberchk = memberStore.retrieveByEmail(memberCdo.getEmail());
 		if (memberchk != null) {
 			throw new MemberDuplicationException("Member already exists with email: " + memberchk.getEmail());
 		}
-
-		CommunityMember member = new CommunityMember(
-				memberCdo.getEmail(),
-				memberCdo.getName(),
-				memberCdo.getPhoneNumber()
-		);
-		member.setNickName(memberCdo.getNickName());
-		member.setBirthDay(memberCdo.getBirthDay());
-		member.setAddresses(memberCdo.getAddresses());
-
+		CommunityMember member = new CommunityMember(memberCdo);
 		member.checkValidation();
-
 		memberStore.create(member);
-
 		return member.getId();
 	}
 
@@ -60,6 +57,11 @@ public class MemberServiceLogic implements MemberService {
 	}
 
 	@Override
+	public CommunityMember findMemberByIdToken(String idToken) {
+		return memberStore.retrieveByIdToken(idToken);
+	}
+
+	@Override
 	public List<CommunityMember> findMembersByName(String name) {
 		//
 		return memberStore.retrieveByName(name);
@@ -67,7 +69,14 @@ public class MemberServiceLogic implements MemberService {
 
 	@Override
 	public List<CommunityMember> findAll() {
-		return memberStore.retrieveAll();
+		List<CommunityMember> membersForFront = memberStore.retrieveAll().stream()
+				.map(communityMember -> new CommunityMember(communityMember)).collect(Collectors.toList());
+		return membersForFront;
+	}
+
+	@Override
+	public List<CommunityMember> findAllByRoles(Roles roles) {
+		return memberStore.retrieveAllByRoles(roles);
 	}
 
 	@Override
@@ -93,5 +102,10 @@ public class MemberServiceLogic implements MemberService {
 		}
 
 		memberStore.delete(memberId);
+	}
+
+	@Override
+	public boolean existChecker(String memberId) {
+		return memberStore.exists(memberId);
 	}
 }

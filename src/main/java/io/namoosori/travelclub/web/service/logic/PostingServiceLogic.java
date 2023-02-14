@@ -1,10 +1,15 @@
 package io.namoosori.travelclub.web.service.logic;
 
 import io.namoosori.travelclub.web.aggregate.board.Posting;
+import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
+import io.namoosori.travelclub.web.service.BoardService;
+import io.namoosori.travelclub.web.service.MemberService;
+import io.namoosori.travelclub.web.service.MembershipService;
 import io.namoosori.travelclub.web.service.PostingService;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.BoardStore;
+import io.namoosori.travelclub.web.store.MemberStore;
 import io.namoosori.travelclub.web.store.MembershipStore;
 import io.namoosori.travelclub.web.store.PostingStore;
 import io.namoosori.travelclub.web.util.exception.NoSuchBoardException;
@@ -17,39 +22,47 @@ import java.util.List;
 @Service
 public class PostingServiceLogic implements PostingService {
 
-    private PostingStore postingStore;
-    private BoardStore boardStore;
-    private MembershipStore membershipStore;
+    private static PostingStore postingStore;
+    private static MembershipService membershipService;
+    private static PostingService postingServiceLogic;
+    private static MemberService memberService;
 
-    public PostingServiceLogic(PostingStore postingStore, BoardStore boardStore, MembershipStore membershipStore) {
+    private PostingServiceLogic(PostingStore postingStore) {
         this.postingStore = postingStore;
-        this.boardStore = boardStore;
-        this.membershipStore = membershipStore;
+        this.membershipService = MembershipServiceLogic.getMembershipServiceLogic();
+        this.memberService = MemberServiceLogic.getMemberServiceLogic();
+    }
+
+    public static PostingService getPostingServiceLogic(){
+        if (postingServiceLogic == null){
+            postingServiceLogic = new PostingServiceLogic(postingStore);
+        }
+        return postingServiceLogic;
     }
 
     @Override
     public String register(String boardId, PostingCdo postingCdo) {
-        if(boardStore.retrieve(boardId) == null){
-            throw new NoSuchBoardException("there are no board with id: "+boardId);
-        }
-        if(membershipStore.retrieveByEmail(postingCdo.getWriterEmail()).isEmpty()){
+        System.out.println(boardId.split("/")[0]);
+        System.out.println(postingCdo.getWriterEmail());
+        System.out.println(membershipService.isClubMember(boardId.split("/")[0], postingCdo.getWriterEmail()));
+
+        if(memberService.findAllByRoles(Roles.ADMIN).stream().anyMatch(admin -> admin.getEmail().equals(postingCdo.getWriterEmail()))
+        || membershipService.isClubMember(boardId.split("/")[0], postingCdo.getWriterEmail())){
+
+            Posting posting = new Posting(boardId,postingCdo);
+            //운영자일 경우 가입없이도 포스팅 가능
+            //클럽 멤버일 경우 포스팅 가능
+            return postingStore.create(posting);
+        } else
+        {
             throw new NoSuchMembershipException("no such member in this club");
         }
 
-        Posting posting = new Posting(postingCdo.getTitle(),
-                                    postingCdo.getWriterEmail(),
-                                    postingCdo.getContents(),
-                                    boardId);
-
-        return postingStore.create(posting);
     }
 
     @Override
-    public Posting find(String postingId) {
+    public Posting findById(String postingId) {
         Posting posting = postingStore.retrieve(postingId);
-        if(posting == null){
-            throw new NoSuchPostingException("no posting with the id: "+postingId);
-        }
         return posting;
     }
 
@@ -60,12 +73,14 @@ public class PostingServiceLogic implements PostingService {
     }
 
     @Override
-    public void modify(String postingId, NameValueList nameValueList) {
-        Posting posting = postingStore.retrieve(postingId);
-        if(posting == null){
-            throw new NoSuchPostingException("No such posting with id: "+postingId);
-        }
-        posting.modifyValues(nameValueList);
+    public List<Posting> findBySocialBoardJpo_IdAndWriterEmail(String boardId, String writerEmail) {
+        List<Posting> personalPostings = postingStore.retrieveByBoardIdAndWriterEmail(boardId, writerEmail);
+        return personalPostings;
+    }
+
+    @Override
+    public void modify(String postingId, Posting posting) {
+
         postingStore.update(posting);
 
     }

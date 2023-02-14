@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CommentStore {
 
-    String create(Comment comment);
+    Comment create(Comment comment);
     Comment retrieve(String commentId);
     List<Comment> retrieveByPostingId(String postingId);
     void update(Comment comment);

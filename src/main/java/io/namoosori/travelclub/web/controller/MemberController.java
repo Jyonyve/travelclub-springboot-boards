@@ -1,18 +1,14 @@
 package io.namoosori.travelclub.web.controller;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
-import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
 import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.net.http.HttpHeaders;
 import java.util.List;
 import java.util.Map;
 

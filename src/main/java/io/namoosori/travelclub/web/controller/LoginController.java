@@ -3,15 +3,12 @@ package io.namoosori.travelclub.web.controller;
 import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
 import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.codec.binary.Base64;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

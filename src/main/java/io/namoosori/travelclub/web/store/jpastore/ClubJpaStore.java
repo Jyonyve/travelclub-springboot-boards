@@ -32,11 +32,11 @@ public class ClubJpaStore implements ClubStore {
 
         //auto-generated 4 boards
         SocialBoardJpo noticeBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"Notice Board", BoardKind.NOTICEBOARD));
-            noticeBoardJpo.setTravelClubJpo(travelClubJpo);
+        noticeBoardJpo.setTravelClubJpo(travelClubJpo);
         SocialBoardJpo socialBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"Social Board", BoardKind.SOCIALBOARD));
         socialBoardJpo.setTravelClubJpo(travelClubJpo);
         SocialBoardJpo qnaBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"QnA Board", BoardKind.QNABOARD));
-            qnaBoardJpo.setTravelClubJpo((travelClubJpo));
+        qnaBoardJpo.setTravelClubJpo((travelClubJpo));
         SocialBoardJpo faqBoardJpo = new SocialBoardJpo(new SocialBoard(club.getId(),"FaQ Board", BoardKind.FAQBOARD));
         faqBoardJpo.setTravelClubJpo((travelClubJpo));
 

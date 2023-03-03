@@ -36,7 +36,7 @@ public class BoardServiceLogic implements BoardService {
 
     @Override
     public String registerBoard(@NotNull SocialBoardCdo boardCdo) {
-
+        //
         SocialBoard board = new SocialBoard(boardCdo.getClubId(),boardCdo.getName(),boardCdo.getBoardKind());
         return boardStore.create(board);
 

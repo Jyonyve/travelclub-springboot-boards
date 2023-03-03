@@ -8,6 +8,7 @@ import io.namoosori.travelclub.web.service.PostingService;
 import io.namoosori.travelclub.web.service.logic.BoardServiceLogic;
 import io.namoosori.travelclub.web.service.logic.PostingServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
+import io.namoosori.travelclub.web.service.sdo.SocialBoardCdo;
 import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,10 +37,6 @@ public class BoardAndPostingController {
     }
 
 //    No CRUD for Boards : automatically generated and no modifying, deleting
-
-
-
-
     //All board is automatically generated : cannot make new board by user.
     // ~/board/boardId @PostMapping goes to insert new posting.
     @PostMapping("/{clubId}/{boardKind}")
@@ -57,7 +54,8 @@ public class BoardAndPostingController {
     //same as /{boardId}
     @GetMapping("/{clubId}/{boardKind}")
     public Map<String, Object> findByClubIdAndBoardKind(
-            @PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind, @RequestHeader("Authorization") String idToken) {
+            @PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind,
+            @RequestHeader("Authorization") String idToken) {
 
         idToken = idToken.substring(7);
         Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idToken);
@@ -92,4 +90,15 @@ public class BoardAndPostingController {
     public void remove(@PathVariable String postingId) {
         postingService.remove(postingId);
     }
+
+    @PostMapping("/{boardKind}")
+    public void addSampleBoard(@PathVariable String boardKind){
+        boardService.registerBoard(new SocialBoardCdo("sampleClubId","sample"+boardKind, BoardKind.valueOf(boardKind)));
+    }
+    @GetMapping("/{boardKind}")
+    public List<Posting> getSampleBoardPostings(@PathVariable String boardKind){
+        List<Posting> postings = postingService.findByBoardId("sampleClubId/" + boardKind);
+        return postings;
+    }
+
 }

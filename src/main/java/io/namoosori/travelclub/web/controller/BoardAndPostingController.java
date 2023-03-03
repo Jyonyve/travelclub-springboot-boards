@@ -83,10 +83,6 @@ public class BoardAndPostingController {
 
     }
 
-    //    @GetMapping("/{clubId}")
-//    public List<SocialBoard> findAll(@PathVariable String clubId){
-//        return boardService.findAll();
-//    }
     @PutMapping("/{postingId}")
     public void modify(@PathVariable String postingId, @RequestBody Posting posting) {
         postingService.modify(postingId, posting);

@@ -27,11 +27,6 @@ public class TravelClubJpo {
     private List<MembershipJpo> membershipJpos = new ArrayList<>();
 
     public TravelClubJpo(TravelClub travelClub){
-//        this.id = travelClub.getId();
-//        this.name = travelClub.getName();
-//        this.intro = travelClub.getIntro();
-//        this.foundationTime = travelClub.getFoundationTime();
-
         BeanUtils.copyProperties(travelClub, this);
         //1번째 객체의 프로퍼티들을 카피해서 2번째 객체의 프로퍼티에 넣어준다. (this.~ 가 많을때 유용)
     }

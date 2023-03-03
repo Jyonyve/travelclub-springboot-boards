@@ -24,10 +24,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final MemberRepository memberRepository;
-
     @GetMapping("/code/google")
-    public void   googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public List<String> googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
         //methods for google oauth2 login
         GoogleAuthentification googleAuthentification = GoogleAuthentification.getGoogleAuthentification();
 
@@ -35,25 +33,14 @@ public class LoginController {
         ResponseEntity<String> response = null;
         response = googleAuthentification.firstCredential(code);
         System.out.println("response.getBody()  "+response.getBody()); //가져온 모든 유저 정보 볼수있음
-
         // Parsing tokens from Google API server, and set info to DB
         Map<String, String > tokensMap = googleAuthentification.responseParser(response);
         String id = googleAuthentification.insertUserInDB(tokensMap);
         List<String> userRoles = googleAuthentification.getUserRoles(id).stream()
-                                .map(roles -> roles.toString()).collect(Collectors.toList());
-        String userRoleString = userRoles.get(0).toString();
-        System.out.println(userRoleString);
+                .map(roles -> "{\"site\" : \"" + roles + "\"}").collect(Collectors.toList());
 
         // Use the access token for authentication
-
-        res.sendRedirect("/login/oauth2/setter/?userRoles="+userRoleString+"&id="+id);
+        res.addHeader("Authorization", "Bearer " + tokensMap.get("id_token"));
+        return userRoles;
     }
-
-    @GetMapping("/setter/token/{id}")
-    public void redirectWithData(@PathVariable("id") String id,  HttpServletResponse res) {
-        String idToken = memberRepository.findById(id).get().getIdToken();
-        res.addHeader("Authorization", "Bearer " + idToken);
-    }
-
-
 }

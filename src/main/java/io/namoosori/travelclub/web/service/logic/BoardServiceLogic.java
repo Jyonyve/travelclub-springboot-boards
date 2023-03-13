@@ -18,13 +18,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class BoardServiceLogic implements BoardService {
-
+    //
     private static BoardStore boardStore;
     private static ClubStore clubStore;
     private static BoardService boardServiceLogic;
+
     private BoardServiceLogic (BoardStore boardStore, ClubStore clubStore){
-        this.boardStore =boardStore;
-        this.clubStore = clubStore;
+        BoardServiceLogic.boardStore =boardStore;
+        BoardServiceLogic.clubStore = clubStore;
     }
 
     public static BoardService getBoardServiceLogic(){
@@ -82,7 +83,7 @@ public class BoardServiceLogic implements BoardService {
     }
 
     @Override
-    public List<SocialBoard> findByClubName(String clubName) { //클럽이 중복이름을 허용하는가??
+    public List<SocialBoard> findByClubName(String clubName) {
         List<TravelClub> clubs = clubStore.retrieveByName(clubName);
 
         List<SocialBoard> boards = clubs.stream().map(TravelClub::getId).collect(Collectors.toList())

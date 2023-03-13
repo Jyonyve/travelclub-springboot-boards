@@ -1,10 +1,9 @@
 package io.namoosori.travelclub.web.aggregate.sample.board;
 
-import io.namoosori.travelclub.web.aggregate.Entity;
-import io.namoosori.travelclub.web.service.sdo.PostingCdo;
+import io.namoosori.travelclub.web.service.sdo.sample.board.TestPostingCdo;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.jpastore.jpo.PostingJpo;
+import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestPostingJpo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,21 +16,20 @@ public class TestPosting {
 
     private String id;
     private String title;
-    private String writerEmail;
     private String contents;
     private String writtenDate;
     private int readCount;
     private String boardId;
     private int postingNumber;
 
-    public TestPosting(String boardId, PostingCdo postingCdo){
+    public TestPosting(String boardId, TestPostingCdo postingCdo){
         BeanUtils.copyProperties(postingCdo, this);
         this.boardId=boardId;
         this.id = boardId+postingNumber;
     }
 
-    public TestPosting(PostingJpo postingJpo){
-        BeanUtils.copyProperties(postingJpo, this);
+    public TestPosting(TestPostingJpo testPostingJpo){
+        BeanUtils.copyProperties(testPostingJpo, this);
     }
 
 

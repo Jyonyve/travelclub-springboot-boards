@@ -1,6 +1,5 @@
 package io.namoosori.travelclub.web.controller;
 
-import io.namoosori.travelclub.web.store.jpastore.repository.MemberRepository;
 import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

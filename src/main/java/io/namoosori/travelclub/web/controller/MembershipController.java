@@ -49,6 +49,7 @@ public class MembershipController {
     //requestParam
     @GetMapping
     public String findClubIdAndRoleInClubByEmail(@RequestHeader("Authorization") String bearerIdToken) throws JsonProcessingException {
+        //
         String idToken = bearerIdToken.substring(7);
         Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idToken);
         String memberEmail = String.valueOf(payload.get("email"));
@@ -59,6 +60,7 @@ public class MembershipController {
         membershipList.stream().forEach( membership ->
             membershipIdAndRoleInClub.put(membership.getId(), membership.getRoleInClub())
         );
+        membershipIdAndRoleInClub.put("sampleClubId", RoleInClub.President);
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(membershipIdAndRoleInClub);

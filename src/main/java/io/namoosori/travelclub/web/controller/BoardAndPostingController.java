@@ -8,7 +8,7 @@ import io.namoosori.travelclub.web.service.PostingService;
 import io.namoosori.travelclub.web.service.logic.BoardServiceLogic;
 import io.namoosori.travelclub.web.service.logic.PostingServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
-import io.namoosori.travelclub.web.service.sdo.SocialBoardCdo;
+import io.namoosori.travelclub.web.service.sdo.sample.board.TestBoardService;
 import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +28,7 @@ public class BoardAndPostingController {
 
     private BoardService boardService;
     private PostingService postingService;
+    private TestBoardService testBoardService;
     private GoogleAuthentification googleAuthentification;
 
     public BoardAndPostingController() {
@@ -62,7 +63,9 @@ public class BoardAndPostingController {
         String email = String.valueOf(payload.get("email"));
 
         Map<String, Object> boardInfoAndPostingList = new HashMap<>();
-        SocialBoard oneBoardInfo = boardService.findByClubIdAndBoardKind(clubId, BoardKind.valueOf(boardKind));
+        SocialBoard oneBoardInfo =
+//                boardService.findByClubIdAndBoardKind(clubId, BoardKind.valueOf(boardKind));
+        boardService.findById(clubId+"/"+boardKind);
 
         switch (BoardKind.valueOf(boardKind)){
             case QNABOARD:
@@ -83,22 +86,13 @@ public class BoardAndPostingController {
 
     @PutMapping("/{postingId}")
     public void modify(@PathVariable String postingId, @RequestBody Posting posting) {
+        //
         postingService.modify(postingId, posting);
     }
 
     @DeleteMapping("/{postingId}")
     public void remove(@PathVariable String postingId) {
+        //
         postingService.remove(postingId);
     }
-
-    @PostMapping("/{boardKind}")
-    public void addSampleBoard(@PathVariable String boardKind){
-        boardService.registerBoard(new SocialBoardCdo("sampleClubId","sample"+boardKind, BoardKind.valueOf(boardKind)));
-    }
-    @GetMapping("/{boardKind}")
-    public List<Posting> getSampleBoardPostings(@PathVariable String boardKind){
-        List<Posting> postings = postingService.findByBoardId("sampleClubId/" + boardKind);
-        return postings;
-    }
-
 }

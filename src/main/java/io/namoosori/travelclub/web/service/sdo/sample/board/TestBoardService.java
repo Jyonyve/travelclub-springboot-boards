@@ -12,4 +12,5 @@ public interface TestBoardService {
     List<TestBoard> findAll();
     void modify(String boardId, NameValueList nameValueList);
     void remove(String boardId);
+    boolean exists(String boardId);
 }

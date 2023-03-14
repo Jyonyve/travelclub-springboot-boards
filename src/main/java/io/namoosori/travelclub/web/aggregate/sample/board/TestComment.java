@@ -12,14 +12,12 @@ import lombok.NoArgsConstructor;
 public class TestComment {
 
     private String id;
-    private String writerEmail;
     private String contents;
     private String writtenDate;
     private int commentNumber;
     private String postingId;
 
-    public TestComment(String writerEmail, String contents, String postingId, int commentNumber) {
-        this.writerEmail = writerEmail;
+    public TestComment( String contents, String postingId, int commentNumber) {
         this.contents = contents;
         this.writtenDate = DateUtil.today();
         this.postingId = postingId;
@@ -27,14 +25,12 @@ public class TestComment {
         this.id = postingId+"/"+commentNumber;
     }
 
-    public TestComment(String writerEmail, String contents, String postingId) {
+    public TestComment(String contents, String postingId) {
         super();
-        this.writerEmail = writerEmail;
         this.contents = contents;
         this.writtenDate = DateUtil.today();
         this.postingId = postingId;
         this.commentNumber = 0;
-        this.id = postingId+"/"+commentNumber;
     }
 
     public void modifyValues(NameValueList nameValues) {

@@ -25,15 +25,13 @@ public class TestCommentsJpo {
     @JoinColumn(name = "testPostingId")
     private TestPostingJpo testPostingJpo;
 
-    public TestCommentsJpo(Comment comment){
+    public TestCommentsJpo(TestComment comment){
         BeanUtils.copyProperties(comment, this);
-        this.testPostingJpo = new TestPostingJpo(
-                TestPostingServiceLogic.getPostingServiceLogic()
-                        .findById(testPostingJpo.getId()));
+        this.testPostingJpo = new TestPostingJpo(TestPostingServiceLogic.getPostingServiceLogic().findById(comment.getPostingId()));
     }
 
     public TestComment toDomain(){
-        TestComment comment = new TestComment(writerEmail, contents, testPostingJpo.getId(), commentNumber);
+        TestComment comment = new TestComment( contents, testPostingJpo.getId(), commentNumber);
         comment.setId(testPostingJpo.getId()+"/"+commentNumber);
         return comment;
     }

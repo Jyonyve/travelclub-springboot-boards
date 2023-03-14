@@ -12,8 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TestCommentCdo implements Serializable {
-
-    private String writerEmail;
+    //
     private String contents;
     private String postingId;
 }

@@ -18,10 +18,6 @@ public class TestCommentServiceLogic implements TestCommentService {
     private static TestCommentStore commentStore;
     private static TestPostingStore postingStore;
 
-    private TestCommentServiceLogic() {
-        super();
-    }
-
     private TestCommentServiceLogic(TestCommentStore commentStore, TestPostingStore postingStore) {
         this.commentStore = commentStore;
         this.postingStore = postingStore;
@@ -41,7 +37,7 @@ public class TestCommentServiceLogic implements TestCommentService {
         if(comments == null){
             throw new NoSuchPostingException("there are no posting with the id: "+postingId);
         }
-        TestComment comment = new TestComment(commentCdo.getWriterEmail(), commentCdo.getContents(), postingId, comments.size()+1);
+        TestComment comment = new TestComment( commentCdo.getContents(), postingId);
         return commentStore.create(comment);
     }
 

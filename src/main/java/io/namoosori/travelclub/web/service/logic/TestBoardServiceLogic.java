@@ -54,4 +54,9 @@ public class TestBoardServiceLogic implements TestBoardService {
     public void remove(String boardId) {
 
     }
+
+    @Override
+    public boolean exists(String boardId) {
+        return boardStore.retrieve(boardId) != null;
+    }
 }

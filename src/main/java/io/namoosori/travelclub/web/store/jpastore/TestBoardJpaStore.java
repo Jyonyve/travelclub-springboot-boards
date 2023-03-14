@@ -28,6 +28,9 @@ public class TestBoardJpaStore implements TestBoardStore {
     @Override
     public TestBoard retrieve(String boardId) {
         Optional<TestBoardJpo> testBoardJpo = testBoardRepository.findById(boardId);
+        if(testBoardJpo.isEmpty()){
+            throw new NoSuchBoardException("No testboard is found.");
+        }
         return testBoardJpo.get().toDomain();
     }
 

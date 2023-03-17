@@ -7,7 +7,7 @@ import io.namoosori.travelclub.web.service.PostingService;
 import io.namoosori.travelclub.web.service.logic.CommentServiceLogic;
 import io.namoosori.travelclub.web.service.logic.PostingServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.CommentCdo;
-import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
+import io.namoosori.travelclub.web.util.security.GoogleAuthentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,12 +24,12 @@ import java.util.Map;
 public class PostingController {
     private PostingService postingService;
     private CommentService commentService;
-    private GoogleAuthentification googleAuthentification;
+    private GoogleAuthentication googleAuthentication;
 
     public PostingController() {
         this.commentService = CommentServiceLogic.getCommentServiceLogic();
         this.postingService = PostingServiceLogic.getPostingServiceLogic();
-        googleAuthentification = GoogleAuthentification.getGoogleAuthentification();
+        googleAuthentication = GoogleAuthentication.getGoogleAuthentication();
     }
 
     @GetMapping("/{postingId}")
@@ -49,7 +49,7 @@ public class PostingController {
     @PostMapping("/comment")
     public Comment registerNewComment(@RequestBody CommentCdo commentCdo, @RequestHeader("Authorization") String idToken){
         idToken = idToken.substring(7);
-        Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idToken);
+        Map<String, Object> payload = googleAuthentication.JWTTokenDecoder(idToken);
         String email = String.valueOf(payload.get("email"));
         System.out.println(email);
         System.out.println(commentCdo.getPostingId());

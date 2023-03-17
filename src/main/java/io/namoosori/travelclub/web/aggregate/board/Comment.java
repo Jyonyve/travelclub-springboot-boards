@@ -35,7 +35,6 @@ public class Comment {
         this.writtenDate = DateUtil.today();
         this.postingId = postingId;
         this.commentNumber = 0;
-        this.id = postingId+"/"+commentNumber;
     }
 
     public void modifyValues(NameValueList nameValues) {

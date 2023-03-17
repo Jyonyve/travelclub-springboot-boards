@@ -1,9 +1,9 @@
 package io.namoosori.travelclub.web.service.logic;
 
 import io.namoosori.travelclub.web.aggregate.sample.board.TestPosting;
-import io.namoosori.travelclub.web.service.sdo.sample.board.TestPostingCdo;
-import io.namoosori.travelclub.web.service.sdo.sample.board.TestPostingService;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestPostingStore;
+import io.namoosori.travelclub.web.service.sdo.TestPostingCdo;
+import io.namoosori.travelclub.web.service.TestPostingService;
+import io.namoosori.travelclub.web.store.TestPostingStore;
 import io.namoosori.travelclub.web.util.exception.NoSuchPostingException;
 import org.springframework.stereotype.Service;
 

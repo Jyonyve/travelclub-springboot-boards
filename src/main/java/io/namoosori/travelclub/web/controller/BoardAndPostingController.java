@@ -8,8 +8,8 @@ import io.namoosori.travelclub.web.service.PostingService;
 import io.namoosori.travelclub.web.service.logic.BoardServiceLogic;
 import io.namoosori.travelclub.web.service.logic.PostingServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.PostingCdo;
-import io.namoosori.travelclub.web.service.sdo.sample.board.TestBoardService;
-import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
+import io.namoosori.travelclub.web.service.TestBoardService;
+import io.namoosori.travelclub.web.util.security.GoogleAuthentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -29,12 +29,12 @@ public class BoardAndPostingController {
     private BoardService boardService;
     private PostingService postingService;
     private TestBoardService testBoardService;
-    private GoogleAuthentification googleAuthentification;
+    private GoogleAuthentication googleAuthentication;
 
     public BoardAndPostingController() {
         this.boardService = BoardServiceLogic.getBoardServiceLogic();
         this.postingService = PostingServiceLogic.getPostingServiceLogic();
-        googleAuthentification = GoogleAuthentification.getGoogleAuthentification();
+        googleAuthentication = GoogleAuthentication.getGoogleAuthentication();
     }
 
 //    No CRUD for Boards : automatically generated and no modifying, deleting
@@ -44,7 +44,7 @@ public class BoardAndPostingController {
     public String registerNewPosting(@PathVariable("clubId") String clubId, @PathVariable("boardKind") String boardKind,
                                      @RequestBody PostingCdo postingCdo, @RequestHeader("Authorization") String idToken) {
         idToken = idToken.substring(7);
-        Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idToken);
+        Map<String, Object> payload = googleAuthentication.JWTTokenDecoder(idToken);
         String email = String.valueOf(payload.get("email"));
         String boardId = clubId + "/" + boardKind;
 
@@ -59,7 +59,7 @@ public class BoardAndPostingController {
             @RequestHeader("Authorization") String idToken) {
 
         idToken = idToken.substring(7);
-        Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idToken);
+        Map<String, Object> payload = googleAuthentication.JWTTokenDecoder(idToken);
         String email = String.valueOf(payload.get("email"));
 
         Map<String, Object> boardInfoAndPostingList = new HashMap<>();
@@ -69,7 +69,7 @@ public class BoardAndPostingController {
 
         switch (BoardKind.valueOf(boardKind)){
             case QNABOARD:
-                if(!googleAuthentification.adminChecker(email)){
+                if(!googleAuthentication.adminChecker(email)){
                     List<Posting> postings = postingService.findBySocialBoardJpo_IdAndWriterEmail(oneBoardInfo.getId(), email);
                     boardInfoAndPostingList.put("board", oneBoardInfo);
                     boardInfoAndPostingList.put("postings", postings);

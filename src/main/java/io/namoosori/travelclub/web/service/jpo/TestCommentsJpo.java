@@ -1,6 +1,5 @@
-package io.namoosori.travelclub.web.store.jpastore.jpo.sample.board;
+package io.namoosori.travelclub.web.service.jpo;
 
-import io.namoosori.travelclub.web.aggregate.board.Comment;
 import io.namoosori.travelclub.web.aggregate.sample.board.TestComment;
 import io.namoosori.travelclub.web.service.logic.TestPostingServiceLogic;
 import lombok.Data;

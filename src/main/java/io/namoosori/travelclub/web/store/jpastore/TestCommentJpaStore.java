@@ -1,13 +1,9 @@
 package io.namoosori.travelclub.web.store.jpastore;
 
-import io.namoosori.travelclub.web.aggregate.board.Comment;
 import io.namoosori.travelclub.web.aggregate.sample.board.TestComment;
-import io.namoosori.travelclub.web.store.CommentStore;
-import io.namoosori.travelclub.web.store.jpastore.jpo.CommentsJpo;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestCommentStore;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestCommentsJpo;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.repository.TestCommentRepository;
-import io.namoosori.travelclub.web.store.jpastore.repository.CommentRepository;
+import io.namoosori.travelclub.web.store.TestCommentStore;
+import io.namoosori.travelclub.web.service.jpo.TestCommentsJpo;
+import io.namoosori.travelclub.web.store.jpastore.repository.TestCommentRepository;
 import io.namoosori.travelclub.web.util.exception.NoSuchCommentException;
 import org.springframework.stereotype.Repository;
 

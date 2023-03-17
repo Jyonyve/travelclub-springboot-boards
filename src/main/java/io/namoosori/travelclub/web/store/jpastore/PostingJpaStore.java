@@ -2,7 +2,7 @@ package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.board.Posting;
 import io.namoosori.travelclub.web.store.PostingStore;
-import io.namoosori.travelclub.web.store.jpastore.jpo.PostingJpo;
+import io.namoosori.travelclub.web.service.jpo.PostingJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.BoardRepository;
 import io.namoosori.travelclub.web.store.jpastore.repository.PostingRepository;
 import io.namoosori.travelclub.web.util.exception.NoSuchPostingException;

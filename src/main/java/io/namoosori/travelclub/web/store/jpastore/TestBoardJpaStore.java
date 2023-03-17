@@ -1,9 +1,9 @@
 package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.sample.board.TestBoard;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestBoardJpo;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestBoardStore;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.repository.TestBoardRepository;
+import io.namoosori.travelclub.web.service.jpo.TestBoardJpo;
+import io.namoosori.travelclub.web.store.TestBoardStore;
+import io.namoosori.travelclub.web.store.jpastore.repository.TestBoardRepository;
 import io.namoosori.travelclub.web.util.exception.NoSuchBoardException;
 import org.springframework.stereotype.Repository;
 

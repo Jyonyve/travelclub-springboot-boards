@@ -3,7 +3,7 @@ package io.namoosori.travelclub.web.aggregate.board;
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.jpastore.jpo.SocialBoardJpo;
+import io.namoosori.travelclub.web.service.jpo.SocialBoardJpo;
 import io.namoosori.travelclub.web.util.helper.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

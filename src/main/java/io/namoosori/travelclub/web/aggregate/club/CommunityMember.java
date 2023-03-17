@@ -6,7 +6,7 @@ import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
+import io.namoosori.travelclub.web.service.jpo.MemberJpo;
 import io.namoosori.travelclub.web.util.exception.InvalidEmailException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

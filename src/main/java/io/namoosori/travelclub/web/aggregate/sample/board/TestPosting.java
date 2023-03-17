@@ -1,9 +1,9 @@
 package io.namoosori.travelclub.web.aggregate.sample.board;
 
-import io.namoosori.travelclub.web.service.sdo.sample.board.TestPostingCdo;
+import io.namoosori.travelclub.web.service.sdo.TestPostingCdo;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestPostingJpo;
+import io.namoosori.travelclub.web.service.jpo.TestPostingJpo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

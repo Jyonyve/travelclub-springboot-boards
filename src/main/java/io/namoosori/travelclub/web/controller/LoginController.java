@@ -1,6 +1,6 @@
 package io.namoosori.travelclub.web.controller;
 
-import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
+import io.namoosori.travelclub.web.util.security.GoogleAuthentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,16 +26,16 @@ public class LoginController {
     @GetMapping("/code/google")
     public List<String> googleLogin(@RequestParam String code, @RequestParam String scope, HttpServletRequest req, HttpServletResponse res) throws IOException {
         //methods for google oauth2 login
-        GoogleAuthentification googleAuthentification = GoogleAuthentification.getGoogleAuthentification();
+        GoogleAuthentication googleAuthentication = GoogleAuthentication.getGoogleAuthentication();
 
         //get first credential
         ResponseEntity<String> response = null;
-        response = googleAuthentification.firstCredential(code);
+        response = googleAuthentication.firstCredential(code);
         System.out.println("response.getBody()  "+response.getBody()); //가져온 모든 유저 정보 볼수있음
         // Parsing tokens from Google API server, and set info to DB
-        Map<String, String > tokensMap = googleAuthentification.responseParser(response);
-        String id = googleAuthentification.insertUserInDB(tokensMap);
-        List<String> userRoles = googleAuthentification.getUserRoles(id).stream()
+        Map<String, String > tokensMap = googleAuthentication.responseParser(response);
+        String id = googleAuthentication.insertUserInDB(tokensMap);
+        List<String> userRoles = googleAuthentication.getUserRoles(id).stream()
                 .map(roles -> "{\"site\" : \"" + roles + "\"}").collect(Collectors.toList());
 
         // Use the access token for authentication

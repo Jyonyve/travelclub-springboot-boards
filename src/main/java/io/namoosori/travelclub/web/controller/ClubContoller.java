@@ -4,7 +4,7 @@ import io.namoosori.travelclub.web.aggregate.club.TravelClub;
 import io.namoosori.travelclub.web.service.ClubService;
 import io.namoosori.travelclub.web.service.sdo.TravelClubCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.jpastore.jpo.TravelClubJpo;
+import io.namoosori.travelclub.web.service.jpo.TravelClubJpo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

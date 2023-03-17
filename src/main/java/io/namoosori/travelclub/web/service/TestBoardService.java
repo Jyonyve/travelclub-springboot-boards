@@ -1,7 +1,8 @@
-package io.namoosori.travelclub.web.service.sdo.sample.board;
+package io.namoosori.travelclub.web.service;
 
 
 import io.namoosori.travelclub.web.aggregate.sample.board.TestBoard;
+import io.namoosori.travelclub.web.service.sdo.TestBoardCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 
 import java.util.List;

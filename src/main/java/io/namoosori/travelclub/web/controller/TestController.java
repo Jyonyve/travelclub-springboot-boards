@@ -1,15 +1,17 @@
 package io.namoosori.travelclub.web.controller;
 
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
-import io.namoosori.travelclub.web.aggregate.sample.board.TestBoard;
 import io.namoosori.travelclub.web.aggregate.sample.board.TestComment;
 import io.namoosori.travelclub.web.aggregate.sample.board.TestPosting;
+import io.namoosori.travelclub.web.service.TestBoardService;
+import io.namoosori.travelclub.web.service.TestCommentService;
+import io.namoosori.travelclub.web.service.TestPostingService;
 import io.namoosori.travelclub.web.service.logic.TestBoardServiceLogic;
 import io.namoosori.travelclub.web.service.logic.TestCommentServiceLogic;
 import io.namoosori.travelclub.web.service.logic.TestPostingServiceLogic;
-import io.namoosori.travelclub.web.service.sdo.sample.board.*;
-import org.aspectj.lang.annotation.DeclareError;
-import org.aspectj.weaver.ast.Test;
+import io.namoosori.travelclub.web.service.sdo.TestBoardCdo;
+import io.namoosori.travelclub.web.service.sdo.TestCommentCdo;
+import io.namoosori.travelclub.web.service.sdo.TestPostingCdo;
 import org.hibernate.DuplicateMappingException;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,10 +40,8 @@ public class TestController {
     @PostMapping("/{boardKind}")
     public void addSampleBoard(@PathVariable String boardKind){
         //
-        if(testBoardService.exists(boardKind)){
+        if(!testBoardService.exists(boardKind)){
             testBoardService.registerBoard(new TestBoardCdo("sample"+boardKind, BoardKind.valueOf(boardKind)));
-        } else {
-            throw new DuplicateMappingException(boardKind, "same board exists.");
         }
     }
     @GetMapping("/{boardKind}")

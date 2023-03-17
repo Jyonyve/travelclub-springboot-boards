@@ -1,4 +1,4 @@
-package io.namoosori.travelclub.web.store.jpastore.jpo;
+package io.namoosori.travelclub.web.service.jpo;
 
 import io.namoosori.travelclub.web.aggregate.club.Address;
 import io.namoosori.travelclub.web.aggregate.club.vo.AddressType;

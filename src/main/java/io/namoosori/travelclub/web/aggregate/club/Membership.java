@@ -5,7 +5,7 @@ import io.namoosori.travelclub.web.aggregate.club.vo.Roles;
 import io.namoosori.travelclub.web.service.sdo.MembershipCdo;
 import io.namoosori.travelclub.web.shared.NameValue;
 import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.jpastore.jpo.MembershipJpo;
+import io.namoosori.travelclub.web.service.jpo.MembershipJpo;
 import io.namoosori.travelclub.web.util.helper.DateUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

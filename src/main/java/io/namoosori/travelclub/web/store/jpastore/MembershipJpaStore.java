@@ -2,7 +2,7 @@ package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.club.Membership;
 import io.namoosori.travelclub.web.store.MembershipStore;
-import io.namoosori.travelclub.web.store.jpastore.jpo.MembershipJpo;
+import io.namoosori.travelclub.web.service.jpo.MembershipJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.MembershipRepository;
 import io.namoosori.travelclub.web.util.exception.NoSuchMembershipException;
 import org.springframework.stereotype.Repository;

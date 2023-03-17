@@ -1,4 +1,4 @@
-package io.namoosori.travelclub.web.store.jpastore.jpo.sample.board;
+package io.namoosori.travelclub.web.store;
 
 import io.namoosori.travelclub.web.aggregate.sample.board.TestBoard;
 

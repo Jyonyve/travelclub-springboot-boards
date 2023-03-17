@@ -1,8 +1,7 @@
-package io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.repository;
+package io.namoosori.travelclub.web.store.jpastore.repository;
 
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestCommentsJpo;
+import io.namoosori.travelclub.web.service.jpo.TestCommentsJpo;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

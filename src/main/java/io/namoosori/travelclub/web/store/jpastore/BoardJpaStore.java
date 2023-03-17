@@ -3,7 +3,7 @@ package io.namoosori.travelclub.web.store.jpastore;
 import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.store.BoardStore;
-import io.namoosori.travelclub.web.store.jpastore.jpo.SocialBoardJpo;
+import io.namoosori.travelclub.web.service.jpo.SocialBoardJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.BoardRepository;
 import io.namoosori.travelclub.web.util.exception.NoSuchBoardException;
 import org.springframework.stereotype.Repository;

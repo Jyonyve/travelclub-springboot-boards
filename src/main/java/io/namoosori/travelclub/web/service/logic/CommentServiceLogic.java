@@ -37,7 +37,7 @@ public class CommentServiceLogic implements CommentService {
         if(comments == null){
             throw new NoSuchPostingException("there are no posting with the id: "+postingId);
         }
-        Comment comment = new Comment(commentCdo.getWriterEmail(), commentCdo.getContents(), postingId, comments.size()+1);
+        Comment comment = new Comment(commentCdo.getWriterEmail(), commentCdo.getContents(), postingId);
         return commentStore.create(comment);
     }
 

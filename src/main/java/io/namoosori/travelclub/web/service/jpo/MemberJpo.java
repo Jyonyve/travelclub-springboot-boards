@@ -1,4 +1,4 @@
-package io.namoosori.travelclub.web.store.jpastore.jpo;
+package io.namoosori.travelclub.web.service.jpo;
 
 import io.namoosori.travelclub.web.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.web.aggregate.club.vo.Provider;

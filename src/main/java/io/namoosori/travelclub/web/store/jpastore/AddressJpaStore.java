@@ -2,7 +2,7 @@ package io.namoosori.travelclub.web.store.jpastore;
 
 import io.namoosori.travelclub.web.aggregate.club.Address;
 import io.namoosori.travelclub.web.store.AddressStore;
-import io.namoosori.travelclub.web.store.jpastore.jpo.AddressJpo;
+import io.namoosori.travelclub.web.service.jpo.AddressJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.AddressRepository;
 import org.springframework.stereotype.Repository;
 

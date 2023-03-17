@@ -4,8 +4,8 @@ import io.namoosori.travelclub.web.aggregate.board.SocialBoard;
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import io.namoosori.travelclub.web.aggregate.club.TravelClub;
 import io.namoosori.travelclub.web.store.ClubStore;
-import io.namoosori.travelclub.web.store.jpastore.jpo.SocialBoardJpo;
-import io.namoosori.travelclub.web.store.jpastore.jpo.TravelClubJpo;
+import io.namoosori.travelclub.web.service.jpo.SocialBoardJpo;
+import io.namoosori.travelclub.web.service.jpo.TravelClubJpo;
 import io.namoosori.travelclub.web.store.jpastore.repository.ClubRepository;
 import org.springframework.stereotype.Repository;
 

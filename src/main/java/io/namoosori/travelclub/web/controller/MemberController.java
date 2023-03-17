@@ -5,8 +5,8 @@ import io.namoosori.travelclub.web.service.MemberService;
 import io.namoosori.travelclub.web.service.logic.MemberServiceLogic;
 import io.namoosori.travelclub.web.service.sdo.MemberCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.jpastore.jpo.MemberJpo;
-import io.namoosori.travelclub.web.util.security.GoogleAuthentification;
+import io.namoosori.travelclub.web.service.jpo.MemberJpo;
+import io.namoosori.travelclub.web.util.security.GoogleAuthentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +23,10 @@ import java.util.Map;
 public class MemberController {
 
     private MemberService memberService;
-    private GoogleAuthentification googleAuthentification;
+    private GoogleAuthentication googleAuthentication;
     public MemberController() {
         this.memberService = MemberServiceLogic.getMemberServiceLogic();
-        this.googleAuthentification = GoogleAuthentification.getGoogleAuthentification();
+        this.googleAuthentication = GoogleAuthentication.getGoogleAuthentication();
     }
     @PostMapping
     public String register(@RequestBody MemberCdo memberCdo){
@@ -36,9 +36,9 @@ public class MemberController {
     @GetMapping
     public List<CommunityMember> findAll(@RequestHeader("Authorization") String bearerIdToken){
         String idTokenFront = bearerIdToken.substring(7);
-        Map<String, Object> payload = googleAuthentification.JWTTokenDecoder(idTokenFront);
+        Map<String, Object> payload = googleAuthentication.JWTTokenDecoder(idTokenFront);
 
-        if(googleAuthentification.adminChecker(String.valueOf(payload.get("email")))){
+        if(googleAuthentication.adminChecker(String.valueOf(payload.get("email")))){
             System.out.println("Admin Signed in. Request Member List.");
             return memberService.findAll();
         }

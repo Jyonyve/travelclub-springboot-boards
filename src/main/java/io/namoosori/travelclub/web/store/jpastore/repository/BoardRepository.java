@@ -1,7 +1,7 @@
 package io.namoosori.travelclub.web.store.jpastore.repository;
 
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
-import io.namoosori.travelclub.web.store.jpastore.jpo.SocialBoardJpo;
+import io.namoosori.travelclub.web.service.jpo.SocialBoardJpo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

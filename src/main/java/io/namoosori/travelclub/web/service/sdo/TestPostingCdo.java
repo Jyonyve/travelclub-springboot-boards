@@ -1,4 +1,4 @@
-package io.namoosori.travelclub.web.service.sdo.sample.board;
+package io.namoosori.travelclub.web.service.sdo;
 
 import io.namoosori.travelclub.web.util.helper.DateUtil;
 import lombok.Getter;

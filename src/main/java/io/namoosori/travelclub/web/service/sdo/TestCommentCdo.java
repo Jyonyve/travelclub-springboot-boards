@@ -1,4 +1,4 @@
-package io.namoosori.travelclub.web.service.sdo.sample.board;
+package io.namoosori.travelclub.web.service.sdo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

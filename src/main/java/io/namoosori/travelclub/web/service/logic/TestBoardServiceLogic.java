@@ -1,10 +1,10 @@
 package io.namoosori.travelclub.web.service.logic;
 
 import io.namoosori.travelclub.web.aggregate.sample.board.TestBoard;
-import io.namoosori.travelclub.web.service.sdo.sample.board.TestBoardCdo;
-import io.namoosori.travelclub.web.service.sdo.sample.board.TestBoardService;
+import io.namoosori.travelclub.web.service.sdo.TestBoardCdo;
+import io.namoosori.travelclub.web.service.TestBoardService;
 import io.namoosori.travelclub.web.shared.NameValueList;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestBoardStore;
+import io.namoosori.travelclub.web.store.TestBoardStore;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,6 +57,6 @@ public class TestBoardServiceLogic implements TestBoardService {
 
     @Override
     public boolean exists(String boardId) {
-        return boardStore.retrieve(boardId) != null;
+        return boardStore.exists(boardId);
     }
 }

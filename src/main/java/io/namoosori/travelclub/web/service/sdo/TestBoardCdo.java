@@ -1,4 +1,4 @@
-package io.namoosori.travelclub.web.service.sdo.sample.board;
+package io.namoosori.travelclub.web.service.sdo;
 
 import io.namoosori.travelclub.web.aggregate.board.vo.BoardKind;
 import lombok.Getter;

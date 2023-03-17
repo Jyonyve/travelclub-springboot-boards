@@ -1,10 +1,10 @@
 package io.namoosori.travelclub.web.service.logic;
 
 import io.namoosori.travelclub.web.aggregate.sample.board.TestComment;
-import io.namoosori.travelclub.web.service.sdo.sample.board.TestCommentCdo;
-import io.namoosori.travelclub.web.service.sdo.sample.board.TestCommentService;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestCommentStore;
-import io.namoosori.travelclub.web.store.jpastore.jpo.sample.board.TestPostingStore;
+import io.namoosori.travelclub.web.service.sdo.TestCommentCdo;
+import io.namoosori.travelclub.web.service.TestCommentService;
+import io.namoosori.travelclub.web.store.TestCommentStore;
+import io.namoosori.travelclub.web.store.TestPostingStore;
 import io.namoosori.travelclub.web.util.exception.NoSuchCommentException;
 import io.namoosori.travelclub.web.util.exception.NoSuchPostingException;
 import org.springframework.stereotype.Service;
